@@ -23,6 +23,13 @@
     // La cubierta del libro hace de pantalla de carga: sale al entrar o recargar, pero no al pasar
     // de una página a otra de la tienda (ahí ya hay un efecto de paso de página).
     (function () {
+      // La web es un libro: solo se ve un capítulo cada vez (el de la dirección, o la portada).
+      var ids = ["portada", "gamas", "kokedamas", "como-funciona", "preguntas"], h = location.hash.slice(1);
+      var regla = document.createElement("style");
+      regla.id = "regla-pagina";
+      regla.textContent = "html.paginado main > .hoja:not(#" + (ids.indexOf(h) > -1 ? h : "portada") + "){display:none}";
+      document.head.appendChild(regla);
+      document.documentElement.classList.add("js", "paginado");
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       var raiz = document.documentElement, nav = performance.getEntriesByType("navigation")[0];
       var interna = document.referrer.indexOf(location.origin) === 0 && nav && nav.type !== "reload";
@@ -34,10 +41,11 @@
 <body>
   <div class="cubierta" id="cubierta" aria-hidden="true">
     <div class="cubierta-hoja">
-      <div class="cubierta-marco">
+      <div class="cubierta-placa">
+        <i class="rama"></i><i class="rama"></i><i class="rama"></i><i class="rama"></i>
         <p class="cubierta-sub">Kokedamas hechas a mano</p>
+        <img class="cubierta-dibujo" src="img/simbolo.webp" alt="" width="720" height="720">
         <p class="cubierta-titulo">KokeCuento</p>
-        <div class="cubierta-medallon"><img src="img/simbolo.webp" alt="" width="250" height="250"></div>
         <p class="cubierta-lema">Érase una vez…</p>
         <p class="cubierta-carga">Abriendo el cuento</p>
       </div>
@@ -45,17 +53,21 @@
   </div>
   <header class="barra">
     <div class="contenedor">
-      <a href="index.html" aria-label="KokeCuento, inicio"><img src="img/logo.png" alt="KokeCuento" width="600" height="269"></a>
-      <nav aria-label="Principal">
-        <a href="#kokedamas">Kokedamas</a>
-        <a href="#como-funciona" class="opcional">Cómo funciona</a>
-        <a href="#preguntas">Envíos y cuidados</a>
+      <a class="logo" href="index.html" aria-label="KokeCuento, inicio"><img src="img/logo.png" alt="KokeCuento" width="600" height="269"></a>
+      <nav class="indice" aria-label="Índice">
+        <button class="indice-boton" type="button" aria-expanded="false" aria-controls="indice-lista">Índice</button>
+        <ol class="indice-lista" id="indice-lista">
+          <li><a href="#gamas"><span class="num">I</span><span class="tit">Los personajes</span><span class="pag">2</span></a></li>
+          <li><a href="#kokedamas"><span class="num">II</span><span class="tit">La colección</span><span class="pag">3</span></a></li>
+          <li><a href="#como-funciona"><span class="num">III</span><span class="tit">El viaje</span><span class="pag">4</span></a></li>
+          <li><a href="#preguntas"><span class="num">✦</span><span class="tit">Envíos y cuidados</span><span class="pag">5</span></a></li>
+        </ol>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="portada">
+    <section class="portada hoja" id="portada" data-titulo="Portada">
       <div class="contenedor">
         <div class="portada-texto">
           <span class="etiqueta">Hechas a mano en España</span>
@@ -77,7 +89,7 @@
       </div>
     </section>
 
-    <section id="gamas">
+    <section class="hoja" id="gamas" data-titulo="I · Los personajes">
       <!-- Versión animada: la pantalla se queda fija y la kokedama crece al bajar -->
       <div class="escena" id="escena">
         <div class="escena-fija">
@@ -97,7 +109,7 @@
         </div>
       </div>
       <!-- Versión quieta, para quien tiene las animaciones reducidas -->
-      <div class="seccion suave escena-respaldo">
+      <div class="seccion escena-respaldo">
         <div class="contenedor">
           <div class="cabecera-seccion" data-pliega>
             <span class="etiqueta">Capítulo I · Los personajes</span>
@@ -109,7 +121,7 @@
       </div>
     </section>
 
-    <section class="seccion" id="kokedamas">
+    <section class="seccion hoja" id="kokedamas" data-titulo="II · La colección">
       <div class="contenedor">
         <div class="cabecera-seccion" data-pliega>
           <span class="etiqueta">Capítulo II · La colección</span>
@@ -121,7 +133,7 @@
       </div>
     </section>
 
-    <section class="seccion suave" id="como-funciona">
+    <section class="seccion hoja" id="como-funciona" data-titulo="III · El viaje">
       <div class="contenedor">
         <div class="cabecera-seccion" data-pliega>
           <span class="etiqueta">Capítulo III · El viaje</span>
@@ -135,16 +147,7 @@
       </div>
     </section>
 
-    <section class="seccion">
-      <div class="contenedor cuento" data-pliega>
-        <span class="etiqueta">Capítulo IV · Un cuento de muestra</span>
-        <h2 id="muestra-titulo"></h2>
-        <blockquote id="muestra-texto"></blockquote>
-        <cite id="muestra-cita"></cite>
-      </div>
-    </section>
-
-    <section class="seccion suave" id="preguntas">
+    <section class="seccion hoja" id="preguntas" data-titulo="Epílogo · Envíos y cuidados">
       <div class="contenedor">
         <div class="cabecera-seccion" data-pliega>
           <span class="etiqueta">Epílogo · Envíos y cuidados</span>

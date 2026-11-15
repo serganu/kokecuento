@@ -20,6 +20,7 @@
     // La cubierta del libro hace de pantalla de carga: sale al entrar o recargar, pero no al pasar
     // de una página a otra de la tienda (ahí ya hay un efecto de paso de página).
     (function () {
+      document.documentElement.classList.add("js");
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       var raiz = document.documentElement, nav = performance.getEntriesByType("navigation")[0];
       var interna = document.referrer.indexOf(location.origin) === 0 && nav && nav.type !== "reload";
@@ -31,10 +32,11 @@
 <body>
   <div class="cubierta" id="cubierta" aria-hidden="true">
     <div class="cubierta-hoja">
-      <div class="cubierta-marco">
+      <div class="cubierta-placa">
+        <i class="rama"></i><i class="rama"></i><i class="rama"></i><i class="rama"></i>
         <p class="cubierta-sub">Kokedamas hechas a mano</p>
+        <img class="cubierta-dibujo" src="img/simbolo.webp" alt="" width="720" height="720">
         <p class="cubierta-titulo">KokeCuento</p>
-        <div class="cubierta-medallon"><img src="img/simbolo.webp" alt="" width="250" height="250"></div>
         <p class="cubierta-lema">Érase una vez…</p>
         <p class="cubierta-carga">Abriendo el cuento</p>
       </div>
@@ -42,21 +44,27 @@
   </div>
   <header class="barra">
     <div class="contenedor">
-      <a href="index.html" aria-label="KokeCuento, inicio"><img src="img/logo.png" alt="KokeCuento" width="600" height="269"></a>
-      <nav aria-label="Principal">
-        <a href="index.html#kokedamas">Kokedamas</a>
-        <a href="index.html#como-funciona" class="opcional">Cómo funciona</a>
-        <a href="index.html#preguntas">Envíos y cuidados</a>
+      <a class="logo" href="index.html" aria-label="KokeCuento, inicio"><img src="img/logo.png" alt="KokeCuento" width="600" height="269"></a>
+      <nav class="indice" aria-label="Índice">
+        <button class="indice-boton" type="button" aria-expanded="false" aria-controls="indice-lista">Índice</button>
+        <ol class="indice-lista" id="indice-lista">
+          <li><a href="index.html#gamas"><span class="num">I</span><span class="tit">Los personajes</span><span class="pag">2</span></a></li>
+          <li><a href="index.html#kokedamas"><span class="num">II</span><span class="tit">La colección</span><span class="pag">3</span></a></li>
+          <li><a href="index.html#como-funciona"><span class="num">III</span><span class="tit">El viaje</span><span class="pag">4</span></a></li>
+          <li><a href="index.html#preguntas"><span class="num">✦</span><span class="tit">Envíos y cuidados</span><span class="pag">5</span></a></li>
+        </ol>
       </nav>
     </div>
   </header>
 
   <main>
+    <section class="hoja">
     <div class="contenedor">
       <p class="migas"><a href="index.html">Inicio</a> › <a href="index.html#kokedamas">Kokedamas</a> › <span id="miga"></span></p>
       <article class="producto" id="producto"></article>
     </div>
-    <section class="seccion suave">
+    </section>
+    <section class="seccion hoja">
       <div class="contenedor">
         <div class="cabecera-seccion"><h2>También te pueden gustar</h2></div>
         <div class="rejilla" id="rejilla"></div>

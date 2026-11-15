@@ -78,11 +78,6 @@ function inicio() {
     if (el) pinta(el.dataset.gama);
   });
   pinta("todas");
-
-  const m = PRODUCTOS.find((p) => p.id === "zorro-rosa") || PRODUCTOS[0];
-  $("muestra-titulo").textContent = m.cuentoTitulo;
-  $("muestra-texto").textContent = m.cuento;
-  $("muestra-cita").innerHTML = `El cuento de <a href="producto.html?id=${m.id}">${nombreDe(m)}</a>`;
 }
 
 /* ---------- Página de producto ---------- */

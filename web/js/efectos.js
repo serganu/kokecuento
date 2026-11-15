@@ -102,7 +102,7 @@
       }
       if (i !== ultimo) {
         ultimo = i;
-        escena.style.setProperty("--fondo", fondos[i]);
+        escena.parentElement.style.setProperty("--fondo", fondos[i]);
         [...paneles.children].forEach((el, n) => el.classList.toggle("activo", n === i));
         [...puntos.children].forEach((el, n) => el.classList.toggle("activo", n === i));
         if (conImagenes) [...personaje.children].forEach((el, n) => el.classList.toggle("activo", n === i));
@@ -122,6 +122,66 @@
   addEventListener("scroll", () => { if (!pendiente) { pendiente = true; requestAnimationFrame(alBajar); } }, { passive: true });
   addEventListener("resize", alBajar);
   alBajar();
+
+  /* Índice: en pantallas estrechas se despliega con un botón */
+  const barra = document.querySelector(".barra");
+  const botonIndice = document.querySelector(".indice-boton");
+  const cierraIndice = () => { barra.classList.remove("abierto"); botonIndice?.setAttribute("aria-expanded", "false"); };
+  botonIndice?.addEventListener("click", () => {
+    botonIndice.setAttribute("aria-expanded", String(barra.classList.toggle("abierto")));
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest?.(".barra")) cierraIndice(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") cierraIndice(); });
+
+  /* El libro: cada capítulo es una página. Solo se ve una, y los enlaces internos la pasan. */
+  const regla = document.getElementById("regla-pagina");
+  const paginas = [...document.querySelectorAll("main > .hoja[id]")];
+  if (regla && paginas.length > 1) {
+    const ids = paginas.map((p) => p.id);
+    let actual = ids.includes(location.hash.slice(1)) ? location.hash.slice(1) : ids[0];
+
+    paginas.forEach((p, i) => {
+      const ant = paginas[i - 1], sig = paginas[i + 1];
+      // en la escena fija, el folio va dentro del panel que se queda en pantalla
+      ((animado && p.querySelector(".escena-fija")) || p).insertAdjacentHTML("beforeend", `<nav class="folio" aria-label="Pasar página">
+        ${ant ? `<a class="folio-ant" href="#${ant.id}"><small>‹ Anterior</small><span>${ant.dataset.titulo}</span></a>` : ""}
+        <span class="folio-num">${i + 1}</span>
+        ${sig ? `<a class="folio-sig" href="#${sig.id}"><small>Pasar página ›</small><span>${sig.dataset.titulo}</span></a>` : ""}</nav>`);
+    });
+
+    const marca = () => document.querySelectorAll(".indice-lista a").forEach((a) => {
+      if (a.hash === `#${actual}`) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    const muestra = (id) => {
+      actual = id;
+      regla.textContent = `html.paginado main > .hoja:not(#${id}){display:none}`;
+      scrollTo({ top: 0, behavior: "instant" });
+      marca();
+      alBajar();
+    };
+    const pasa = (id, apunta = true) => {
+      cierraIndice();
+      if (id === actual) { scrollTo({ top: 0 }); return; }
+      const vuelve = ids.indexOf(id) < ids.indexOf(actual);
+      if (apunta) history.pushState(null, "", id === ids[0] ? location.pathname + location.search : `#${id}`);
+      if (animado && document.startViewTransition) {
+        raiz.classList.toggle("vuelve", vuelve);
+        document.startViewTransition(() => muestra(id)).finished.finally(() => raiz.classList.remove("vuelve"));
+      } else muestra(id);
+    };
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest?.("a[href^='#']");
+      const id = a?.hash.slice(1);
+      if (!id || !ids.includes(id) || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      pasa(id);
+    });
+    addEventListener("popstate", () => {
+      const id = location.hash.slice(1);
+      pasa(ids.includes(id) ? id : ids[0], false);
+    });
+    marca();
+  }
 
   /* Tarjetas: inclinación en 3D siguiendo al ratón */
   if (animado && matchMedia("(hover: hover)").matches) {

@@ -36,9 +36,9 @@ html.anim [data-pliega].visto { opacity: 1; transform: none; }
 
 /* ---------- Capítulo uno: escena fija en la que la kokedama crece ---------- */
 .escena { display: none; }
-html.anim .escena { display: block; height: 330vh; background: var(--fondo, #F3E8D0); transition: background .7s ease; }
+html.anim .escena { display: block; height: 330vh; }
 html.anim .escena-respaldo { display: none; }
-.escena-fija { position: sticky; top: 84px; height: calc(100vh - 84px); display: grid; align-items: center; overflow: hidden; }
+.escena-fija { position: sticky; top: var(--barra, 84px); height: calc(100vh - var(--barra, 84px)); height: calc(100svh - var(--barra, 84px)); display: grid; align-items: center; overflow: hidden; }
 .escena-rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 5vw, 60px); align-items: center; }
 .escena-texto { display: grid; gap: 10px; }
 .escena-paneles { position: relative; min-height: 250px; margin-top: 14px; }
@@ -53,14 +53,15 @@ html.anim .escena-respaldo { display: none; }
 .punto { width: 34px; height: 5px; border-radius: 3px; background: var(--tinta); opacity: .18; transition: opacity .3s, width .3s; }
 .punto.activo { opacity: .85; width: 54px; }
 .escena-dibujo { position: relative; display: grid; place-items: center; }
-#escena-koke { width: min(100%, 470px, 62vh); aspect-ratio: 1; filter: drop-shadow(0 18px 22px rgba(58, 43, 38, .14)); }
-#escena-koke { position: relative; }
+/* La kokedama y su personaje comparten el mismo cuadro, así siempre quedan juntos */
+#escena-koke, .escena-personaje { grid-area: 1 / 1; position: relative; width: var(--lado, min(100%, 560px, 66vh)); aspect-ratio: 1; }
+#escena-koke { filter: drop-shadow(0 18px 22px rgba(58, 43, 38, .14)); }
 #escena-koke:has(.escena-planta) { filter: none; }
 .escena-planta { position: absolute; left: 50%; bottom: 0; height: 100%; width: auto; max-width: none; translate: -50% 0; transform: scale(var(--escala, 1)); transform-origin: 50% 100%; filter: drop-shadow(0 16px 18px rgba(58, 43, 38, .16)); }
-.escena-personaje { position: absolute; inset: 0; pointer-events: none; }
+.escena-personaje { pointer-events: none; z-index: 1; }
 .escena-personaje img { position: absolute; left: 2%; bottom: 0; width: auto; opacity: 0; transform: translateX(-40px) rotate(-6deg); transition: opacity .45s ease, transform .6s cubic-bezier(.2, .8, .2, 1); filter: drop-shadow(0 10px 12px rgba(58, 43, 38, .18)); }
 .escena-personaje img.activo { opacity: 1; transform: none; }
-.escena-personaje .p-raton { height: 24%; left: 12%; }
+.escena-personaje .p-raton { height: 30%; left: 10%; }
 .escena-personaje .p-zorro { height: 52%; left: 4%; }
 .escena-personaje .p-lobo { height: 66%; left: 0; }
 .escena-pista { position: absolute; bottom: 18px; left: 50%; translate: -50% 0; font-size: .85rem; color: var(--tinta-2); letter-spacing: .08em; text-transform: uppercase; animation: baja 1.8s ease-in-out infinite; }
@@ -96,16 +97,28 @@ html.anim .frase { opacity: 0; animation: tinta .9s ease forwards; animation-del
   body.con-compra { padding-bottom: 76px; }
   .escena-rejilla { grid-template-columns: 1fr; gap: 6px; }
   .escena-dibujo { order: -1; }
-  #escena-koke { width: min(62vw, 250px); }
-  .escena-paneles { min-height: 220px; }
+  /* En una columna el dibujo ocupa todo el alto que deja libre el texto */
+  .escena { --lado: clamp(170px, calc(100vh - 560px), min(84vw, 470px)); }
+  .escena-paneles { justify-self: stretch; }
+  .escena-texto, .panel { justify-items: center; text-align: center; }
+  .panel a { justify-self: center; }
+  .panel p { max-width: none; }
+  .escena-paneles { min-height: 240px; }
   .escena-pista { display: none; }
 }
 
-/* ---------- Paso de página al cambiar de pantalla ---------- */
+/* ---------- Paso de página: entre capítulos y entre pantallas ----------
+   La hoja que se deja gira sobre el lomo (borde izquierdo) y descubre la siguiente.
+   Al volver atrás (html.vuelve) es la hoja nueva la que cae sobre la anterior. */
+.barra { view-transition-name: barra; }
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
-  ::view-transition-old(root) { animation: pasa-fuera .45s ease-in both; transform-origin: left center; }
-  ::view-transition-new(root) { animation: pasa-dentro .55s ease-out both; transform-origin: right center; }
+  ::view-transition-image-pair(root) { isolation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: normal; transform-origin: left center; backface-visibility: hidden; }
+  ::view-transition-old(root) { z-index: 2; animation: pasa-fuera .8s cubic-bezier(.6, 0, .3, 1) both; }
+  ::view-transition-new(root) { z-index: 1; animation: none; }
+  html.vuelve::view-transition-old(root) { z-index: 1; animation: none; }
+  html.vuelve::view-transition-new(root) { z-index: 2; animation: pasa-dentro .8s cubic-bezier(.6, 0, .3, 1) both; }
 }
-@keyframes pasa-fuera { to { transform: perspective(1800px) rotateY(-75deg); opacity: 0; } }
-@keyframes pasa-dentro { from { transform: perspective(1800px) rotateY(45deg); opacity: 0; } }
+@keyframes pasa-fuera { 40% { filter: brightness(.93); } to { transform: perspective(2400px) rotateY(-96deg); filter: brightness(.72); } }
+@keyframes pasa-dentro { from { transform: perspective(2400px) rotateY(-96deg); filter: brightness(.72); } 60% { filter: brightness(.93); } }
