@@ -11,12 +11,21 @@
   hilo.setAttribute("aria-hidden", "true");
   document.body.prepend(hilo);
 
-  /* Tapa del libro: solo la primera vez de cada visita */
-  if (raiz.classList.contains("abrir")) {
-    raiz.style.setProperty("--espera", "1.7s");
-    const tapa = document.getElementById("tapa");
-    tapa?.addEventListener("animationend", () => { raiz.classList.remove("abrir"); });
-    try { sessionStorage.setItem("kc-visto", "1"); } catch (e) { /* sin almacenamiento: se abre siempre */ }
+  /* Cubierta del libro: hace de pantalla de carga y se abre cuando la página está lista */
+  if (raiz.classList.contains("cubierta-on")) {
+    raiz.style.setProperty("--espera", "1.1s");
+    let abierta = false;
+    const abre = () => {
+      if (abierta) return;
+      abierta = true;
+      // se deja ver la cubierta al menos 1,3 s desde que empezó a cargar la página
+      setTimeout(() => raiz.classList.add("cubierta-abre"), Math.max(0, 1300 - performance.now()));
+    };
+    if (document.readyState === "complete") abre(); else addEventListener("load", abre);
+    setTimeout(abre, 5000);                                   // por si alguna imagen tarda demasiado
+    document.querySelector(".cubierta-hoja")?.addEventListener("animationend", (e) => {
+      if (e.animationName === "abre-cubierta") raiz.classList.remove("cubierta-on", "cubierta-abre");
+    });
   }
 
   /* Título de portada, palabra a palabra */
@@ -60,7 +69,7 @@
   if (escena && animado && typeof GAMAS !== "undefined") {
     const ids = Object.keys(GAMAS);
     const radios = [34, 44, 54];
-    const fondos = ["#F6ECDF", "#FBE9D8", "#E9E8E4"];
+    const fondos = ["#F3E8D0", "#F5E2C8", "#E8E2D3"];
     const paneles = document.getElementById("escena-paneles");
     const puntos = document.getElementById("escena-puntos");
     const koke = document.getElementById("escena-koke");

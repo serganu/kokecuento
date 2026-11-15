@@ -12,17 +12,6 @@ body::after {
 .hilo { position: fixed; top: 0; left: 0; height: 5px; width: calc(var(--leido, 0) * 100%); z-index: 60; border-radius: 0 3px 3px 0;
   background: repeating-linear-gradient(115deg, #C9A57B 0 6px, #A98458 6px 10px); }
 
-/* ---------- Tapa del libro que se abre al entrar ---------- */
-.tapa { display: none; }
-html.abrir .tapa { display: block; position: fixed; inset: 0; z-index: 100; perspective: 2000px; pointer-events: none; }
-.tapa-hoja { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 18px; text-align: center;
-  background: linear-gradient(90deg, #E2D6C4 0, #F4EFE7 5%, #F4EFE7 100%); box-shadow: inset 0 0 0 14px #F4EFE7, inset 0 0 0 16px #C9A24A;
-  transform-origin: left center; animation: abrir-tapa 1.5s .9s cubic-bezier(.6, 0, .25, 1) forwards; backface-visibility: hidden; }
-.tapa-hoja img { width: min(46vw, 260px); }
-.tapa-hoja p { font: italic 400 clamp(1.5rem, 4vw, 2.2rem) var(--serif); color: var(--tinta); }
-.tapa-hoja span { font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; color: var(--oro); font-weight: 700; }
-@keyframes abrir-tapa { to { transform: rotateY(-108deg); box-shadow: inset 0 0 0 14px #F4EFE7, inset 0 0 0 16px #C9A24A, 60px 0 80px rgba(58, 43, 38, .35); } }
-
 /* ---------- Portada: título palabra a palabra, destellos y profundidad ---------- */
 html.anim .pal { display: inline-block; opacity: 0; transform: translateY(.6em) rotate(3deg); animation: sube .7s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: calc(var(--espera, .15s) + var(--i) * 90ms); }
 html.anim .portada-texto > :not(h1) { opacity: 0; animation: sube .8s ease forwards; animation-delay: calc(var(--espera, .15s) + .55s); }
@@ -47,7 +36,7 @@ html.anim [data-pliega].visto { opacity: 1; transform: none; }
 
 /* ---------- Capítulo uno: escena fija en la que la kokedama crece ---------- */
 .escena { display: none; }
-html.anim .escena { display: block; height: 330vh; background: var(--fondo, #F6ECDF); transition: background .7s ease; }
+html.anim .escena { display: block; height: 330vh; background: var(--fondo, #F3E8D0); transition: background .7s ease; }
 html.anim .escena-respaldo { display: none; }
 .escena-fija { position: sticky; top: 84px; height: calc(100vh - 84px); display: grid; align-items: center; overflow: hidden; }
 .escena-rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 5vw, 60px); align-items: center; }

@@ -11,17 +11,35 @@
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <link rel="stylesheet" href="css/estilos.css">
   <link rel="stylesheet" href="css/efectos.css">
+  <link rel="stylesheet" href="css/libro.css">
   <script>
-    // Activa las animaciones solo si el visitante no ha pedido reducirlas.
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.classList.add("anim");
-    }
+    // Animaciones solo si el visitante no ha pedido reducirlas.
+    // La cubierta del libro hace de pantalla de carga: sale al entrar o recargar, pero no al pasar
+    // de una página a otra de la tienda (ahí ya hay un efecto de paso de página).
+    (function () {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var raiz = document.documentElement, nav = performance.getEntriesByType("navigation")[0];
+      var interna = document.referrer.indexOf(location.origin) === 0 && nav && nav.type !== "reload";
+      raiz.classList.add("anim");
+      if (!interna) raiz.classList.add("cubierta-on");
+    })();
   </script>
 </head>
 <body>
+  <div class="cubierta" id="cubierta" aria-hidden="true">
+    <div class="cubierta-hoja">
+      <div class="cubierta-marco">
+        <p class="cubierta-sub">Kokedamas hechas a mano</p>
+        <p class="cubierta-titulo">KokeCuento</p>
+        <div class="cubierta-medallon"><img src="img/simbolo.webp" alt="" width="250" height="250"></div>
+        <p class="cubierta-lema">Érase una vez…</p>
+        <p class="cubierta-carga">Abriendo el cuento</p>
+      </div>
+    </div>
+  </div>
   <header class="barra">
     <div class="contenedor">
       <a href="index.html" aria-label="KokeCuento, inicio"><img src="img/logo.png" alt="KokeCuento" width="600" height="269"></a>
