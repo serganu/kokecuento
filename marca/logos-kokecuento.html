@@ -1,0 +1,112 @@
+<title>Logos KokeCuento</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: logo principal grande, versiones en rejilla, paleta y lista de archivos */
+:root {
+  --bg: #F3F0E9;
+  --surface: #FFFFFF;
+  --fg: #2E2622;
+  --muted: #6E6359;
+  --line: #E1DACE;
+  --accent: #5B7A33;
+  --papel: #FAF8F3;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #1B1916; --surface: #24211D; --fg: #EFE9DF; --muted: #B2A898; --line: #39342D; --accent: #A3BE73; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #1B1916; --surface: #24211D; --fg: #EFE9DF; --muted: #B2A898; --line: #39342D; --accent: #A3BE73; color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+}
+.wrap { max-width: 1100px; margin: 0 auto; display: grid; gap: 44px; }
+header { display: grid; gap: 10px; max-width: 65ch; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 5vw, 46px); line-height: 1.1; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 24px; margin: 0; }
+p { margin: 0; }
+.lead { color: var(--muted); font-size: 18px; }
+.hero { background: var(--papel); border: 1px solid var(--line); border-radius: 16px; padding: clamp(20px, 5vw, 56px); display: grid; place-items: center; }
+.hero img { width: 100%; max-width: 900px; height: auto; display: block; }
+section { display: grid; gap: 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.tile { background: var(--papel); aspect-ratio: 1 / 1; display: grid; place-items: center; padding: 22px; max-width: 100%; }
+.tile img { max-width: 100%; max-height: 100%; height: auto; display: block; }
+.tile.round img { border-radius: 50%; box-shadow: 0 0 0 1px var(--line); width: 70%; }
+.tile.tiny { gap: 18px; grid-auto-flow: column; align-items: end; }
+.tiny img { display: block; }
+figcaption { padding: 14px 16px; display: grid; gap: 2px; }
+figcaption b { font-size: 15px; }
+figcaption span { font-size: 14px; color: var(--muted); }
+.palette { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+.sw { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+.sw i { display: block; height: 60px; }
+.sw div { padding: 8px 12px; display: grid; }
+.sw b { font-size: 14px; }
+.sw code { font-size: 13px; color: var(--muted); }
+.files { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+td code { font-size: 13.5px; white-space: nowrap; }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">KokeCuento · Identidad visual</p>
+    <h1>Logo definitivo</h1>
+    <p class="lead">Todas las versiones salen de tu imagen original, sin redibujar nada. Los PNG son la imagen tal cual, con el fondo quitado; los SVG son un trazado vectorial fiel para ampliar e imprimir.</p>
+  </header>
+
+  <div class="hero"><img src="kokecuento-horizontal-1200.png" alt="Logo horizontal de KokeCuento: lobo, zorro y dos ratones de origami junto a una kokedama con rosas y acebo, y el nombre a la derecha"></div>
+
+  <section>
+    <h2>Versiones</h2>
+    <div class="grid">
+      <figure><div class="tile"><img src="kokecuento-vertical-800.png" alt="Logo vertical"></div><figcaption><b>Vertical</b><span>Tarjetas, etiquetas y publicaciones cuadradas</span></figcaption></figure>
+      <figure><div class="tile"><img src="kokecuento-simbolo-512.png" alt="Símbolo sin nombre"></div><figcaption><b>Símbolo</b><span>Pegatinas, sellos y marca de agua</span></figcaption></figure>
+      <figure><div class="tile round"><img src="avatar-1080.png" alt="Avatar circular"></div><figcaption><b>Avatar</b><span>Perfil de Instagram, TikTok y WhatsApp, con margen para el recorte circular</span></figcaption></figure>
+      <figure><div class="tile tiny"><img src="icono-192.png" alt="Icono a 96 píxeles" width="96" height="96"><img src="favicon-48.png" alt="Icono a 48 píxeles" width="48" height="48"><img src="favicon-32.png" alt="Icono a 32 píxeles" width="32" height="32"><img src="favicon-16.png" alt="Icono a 16 píxeles" width="16" height="16"></div><figcaption><b>Iconos web</b><span>De 192 a 16 px. Por debajo de 32 px el dibujo ya no se distingue bien</span></figcaption></figure>
+    </div>
+    <figure><div class="tile" style="aspect-ratio:auto;padding:0"><img src="compartir-enlace-1200x630.png" alt="Imagen para compartir enlaces"></div><figcaption><b>Imagen al compartir un enlace</b><span>1200 × 630 px, la que aparece en WhatsApp y redes al pegar la dirección de la web</span></figcaption></figure>
+  </section>
+
+  <section>
+    <h2>Colores del logo</h2>
+    <div class="palette">
+      <div class="sw"><i style="background:#6F8F3F"></i><div><b>Musgo</b><code>#6F8F3F</code></div></div>
+      <div class="sw"><i style="background:#DD3A2D"></i><div><b>Rosa</b><code>#DD3A2D</code></div></div>
+      <div class="sw"><i style="background:#E8721C"></i><div><b>Zorro</b><code>#E8721C</code></div></div>
+      <div class="sw"><i style="background:#8C8D8F"></i><div><b>Lobo</b><code>#8C8D8F</code></div></div>
+      <div class="sw"><i style="background:#C48E58"></i><div><b>Ratón</b><code>#C48E58</code></div></div>
+      <div class="sw"><i style="background:#C9A24A"></i><div><b>Destello</b><code>#C9A24A</code></div></div>
+      <div class="sw"><i style="background:#3A2B26"></i><div><b>Texto</b><code>#3A2B26</code></div></div>
+      <div class="sw"><i style="background:#FCFAF8"></i><div><b>Papel</b><code>#FCFAF8</code></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Archivos</h2>
+    <p class="lead" style="font-size:16px">Están en tu carpeta <code>Kokedamas/marca/logo</code>.</p>
+    <div class="files">
+      <table>
+        <thead><tr><th>Carpeta</th><th>Contenido</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td><code>svg</code></td><td>Horizontal, horizontal con fondo, vertical, símbolo y nombre</td><td>Imprenta, packaging y cualquier tamaño grande</td></tr>
+          <tr><td><code>png</code></td><td>Horizontal (2400, 1200, 600), vertical (1600, 800), símbolo (1024, 512), nombre; con fondo transparente y con fondo papel</td><td>Documentos, presentaciones y la web</td></tr>
+          <tr><td><code>redes</code></td><td>Avatar 1080, post cuadrado 1080, historia 1080 × 1920, imagen de enlace 1200 × 630, portada de Facebook</td><td>Instagram, TikTok, Pinterest, Facebook y WhatsApp</td></tr>
+          <tr><td><code>web</code></td><td>Logo de cabecera (normal y @2x), logo para email, favicon.ico, iconos de 16 a 512 px y apple-touch-icon</td><td>La tienda online</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

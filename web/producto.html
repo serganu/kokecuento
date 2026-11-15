@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kokedama · KokeCuento</title>
+  <meta name="description" content="Kokedama hecha a mano con su propio cuento. Incluye base, plato y guía de cuidados.">
+  <meta property="og:image" content="img/compartir.png">
+  <link rel="icon" href="img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/efectos.css">
+  <script>
+    // Activa las animaciones solo si el visitante no ha pedido reducirlas.
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("anim");
+    }
+  </script>
+</head>
+<body>
+  <header class="barra">
+    <div class="contenedor">
+      <a href="index.html" aria-label="KokeCuento, inicio"><img src="img/logo.png" alt="KokeCuento" width="600" height="269"></a>
+      <nav aria-label="Principal">
+        <a href="index.html#kokedamas">Kokedamas</a>
+        <a href="index.html#como-funciona" class="opcional">Cómo funciona</a>
+        <a href="index.html#preguntas">Envíos y cuidados</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="contenedor">
+      <p class="migas"><a href="index.html">Inicio</a> › <a href="index.html#kokedamas">Kokedamas</a> › <span id="miga"></span></p>
+      <article class="producto" id="producto"></article>
+    </div>
+    <section class="seccion suave">
+      <div class="contenedor">
+        <div class="cabecera-seccion"><h2>También te pueden gustar</h2></div>
+        <div class="rejilla" id="rejilla"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div>
+        <p class="marca">KokeCuento</p>
+        <p>Kokedamas hechas a mano que cuentan historias.</p>
+      </div>
+      <div id="contacto"></div>
+    </div>
+  </footer>
+
+  <script src="js/productos.js"></script>
+  <script src="js/tienda.js"></script>
+  <script src="js/efectos.js"></script>
+</body>
+</html>

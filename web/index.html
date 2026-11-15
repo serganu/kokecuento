@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KokeCuento · Kokedamas hechas a mano que cuentan historias</title>
+  <meta name="description" content="Kokedamas artesanales para regalar, cada una con su propio cuento. Rosa pitiminí, flor de Pascua y acebo en tres tamaños. Envío a toda la península.">
+  <meta property="og:title" content="KokeCuento · Kokedamas que cuentan historias">
+  <meta property="og:description" content="Kokedamas hechas a mano para regalar, cada una con su propio cuento.">
+  <meta property="og:image" content="img/compartir.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/efectos.css">
+  <script>
+    // Activa las animaciones solo si el visitante no ha pedido reducirlas. La tapa del libro se abre una vez por visita.
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("anim");
+      try { if (!sessionStorage.getItem("kc-visto")) document.documentElement.classList.add("abrir"); }
+      catch (e) { document.documentElement.classList.add("abrir"); }
+    }
+  </script>
+</head>
+<body>
+  <div class="tapa" id="tapa" aria-hidden="true">
+    <div class="tapa-hoja"><img src="img/simbolo.webp" alt="" width="260" height="260"><p>Érase una vez…</p><span>KokeCuento</span></div>
+  </div>
+  <header class="barra">
+    <div class="contenedor">
+      <a href="index.html" aria-label="KokeCuento, inicio"><img src="img/logo.png" alt="KokeCuento" width="600" height="269"></a>
+      <nav aria-label="Principal">
+        <a href="#kokedamas">Kokedamas</a>
+        <a href="#como-funciona" class="opcional">Cómo funciona</a>
+        <a href="#preguntas">Envíos y cuidados</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="portada">
+      <div class="contenedor">
+        <div class="portada-texto">
+          <span class="etiqueta">Hechas a mano en España</span>
+          <h1>Kokedamas que cuentan historias</h1>
+          <p>Un regalo vivo, hecho a mano con musgo, tierra y paciencia. Cada kokedama llega con su propio cuento en una tarjeta.</p>
+          <div class="portada-acciones">
+            <a class="boton" href="#kokedamas">Ver las kokedamas</a>
+            <a class="boton secundario" href="#como-funciona">Cómo funciona</a>
+          </div>
+          <ul class="portada-datos">
+            <li>Se prepara en <span data-dias>2</span> días</li>
+            <li>Envío en 24–48 h</li>
+            <li>Con base, plato y cuento</li>
+          </ul>
+        </div>
+        <div class="portada-imagen">
+          <img src="img/simbolo.webp" alt="Un lobo, un zorro y dos ratones de papel alrededor de una kokedama con rosas y acebo" width="720" height="720">
+        </div>
+      </div>
+    </section>
+
+    <section id="gamas">
+      <!-- Versión animada: la pantalla se queda fija y la kokedama crece al bajar -->
+      <div class="escena" id="escena">
+        <div class="escena-fija">
+          <div class="contenedor escena-rejilla">
+            <div class="escena-texto">
+              <span class="etiqueta">Capítulo uno · Los personajes</span>
+              <h2>Elige a tu personaje</h2>
+              <div class="escena-puntos" id="escena-puntos" aria-hidden="true"></div>
+              <div class="escena-paneles" id="escena-paneles"></div>
+            </div>
+            <div class="escena-dibujo">
+              <div id="escena-koke"></div>
+              <div class="escena-personaje" id="escena-personaje" hidden></div>
+            </div>
+          </div>
+          <span class="escena-pista" aria-hidden="true">Sigue bajando ↓</span>
+        </div>
+      </div>
+      <!-- Versión quieta, para quien tiene las animaciones reducidas -->
+      <div class="seccion suave escena-respaldo">
+        <div class="contenedor">
+          <div class="cabecera-seccion" data-pliega>
+            <span class="etiqueta">Capítulo uno · Los personajes</span>
+            <h2>Elige a tu personaje</h2>
+            <p>Cada tamaño tiene un protagonista, y cada protagonista sus cuentos.</p>
+          </div>
+          <div class="gamas" id="lista-gamas"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="kokedamas">
+      <div class="contenedor">
+        <div class="cabecera-seccion" data-pliega>
+          <span class="etiqueta">Capítulo dos · La colección</span>
+          <h2>Nuestras kokedamas</h2>
+          <p>Rosa pitiminí, flor de Pascua y acebo. Todas incluyen base, plato y su cuento.</p>
+        </div>
+        <div class="filtros" id="filtros" role="group" aria-label="Filtrar por tamaño"></div>
+        <div class="rejilla" id="rejilla"></div>
+      </div>
+    </section>
+
+    <section class="seccion suave" id="como-funciona">
+      <div class="contenedor">
+        <div class="cabecera-seccion" data-pliega>
+          <span class="etiqueta">Capítulo tres · El viaje</span>
+          <h2>De nuestras manos a su puerta</h2>
+        </div>
+        <ol class="pasos">
+          <li data-pliega style="--n:0"><h3>Eliges la kokedama</h3><p>Escoge planta y tamaño. Si es un regalo, indica la dirección de quien lo recibe.</p></li>
+          <li data-pliega style="--n:1"><h3>La hacemos para ti</h3><p>Preparamos cada kokedama a mano, por encargo, en <span data-dias>2</span> días.</p></li>
+          <li data-pliega style="--n:2"><h3>Llega con su cuento</h3><p>La enviamos protegida en 24–48 h, con su base, su plato, la tarjeta con el cuento y la guía de cuidados.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor cuento" data-pliega>
+        <span class="etiqueta">Capítulo cuatro · Un cuento de muestra</span>
+        <h2 id="muestra-titulo"></h2>
+        <blockquote id="muestra-texto"></blockquote>
+        <cite id="muestra-cita"></cite>
+      </div>
+    </section>
+
+    <section class="seccion suave" id="preguntas">
+      <div class="contenedor">
+        <div class="cabecera-seccion" data-pliega>
+          <span class="etiqueta">Epílogo · Envíos y cuidados</span>
+          <h2>Preguntas frecuentes</h2>
+        </div>
+        <div class="preguntas" data-pliega>
+          <details open>
+            <summary>¿Cuánto cuesta el envío y cuánto tarda?</summary>
+            <p>El envío a la península cuesta <span data-envio>5,90 €</span> por pedido. Preparamos tu kokedama en <span data-dias>2</span> días y el transporte tarda entre 24 y 48 horas. De momento no enviamos a Baleares, Canarias, Ceuta ni Melilla.</p>
+          </details>
+          <details>
+            <summary>¿Cómo se riega una kokedama?</summary>
+            <p>Por inmersión: cuando notes que la bola pesa poco, sumérgela en agua unos 10 minutos, deja que escurra y vuelve a colocarla en su plato. Cada planta tiene su ritmo, y lo explicamos en la guía que acompaña al pedido.</p>
+          </details>
+          <details>
+            <summary>¿Puedo enviarla como regalo a otra dirección?</summary>
+            <p>Sí. Al pagar, escribe la dirección de la persona que la va a recibir. El paquete no incluye el precio.</p>
+          </details>
+          <details>
+            <summary>¿Qué pasa si llega dañada?</summary>
+            <p>Escríbenos con una foto en las primeras 48 horas y te enviamos otra o te devolvemos el dinero.</p>
+          </details>
+          <details>
+            <summary>¿Son seguras para mascotas y niños?</summary>
+            <p>La rosa pitiminí no es tóxica. Las bayas del acebo y la savia de la flor de Pascua sí lo son si se ingieren, así que conviene colocarlas fuera de su alcance.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div>
+        <p class="marca">KokeCuento</p>
+        <p>Kokedamas hechas a mano que cuentan historias.</p>
+      </div>
+      <div id="contacto"></div>
+    </div>
+  </footer>
+
+  <script src="js/productos.js"></script>
+  <script src="js/tienda.js"></script>
+  <script src="js/efectos.js"></script>
+</body>
+</html>
