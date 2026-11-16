@@ -16,7 +16,9 @@ body { margin:0; min-width:280px; font-family:"EB Garamond",Georgia,serif; color
 .lamina--noche .colina--lejos { background:#566b6d; }
 .lamina--noche .colina--cerca { background:#61766e; }
 .lamina--amanecer .colina--lejos { background:#dbe0bb; }
-.raton,.rosa { display:block; position:absolute; z-index:3; height:auto; object-fit:contain; transform-origin:50% 90%; will-change:transform; }
+.raton,.rosa { display:block; position:absolute; z-index:3; height:auto; object-fit:contain; transform-origin:50% 90%; }
+.lamina.activa .raton,.lamina.activa .rosa { will-change:transform; }
+.solo-lector { position:absolute; width:1px; height:1px; padding:0; margin:-1px; border:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 .raton { width:min(29vw,360px); }
 .rosa { width:auto; height:min(64svh,680px); filter:drop-shadow(0 7px 6px rgba(68,51,29,.08)); z-index:2; }
 .raton--portada { left:13%; bottom:8%; width:min(32vw,380px); }
@@ -42,8 +44,8 @@ body { margin:0; min-width:280px; font-family:"EB Garamond",Georgia,serif; color
 .lamina--noche .casita { right:7%; transform:scale(.4); transform-origin:bottom right; opacity:.6; }
 .luz-amanecer { position:absolute; inset:0; background:radial-gradient(circle at 80% 20%,rgba(255,237,183,.72),transparent 55%); pointer-events:none; }
 .lectura { position:relative; z-index:1; }
-.pasaje { min-height:165vh; min-height:165svh; position:relative; display:flow-root; pointer-events:none; }
-.pasaje--amanecer { min-height:185svh; }
+.pasaje { min-height:140vh; min-height:140svh; position:relative; display:flow-root; pointer-events:none; }
+.pasaje--amanecer { min-height:155svh; }
 .texto { position:sticky; top:11vh; top:11svh; display:block; max-width:min(76vw,650px); width:fit-content; margin-left:8vw; padding:0; opacity:1; font:500 clamp(1.8rem,3.9vw,3.75rem)/1.15 "Cormorant Garamond",Georgia,serif; letter-spacing:.005em; text-wrap:balance; text-shadow:0 1px 3px rgba(255,248,232,.5); }
 .texto p { margin:0; }
 .pasaje--portada .texto { top:12svh; max-width:min(62vw,630px); }
@@ -63,7 +65,7 @@ html.con-js .texto { opacity:0; }
   .raton--portada { width:47vw; left:8%; bottom:10%; }
   .rosa--portada { right:0%; height:49%; bottom:11%; }
   .raton--gigantes { left:8%; bottom:13%; }
-  .rosa--gigante { right:-15%; height:64%; bottom:10%; }
+  .rosa--gigante { right:-15%; height:50%; bottom:7%; }
   .rosa--secundaria { right:34%; height:24%; bottom:8%; }
   .raton--busqueda { left:10%; bottom:11%; }
   .rosa--izquierda { left:-31%; height:60%; bottom:8%; }
@@ -76,7 +78,7 @@ html.con-js .texto { opacity:0; }
   .rosa--regalo { right:21%; height:18%; bottom:10%; }
   .rosa--amanecer { right:22%; height:19%; bottom:10%; }
   .casita { right:-5%; bottom:9%; width:60vw; height:42svh; min-height:0; }
-  .pasaje { min-height:155svh; }
+  .pasaje { min-height:135svh; }
   .texto { top:12svh; margin-left:7vw; max-width:85vw; font-size:clamp(1.65rem,7.0vw,2.65rem); line-height:1.13; }
   .pasaje--portada .texto { max-width:80vw; }
   .pasaje--busqueda .texto,.pasaje--puerta .texto { margin-left:17vw; margin-right:7vw; max-width:76vw; }
@@ -88,7 +90,15 @@ html.con-js .texto { opacity:0; }
   html { scroll-behavior:auto; }
   .pasaje { min-height:100svh; }
   .texto,html.con-js .texto { opacity:1!important; transform:none!important; }
-  .lamina { opacity:0!important; }
-  .lamina--portada { opacity:1!important; }
-  .raton,.rosa { will-change:auto; transform:none!important; }
+  .lamina.activa .raton,.lamina.activa .rosa { will-change:auto; }
+  .raton,.rosa { transform:none!important; }
+}
+
+/* Pantallas horizontales bajas: proteger el área de lectura. */
+@media (max-height:540px) and (orientation:landscape) {
+  .texto { top:7svh; font-size:clamp(1.4rem,3.7vw,2.2rem); max-width:55vw; }
+  h1 { font-size:clamp(2rem,5vw,3rem); }
+  .raton { max-width:21vw; }
+  .rosa--gigante { max-height:76svh; }
+  .pasaje--amanecer .texto { max-width:58vw; }
 }

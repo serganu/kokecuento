@@ -35,3 +35,17 @@ La animación utiliza `requestAnimationFrame` y `transform/opacity`, sin vídeo,
 - Ajustar la continuidad de la flor al ser transportada y depositada, sin redibujar las patas del ratón.
 - Confirmar la URL permanente del QR y las condiciones de distribución de las tarjetas.
 - No hacer merge ni desplegar automáticamente hasta autorización expresa.
+
+## Segunda iteración: accesibilidad y lectura
+
+- La primera rosa gigante se ha desplazado hacia la parte inferior en pantallas estrechas, donde el texto tiene prioridad.
+- La duración de los tramos se ha reducido para no exigir un desplazamiento desproporcionado a un cuento breve.
+- Las escenas incluyen descripciones para lectores de pantalla, sin mostrar etiquetas visuales.
+- En modo de movimiento reducido el fondo cambia **sin transiciones** entre escenas, conservando los dibujos de cada pasaje en lugar de dejar fija la portada.
+- Se activa aceleración de transformaciones únicamente en las capas de las láminas presentes.
+
+### Comprobaciones automáticas
+
+`node --test web/cuentos/raton-rosa/tests/cuento.test.cjs`
+
+La prueba automatizada utiliza un DOM simulado, sin navegador ni dependencias, para comprobar la segmentación del texto original, la continuidad de escenas y la ausencia de movimiento en el modo reducido. No reemplaza una prueba visual en móvil.

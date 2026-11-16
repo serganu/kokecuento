@@ -43,11 +43,8 @@
     console.warn("KokeCuento: el cuento se mostrará con el texto de respaldo.", error);
   }
 
-  if (reduccion.matches) {
-    raiz.classList.add("reducido");
-    return;
-  }
-  raiz.classList.add("con-js");
+  if (reduccion.matches) raiz.classList.add("reducido");
+  else raiz.classList.add("con-js");
   const posiciones = [];
   const movimientos = laminas.map((lamina) => Array.from(
     lamina.querySelectorAll("[data-dx]")
@@ -76,14 +73,16 @@
     }
     const etapa = posiciones[indice];
     const progreso = clamp((marcador - etapa.inicio) / etapa.alto);
-    const mezcla = clamp((progreso - .79) / .21);
+    const reducido = reduccion.matches;
+    const mezcla = reducido ? 0 : clamp((progreso - .79) / .21);
 
     laminas.forEach((lamina, i) => {
       const visible = i === indice ? 1 - mezcla :
         i === indice + 1 ? mezcla : 0;
       lamina.style.opacity = String(visible);
-      // Solo actualizamos las capas de la escena actual o la siguiente.
-      if (visible === 0) return;
+      lamina.classList.toggle("activa", visible > 0);
+      // Movimiento reducido: cambiamos escenas sin animar las capas.
+      if (visible === 0 || reducido) return;
       const t = i === indice ? progreso : 0;
       movimientos[i].forEach(({elemento,dx,dy,zoom,rotate}) => {
         elemento.style.transform =
@@ -97,6 +96,11 @@
     secciones.forEach((sec, i) => {
       const texto = sec.querySelector(".texto");
       if (!texto) return;
+      if (reducido) {
+        texto.style.opacity = "1";
+        texto.style.transform = "none";
+        return;
+      }
       if (i !== indice) {
         texto.style.opacity = "0";
         return;
