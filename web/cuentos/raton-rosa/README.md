@@ -13,17 +13,22 @@ Portada y seis escenas. Se conserva literalmente el cuento de `PRODUCTOS[id="rat
 - Al cambiar de escena, la siguiente aparece entera debajo y la anterior se desvanece encima: no se transparenta el papel entre dos láminas.
 - En pantallas anchas la lámina va a la derecha y el texto en la columna izquierda, sin pisar el dibujo.
 - **La búsqueda:** hojas de papel que cruzan el jardín.
-- **El hallazgo:** destello y pulso de luz sobre la rosa diminuta.
-- **La noche:** estrella fugaz y la rosa brillando en la pata del ratón.
-- **La casa (escenas 5, 6 y 7):** la cámara se acerca a la puerta y luego se aleja sin saltos. En la 6, la hoja de la puerta (`img/05-hoja-puerta.webp`, recortada de `05-puerta.webp`) gira sobre su bisagra encima de `05-puerta-estatica.webp`, sale la luz de dentro, aparece el ratón blanco y se sonroja.
+- **El hallazgo:** la rosa diminuta (`img/03-rosa-pequena.webp`, recortada de la lámina) se balancea sobre su tallo encima de `img/03-hallazgo-fondo.webp`.
+- **La noche:** estrella fugaz que cruza el cielo casi en horizontal, con la estela alineada con su movimiento, y la rosa brillando en la pata del ratón.
+- **La casa (escenas 5, 6 y 7):** la cámara se acerca a la puerta y luego se aleja sin saltos. En la 6, solo la madera de la puerta (`img/05-hoja-puerta.webp`) gira sobre su bisagra, recortada por el arco; la piedra del marco y la rosa (`img/05-marco-puerta.webp`) quedan fijas delante. Sale la luz de dentro, aparece el ratón blanco y se sonroja, mientras la luna (`img/luna.webp`) baja hasta esconderse tras las colinas.
+- **Desenlace:** ya es de madrugada (`img/06-madrugada.webp`).
 
 No hay botones de escena, barra de progreso, audio ni reproducción automática.
 
 ## Recursos
 
-- `img/05-hoja-puerta.webp`: hoja de la puerta cerrada con transparencia, para animarla.
-- `img/05-puerta-estatica.webp` y `img/06-amanecer-estatico.webp`: fondos de la puerta y del desenlace, y láminas fijas sin JavaScript o con movimiento reducido.
-- `img/raton-blanco.webp` ya no se usa en la animación (el ratón blanco está dentro de la lámina de la puerta abierta).
+Las capas animadas se han sacado de las propias láminas, para que encajen al píxel:
+
+- `03-hallazgo-fondo.webp` + `03-rosa-pequena.webp`: el jardín sin la rosa y la rosa sola.
+- `05-puerta-sinluna.webp` + `luna.webp`: la casa con la puerta abierta sin luna, y la luna sola.
+- `05-hoja-puerta.webp`: la madera de la puerta cerrada; `05-marco-puerta.webp`: la piedra del arco y la rosa del escalón.
+- `06-madrugada.webp`: el desenlace con cielo de madrugada.
+- `05-puerta-estatica.webp` y `06-amanecer-estatico.webp` se conservan como originales; `raton-blanco.webp` ya no se usa.
 
 ## Pruebas
 

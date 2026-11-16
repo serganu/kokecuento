@@ -28,7 +28,7 @@ test('Portada, siete escenas y todas las imágenes existen', () => {
  assert.equal((html.match(/data-lamina="/g) || []).length, 8);
  const usadas = new Set([...html.matchAll(/img\/[\w.-]+\.webp/g), ...css.matchAll(/img\/[\w.-]+\.webp/g)].map((m) => m[0]));
  assert.ok(usadas.size >= 9);
- for (const ruta of usadas) assert.ok(fs.existsSync(path.join(root, ruta)) && fs.statSync(path.join(root, ruta)).size > 5000, 'falta ' + ruta);
+ for (const ruta of usadas) assert.ok(fs.existsSync(path.join(root, ruta)) && fs.statSync(path.join(root, ruta)).size > 1000, 'falta ' + ruta);
  assert.ok(html.indexOf('class="lamina lamina--entrega"') < html.indexOf('class="lamina lamina--puerta"'), 'la entrega del ratón marrón precede a la aparición del ratón blanco');
  assert.match(html, /class="pasaje pasaje--entrega"[\s\S]*?y la dejó en una puerta sin llamar\./);
 });
@@ -36,7 +36,7 @@ test('Portada, siete escenas y todas las imágenes existen', () => {
 test('Cada lámina tiene un cuadro y las piezas animadas van dentro de él', () => {
  const laminas = html.split('data-lamina="').slice(1);
  for (const l of laminas) assert.match(l, /class="cuadro/);
- for (const pieza of ['hoja-viajera','destello-rosa','pulso-rosa','estrella-fugaz','hoja-puerta','mejilla','luz-puerta'])
+ for (const pieza of ['hoja-viajera','rosa-pequena','estrella-fugaz','luna','hoja-puerta','marco-puerta','mejilla','luz-puerta'])
   assert.match(html, new RegExp('class="[^"]*' + pieza));
 });
 
@@ -57,7 +57,7 @@ function testDOM() {
  const ids = [...html.matchAll(/data-lamina="(\d+)"/g)].map((m) => +m[1]);
  const layers = ids.map((i) => {
   const piezas = {}; const varias = {};
-  ['.hoja-puerta','.mejilla','.luz-puerta','.destello-rosa','.pulso-rosa','.estrella-fugaz','.brillo-rosa'].forEach((s) => piezas[s] = nodo());
+  ['.hoja-puerta','.mejilla','.luz-puerta','.rosa-pequena','.luna','.estrella-fugaz','.brillo-rosa'].forEach((s) => piezas[s] = nodo());
   varias['.hoja-viajera'] = [nodo(), nodo(), nodo(), nodo()];
   const cuadro = {style:{}, querySelector:(s) => piezas[s] || null, querySelectorAll:(s) => varias[s] || []};
   return {style:{}, dataset:{}, classList:{toggle(){}}, cuadro, piezas,
@@ -103,9 +103,14 @@ test('La cámara de la casa continúa sin saltos entre entrega, puerta y desenla
  assert.equal(fin5, ini6); assert.equal(fin6, ini7);
 });
 
-test('Hojas, destello de la rosa y estrella fugaz se mueven con el scroll', () => {
+test('Hojas, rosa, estrella fugaz y luna se mueven con el scroll', () => {
  const env = testDOM();
  env.moveTo(2,.5); assert.ok(Number(env.layers[2].cuadro.querySelectorAll('.hoja-viajera')[0].style.opacity) > 0);
- env.moveTo(3,.5); assert.ok(Number(env.layers[3].piezas['.destello-rosa'].style.opacity) > 0);
+ env.moveTo(3,.1); const r1 = env.layers[3].piezas['.rosa-pequena'].style.transform; env.moveTo(3,.9); assert.notEqual(env.layers[3].piezas['.rosa-pequena'].style.transform, r1);
  env.moveTo(4,.35); assert.ok(Number(env.layers[4].piezas['.estrella-fugaz'].style.opacity) > 0);
+ const [dx, dy] = env.layers[4].piezas['.estrella-fugaz'].style.transform.match(/-?[\d.]+/g).map(Number);
+ const angulo = Math.atan2(dy, dx) * 180 / Math.PI, estela = Number(css.match(/estrella-fugaz::after\{[^}]*rotate\((-?[\d.]+)deg/)[1]);
+ assert.ok(Math.abs(angulo - estela) < 1.5, 'la estela sigue la dirección del movimiento');
+ env.moveTo(6,.05); const l1 = env.layers[6].piezas['.luna'].style.transform; env.moveTo(6,.9);
+ assert.ok(Number(env.layers[6].piezas['.luna'].style.transform.match(/,(-?[\d.]+)%/)[1]) > Number(l1.match(/,(-?[\d.]+)%/)[1]) + 100, 'la luna baja');
 });

@@ -27,20 +27,17 @@
       hoja.style.opacity = vis.toFixed(3);
       hoja.style.transform = `translate(${dx * p}%,${dy * p}%) rotate(${-18 + p * giro}deg)`;
     }),
-    // El hallazgo: un destello sobre la rosa diminuta
+    // El hallazgo: la rosa diminuta se inclina un poco con el scroll (y se balancea sola con CSS)
     3: (c, p) => {
-      const h = suave(interv(p, .15, .6)), vis = h * (1 - interv(p, .8, .95));
-      c.querySelector('.destello-rosa').style.opacity = (vis * .95).toFixed(3);
-      c.querySelector('.destello-rosa').style.transform = `scale(${.6 + h * .5}) rotate(${h * 25}deg)`;
-      c.querySelector('.pulso-rosa').style.opacity = (vis * .9).toFixed(3);
-      c.querySelector('.pulso-rosa').style.transform = `scale(${.5 + h})`;
+      c.querySelector('.rosa-pequena').style.transform = `rotate(${(suave(p) - .5) * 7}deg)`;
     },
-    // La noche: estrella fugaz y la rosa que brilla en su pata
+    // La noche: estrella fugaz que cruza el cielo casi en horizontal, con la estela alineada,
+    // y la rosa que brilla un poco en su pata
     4: (c, p) => {
-      const t = suave(interv(p, .12, .6)), vis = interv(p, .12, .2) * (1 - interv(p, .5, .62));
+      const t = interv(p, .1, .62), vis = interv(p, .1, .18) * (1 - interv(p, .5, .62));
       const fugaz = c.querySelector('.estrella-fugaz');
       fugaz.style.opacity = vis.toFixed(3);
-      fugaz.style.transform = `translate(${t * 4200}%,${t * 1700}%)`;
+      fugaz.style.transform = `translate(${t * 4400}%,${t * 620}%)`;   // 8° de bajada, igual que la estela
       const brillo = c.querySelector('.brillo-rosa');
       brillo.style.opacity = (interv(p, .3, .7) * (.75 + .25 * Math.sin(p * 18))).toFixed(3);
     },
@@ -50,10 +47,13 @@
       const rubor = suave(interv(p, .6, .85));
       const hoja = c.querySelector('.hoja-puerta');
       hoja.style.transform = `rotateY(${abre * -80}deg)`;
-      hoja.style.filter = `brightness(${1 - abre * .5})`;
+      hoja.style.filter = `brightness(${1 - abre * .55})`;
       hoja.style.opacity = String(abre > .97 ? 0 : 1);   // ya abierta, la de la lámina ocupa su sitio
       c.querySelector('.luz-puerta').style.opacity = (abre * .55).toFixed(3);
       c.querySelector('.mejilla').style.opacity = (rubor * .9).toFixed(3);
+      // la luna baja durante toda la escena hasta esconderse tras las colinas
+      const baja = suave(p);
+      c.querySelector('.luna').style.transform = `translate(${baja * 25}%,${baja * 340}%)`;
     },
   };
 

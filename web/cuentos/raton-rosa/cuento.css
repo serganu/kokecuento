@@ -36,8 +36,8 @@ body{margin:0;min-width:280px;background:var(--papel);color:var(--tinta);-webkit
 .lamina--hallazgo{--foto:url('img/03-hallazgo.webp')}
 .lamina--noche{--foto:url('img/04-viaje-nocturno.webp')}
 .lamina--entrega{--foto:url('img/05-puerta.webp')}
-.lamina--puerta{--foto:url('img/05-puerta-estatica.webp')}
-.lamina--amanecer{--foto:url('img/06-amanecer-estatico.webp')}
+.lamina--puerta{--foto:url('img/05-puerta-sinluna.webp')}
+.lamina--amanecer{--foto:url('img/06-madrugada.webp')}
 
 /* ---------- Texto ---------- */
 .cuento{position:relative;z-index:1}
@@ -88,7 +88,7 @@ html.js .texto{opacity:0}
 }
 
 /* ---------- Piezas que se mueven sobre las láminas (en % del cuadro) ---------- */
-.cuadro>span,.hoja-puerta{position:absolute;pointer-events:none;opacity:0}
+.cuadro>span{position:absolute;pointer-events:none;opacity:0}
 /* Hojas de papel que cruzan el jardín */
 .hoja-viajera{z-index:3;width:3%;aspect-ratio:7/10;transform-origin:50% 100%;
   background:linear-gradient(125deg,rgba(255,255,255,.22),transparent 40%),repeating-linear-gradient(118deg,rgba(255,255,255,.10) 0 2px,rgba(0,0,0,.04) 2px 4px),linear-gradient(126deg,#b9c98d 0 48%,#8aa568 48% 100%);
@@ -97,24 +97,31 @@ html.js .texto{opacity:0}
 .hoja-viajera--b{left:58%;top:54%;width:2.4%}
 .hoja-viajera--c{left:79%;top:50%;width:2.1%}
 .hoja-viajera--d{left:64%;top:69%;width:2.6%}
-/* La rosa diminuta se ilumina al encontrarla: centrado en la rosa (77 %, 75 %) */
-.destello-rosa,.pulso-rosa,.brillo-rosa{translate:-50% -50%;border-radius:50%;z-index:3}
-.destello-rosa{left:77.2%;top:74.6%;width:17%;aspect-ratio:1}
-.destello-rosa::before,.destello-rosa::after{content:"";position:absolute;inset:0;border-radius:50%}
-.destello-rosa::before{background:repeating-conic-gradient(from 0deg,rgba(214,170,88,.9) 0 3%,transparent 3% 12.5%);mask:radial-gradient(circle,transparent 0 46%,#000 47% 56%,transparent 57%);-webkit-mask:radial-gradient(circle,transparent 0 46%,#000 47% 56%,transparent 57%)}
-.destello-rosa::after{background:radial-gradient(circle,rgba(255,247,228,.5),transparent 62%);mix-blend-mode:screen}
-.pulso-rosa{left:77.2%;top:74.6%;width:8%;aspect-ratio:1;background:radial-gradient(circle,rgba(255,244,208,.6),rgba(255,244,208,.2) 38%,transparent 72%);mix-blend-mode:screen}
+/* La rosa diminuta, recortada de la lámina, se balancea sobre la base del tallo */
+.rosa-pequena{position:absolute;left:70.78%;top:72.55%;width:13.28%;height:10.53%;z-index:3;transform-origin:48.8% 97.7%}
+.rosa-pequena img{display:block;width:100%;height:100%;transform-origin:48.8% 97.7%}
+.lamina--hallazgo.activa .rosa-pequena img{animation:balanceo 2.6s ease-in-out infinite alternate}
+@keyframes balanceo{from{rotate:-3.5deg}to{rotate:3.5deg}}
+.brillo-rosa{translate:-50% -50%;border-radius:50%;z-index:3}
 /* De noche, la rosa que lleva en la pata brilla un poco */
 .brillo-rosa{left:55%;top:68.5%;width:11%;aspect-ratio:1;background:radial-gradient(circle,rgba(255,226,170,.55),rgba(255,214,150,.18) 45%,transparent 70%);mix-blend-mode:screen}
-.estrella-fugaz{left:12%;top:13%;z-index:2;width:1%;aspect-ratio:1;border-radius:50%;background:#fff2b6;box-shadow:0 0 16px 4px rgba(255,239,194,.62)}
-.estrella-fugaz::after{content:"";position:absolute;right:45%;top:44%;width:1400%;height:2px;background:linear-gradient(90deg,rgba(255,245,214,0),rgba(255,236,183,.85));transform:translateY(-50%) rotate(-24deg);transform-origin:right center}
+.estrella-fugaz{left:6%;top:22%;z-index:2;width:1%;aspect-ratio:1;border-radius:50%;background:#fff2b6;box-shadow:0 0 16px 4px rgba(255,239,194,.62)}
+.estrella-fugaz::after{content:"";position:absolute;right:45%;top:44%;width:1400%;height:2px;background:linear-gradient(90deg,rgba(255,245,214,0),rgba(255,236,183,.85));transform:translateY(-50%) rotate(8deg);transform-origin:right center}
 
 /* ---------- La puerta ----------
    Fondo: la casa con la puerta abierta y el ratón blanco dentro (05-puerta-estatica).
    Encima, la hoja de la puerta recortada de la lámina cerrada: al girar sobre su bisagra
    descubre al ratón. Mientras está cerrada, la escena es idéntica a la entrega sin el ratón marrón. */
 .cuadro--casa{perspective:900px;perspective-origin:74% 62%}
-.cuadro>.hoja-puerta{inset:auto;left:64.4%;top:51.02%;width:19.98%;height:27.03%;z-index:3;opacity:1;transform-origin:100% 50%;backface-visibility:hidden}
+/* El hueco recorta el giro: la madera nunca se sale del arco. */
+.hueco-puerta{position:absolute;inset:0;z-index:3;pointer-events:none;perspective:700px;perspective-origin:74% 64%;
+  clip-path:polygon(72.79% 50.66%,68.23% 52.63%,66.95% 53.53%,65.14% 55.20%,64.29% 56.28%,63.34% 58.01%,62.81% 59.81%,62.81% 77.51%,63.23% 77.75%,64.19% 77.93%,82.89% 77.93%,83.10% 77.27%,85.12% 59.99%,81.51% 55.20%,78.96% 52.75%)}
+.hoja-puerta{position:absolute;left:62.487%;top:50.419%;width:23.061%;height:27.751%;transform-origin:100% 50%;will-change:transform}
+/* Piedra del marco y rosa del escalón: fijas, por delante de la puerta */
+.cuadro>.marco-puerta{inset:auto;left:59.086%;top:49.821%;width:27.63%;height:29.007%;z-index:4}
+/* La luna baja hasta esconderse tras las colinas */
+.cielo{position:absolute;inset:0;z-index:1;clip-path:inset(0 0 48.5% 0);pointer-events:none}
+.luna{position:absolute;left:7.864%;top:4.127%;width:19.447%;height:12.261%;will-change:transform}
 .luz-puerta{left:56%;top:52%;width:38%;height:36%;z-index:2;background:radial-gradient(ellipse at 50% 70%,rgba(255,206,130,.55),rgba(255,190,110,.18) 45%,transparent 70%);mix-blend-mode:screen}
 .mejilla{left:71.2%;top:70.6%;width:3.2%;height:1.5%;z-index:2;border-radius:50%;background:radial-gradient(ellipse,rgba(228,96,108,.85),rgba(232,120,120,.35) 55%,transparent 75%);mix-blend-mode:multiply;rotate:-12deg}
 .luz-puerta--fija{opacity:.55}
@@ -128,3 +135,4 @@ html.js .texto{opacity:0}
 }
 html:not(.js) .visor{display:none}
 html:not(.js) .pasaje,html:not(.js) .pasaje--puerta,html:not(.js) .pasaje--amanecer{min-height:100svh;background:var(--imagen) center center/cover no-repeat}
+@media (prefers-reduced-motion:reduce){.rosa-pequena img{animation:none}}
