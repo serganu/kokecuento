@@ -62,3 +62,6 @@ html.js .texto{opacity:0}
  .pasaje{min-height:100svh;background:var(--imagen) center center/cover no-repeat}
  .pasaje .texto,html.js .pasaje .texto{opacity:1!important;transform:none!important}
 }
+/* Respaldo si JavaScript está desactivado o no llega a cargarse. */
+html:not(.js) .visor{display:none}
+html:not(.js) .pasaje{min-height:100svh;background:var(--imagen) center center/cover no-repeat}
