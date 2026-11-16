@@ -8,6 +8,8 @@ Portada y seis escenas. Se conserva literalmente el cuento de `PRODUCTOS[id="rat
 
 ## Animación
 
+- **Al abrir el cuento:** la misma tapa de cuero que la tienda (`cubierta.css`, `img/simbolo.webp`) hace de pantalla de carga y se abre girando sobre el lomo. No sale si se ha pedido reducir las animaciones.
+
 - Scroll táctil, rueda o trackpad: desplazamientos, zoom y fundidos, reversibles al retroceder.
 - Cada lámina va dentro de un `.cuadro` con la proporción de la ilustración (941 × 1672). Las piezas animadas se colocan en % de ese cuadro, así quedan pegadas al dibujo en móvil y en ordenador.
 - Al cambiar de escena, la siguiente aparece entera debajo y la anterior se desvanece encima: no se transparenta el papel entre dos láminas.

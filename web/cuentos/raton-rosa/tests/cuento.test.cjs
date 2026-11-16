@@ -69,7 +69,7 @@ function testDOM() {
   getBoundingClientRect(){return {top:i*1200-scrollY}}, querySelector(s){return s === '.texto' ? this.text : null}}));
  const win = {innerHeight:1000, get scrollY(){return scrollY}, matchMedia(){return {matches:false,addEventListener(){}}},
   addEventListener(t,fn){if(t==='scroll')scrollHandler=fn}, location:{reload(){}}};
- const doc = {documentElement:{classList:{add(){}}, scrollHeight: ids.length * 1200 + 720}, fonts:{ready:Promise.resolve()},
+ const doc = {documentElement:{classList:{add(){}, remove(){}, contains(){return false}}, scrollHeight: ids.length * 1200 + 720}, fonts:{ready:Promise.resolve()},
   querySelectorAll(s){return s==='[data-lamina]'?layers:s==='[data-pasaje]'?sections:[]}};
  vm.runInNewContext(js, {window:win, document:doc, requestAnimationFrame(fn){fn()}}, {timeout:3000});
  return {layers, moveTo(i,p){scrollY=i*1200+p*1200-280; scrollHandler()}};
@@ -122,4 +122,14 @@ test('Hojas, rosa, estrella fugaz y luna se mueven con el scroll', () => {
  assert.ok(Math.abs(angulo - estela) < 1.5, 'la estela sigue la dirección del movimiento');
  env.moveTo(6,.05); const l1 = env.layers[6].piezas['.luna'].style.transform; env.moveTo(6,.9);
  assert.ok(Number(env.layers[6].piezas['.luna'].style.transform.match(/,(-?[\d.]+)%/)[1]) > Number(l1.match(/,(-?[\d.]+)%/)[1]) + 100, 'la luna baja');
+});
+
+test('El cuento empieza con la tapa de cuero de la tienda, que se abre al cargar', () => {
+ const cub = fs.readFileSync(path.join(root, 'cubierta.css'), 'utf8');
+ assert.match(html, /<link rel="stylesheet" href="cubierta.css">/);
+ assert.match(html, /class="cubierta-placa"[\s\S]*class="cubierta-titulo">KokeCuento</);
+ assert.match(html, /prefers-reduced-motion: reduce[\s\S]*cubierta-on/);
+ assert.match(cub, /@keyframes abre-cubierta/);
+ assert.match(js, /cubierta-abre/);
+ assert.ok(fs.existsSync(path.join(root, 'img', 'simbolo.webp')));
 });

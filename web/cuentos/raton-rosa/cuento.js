@@ -4,6 +4,23 @@
    así nunca se transparenta el papel entre dos ilustraciones. */
 (() => {
   'use strict';
+  /* La tapa del libro: se deja ver al menos 1,3 s desde que empieza a cargar y se abre
+     cuando la página está lista (o a los 5 s si alguna imagen tarda). */
+  const raiz = document.documentElement;
+  if (raiz.classList.contains('cubierta-on')) {
+    let abierta = false;
+    const abre = () => {
+      if (abierta) return;
+      abierta = true;
+      setTimeout(() => raiz.classList.add('cubierta-abre'), Math.max(0, 1300 - performance.now()));
+    };
+    if (document.readyState === 'complete') abre(); else window.addEventListener('load', abre);
+    setTimeout(abre, 5000);
+    document.querySelector('.cubierta-hoja')?.addEventListener('animationend', (e) => {
+      if (e.animationName === 'abre-cubierta') raiz.classList.remove('cubierta-on', 'cubierta-abre');
+    });
+  }
+
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reduce.matches) return; // el CSS pone una ilustración fija en cada pasaje
 
