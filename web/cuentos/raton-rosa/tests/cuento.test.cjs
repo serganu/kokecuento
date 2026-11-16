@@ -69,7 +69,7 @@ function testDOM() {
   getBoundingClientRect(){return {top:i*1200-scrollY}}, querySelector(s){return s === '.texto' ? this.text : null}}));
  const win = {innerHeight:1000, get scrollY(){return scrollY}, matchMedia(){return {matches:false,addEventListener(){}}},
   addEventListener(t,fn){if(t==='scroll')scrollHandler=fn}, location:{reload(){}}};
- const doc = {documentElement:{classList:{add(){}}}, fonts:{ready:Promise.resolve()},
+ const doc = {documentElement:{classList:{add(){}}, scrollHeight: ids.length * 1200 + 720}, fonts:{ready:Promise.resolve()},
   querySelectorAll(s){return s==='[data-lamina]'?layers:s==='[data-pasaje]'?sections:[]}};
  vm.runInNewContext(js, {window:win, document:doc, requestAnimationFrame(fn){fn()}}, {timeout:3000});
  return {layers, moveTo(i,p){scrollY=i*1200+p*1200-280; scrollHandler()}};
@@ -83,7 +83,7 @@ test('De madrugada la puerta gira, sale la luz y el ratón blanco se sonroja; al
  env.moveTo(7,.3);
  assert.ok(Number(puerta['.hoja-puerta'].style.transform.match(/-?[\d.]+/)[0]) < -30, 'la puerta ya está girando');
  assert.ok(Number(puerta['.luz-puerta'].style.opacity) > .2);
- env.moveTo(7,.7);
+ env.moveTo(7,.6);
  assert.ok(Number(puerta['.mejilla'].style.opacity) > .8);
  env.moveTo(7,.05);
  assert.equal(Number(puerta['.mejilla'].style.opacity), 0);
@@ -107,7 +107,7 @@ test('La cámara de la casa continúa sin saltos entre entrega, puerta y desenla
 
 test('El texto final espera a que se abra la puerta y la luna se esconde antes de amanecer', () => {
  const env = testDOM();
- assert.ok(/data-pasaje="7" data-texto="\.6/.test(html));
+ assert.ok(/data-pasaje="7" data-texto="\.5"/.test(html));
  env.moveTo(6,.55); const l = env.layers[6].piezas['.luna'].style.transform;
  assert.ok(Number(l.match(/,(-?[\d.]+)%/)[1]) >= 490, 'la luna ya ha bajado del todo cuando empieza a amanecer');
 });

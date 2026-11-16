@@ -44,7 +44,7 @@ body{margin:0;min-width:280px;background:var(--papel);color:var(--tinta);-webkit
 .pasaje{position:relative;min-height:126vh;min-height:126svh;display:flow-root;pointer-events:none}
 .pasaje--portada{min-height:132svh}
 .pasaje--puerta{min-height:170svh}                     /* pausa sin texto: la puerta se abre */
-.pasaje--amanecer{min-height:230svh}
+.pasaje--amanecer{min-height:330svh}
 .texto{position:sticky;top:10vh;top:10svh;width:max-content;max-width:min(86vw,590px);margin:0 0 0 8vw;color:var(--tinta);
   font:500 clamp(2.05rem,4.8vw,4.5rem)/1.06 var(--serif);letter-spacing:-.014em;text-wrap:balance;
   text-shadow:0 0 14px rgba(250,243,227,.95),0 0 4px rgba(250,243,227,.9)}
@@ -72,7 +72,7 @@ html.js .texto{opacity:0}
 @media(max-width:700px){
  .pasaje{min-height:120svh}
  .pasaje--puerta{min-height:160svh}
- .pasaje--amanecer{min-height:210svh}
+ .pasaje--amanecer{min-height:310svh}
  .texto{top:8svh;max-width:85vw;margin-left:7vw;font-size:clamp(1.95rem,8.2vw,3.2rem);line-height:1.06}
  .pasaje--portada .texto{top:11svh;max-width:85vw;margin-left:8vw}
  .pasaje--busqueda .texto{max-width:78vw;margin-right:7vw}
@@ -116,10 +116,10 @@ html.js .texto{opacity:0}
 .cuadro--casa{perspective:900px;perspective-origin:74% 62%}
 /* La puerta gira dentro de una máscara con la silueta exacta de la madera:
    nunca pisa la piedra del arco. La bisagra está metida en el hueco, como en la lámina. */
-.hueco-puerta,.cuadro>.hoja-cerrada{position:absolute;inset:auto;left:61.849%;top:49.462%;width:23.486%;height:28.768%;z-index:3}
+.hueco-puerta,.cuadro>.hoja-cerrada{position:absolute;inset:auto;left:64.081%;top:51.256%;width:19.447%;height:26.376%;z-index:3}
 .hueco-puerta{pointer-events:none;perspective:900px;perspective-origin:60% 50%;
   -webkit-mask:url('img/hueco-mascara.png') 0 0/100% 100% no-repeat;mask:url('img/hueco-mascara.png') 0 0/100% 100% no-repeat}
-.hoja-puerta{position:absolute;inset:0;width:100%;height:100%;transform-origin:80.5% 50%;will-change:transform}
+.hoja-puerta{position:absolute;inset:0;width:100%;height:100%;transform-origin:85.8% 50%;will-change:transform}
 /* La rosa del escalón: fija, por delante de la puerta */
 .cuadro>.marco-puerta{inset:auto;left:59.405%;top:74.163%;width:12.859%;height:4.665%;z-index:4}
 /* La luna baja hasta esconderse tras las colinas */

@@ -49,8 +49,8 @@
     },
     // Ya de madrugada: la puerta gira sobre su bisagra, sale la luz, aparece el ratón blanco y se sonroja
     7: (c, p) => {
-      const abre = suave(interv(p, .06, .4));
-      const rubor = suave(interv(p, .42, .6));
+      const abre = suave(interv(p, .04, .32));
+      const rubor = suave(interv(p, .33, .47));
       const hoja = c.querySelector('.hoja-puerta');
       // gira hacia dentro sobre una bisagra metida en el hueco hasta quedar de canto,
       // oscureciéndose; al terminar de abrirse ya no se ve
@@ -86,8 +86,10 @@
     let actual = 0;
     for (let i = 0; i < posiciones.length; i++) if (marcador >= posiciones[i].inicio) actual = i;
     const etapa = posiciones[actual];
-    const progreso = limite((marcador - etapa.inicio) / etapa.alto);
     const ultimo = actual === escenas.length - 1;
+    // el último pasaje no puede bajar del todo (se acaba la página): su progreso llega a 1 al final del scroll
+    const fin = ultimo ? Math.max(1, document.documentElement.scrollHeight - window.innerHeight + window.innerHeight * .28 - etapa.inicio) : etapa.alto;
+    const progreso = limite((marcador - etapa.inicio) / fin);
     const desde = num(escenas[actual], 'mezcla', .8);   // dónde empieza el fundido a la siguiente
     const mezcla = ultimo ? 0 : suave(interv(progreso, desde, .98));
 
@@ -107,6 +109,16 @@
       const texto = pasaje.querySelector('.texto');
       if (i !== actual) { texto.style.opacity = '0'; return; }
       const e = num(pasaje, 'texto', .04);                // data-texto: el texto espera hasta ahí
+      if (ultimo && texto.children && texto.children.length > 1) {
+        // final: cada frase entra por separado, despacio, y se queda para leerla con calma
+        texto.style.opacity = '1'; texto.style.transform = 'none';
+        [...texto.children].forEach((frase, k) => {
+          const a = e + k * .12, entra = suave(interv(progreso, a, a + .16));
+          frase.style.opacity = entra.toFixed(3);
+          frase.style.transform = `translateY(${(1 - entra) * 14}px)`;
+        });
+        return;
+      }
       const entrada = i === 0 ? 1 : interv(progreso, e, e + .13);
       const salida = i === pasajes.length - 1 ? 1 : 1 - interv(progreso, .73, .9);
       texto.style.opacity = String(Math.min(entrada, salida));
