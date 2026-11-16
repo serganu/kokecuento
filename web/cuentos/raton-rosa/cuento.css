@@ -10,12 +10,14 @@ html{scroll-behavior:auto;overflow-x:clip}
 body{margin:0;min-width:280px;background:var(--papel);color:var(--tinta);-webkit-font-smoothing:antialiased}
 
 /* ---------- Visor y láminas ---------- */
-.visor{position:fixed;inset:0;overflow:hidden;background:var(--papel);z-index:0;pointer-events:none;height:100vh;height:100svh}
+/* Alto de pantalla con la barra del navegador escondida (lvh): al deslizar en el móvil la barra se oculta
+   y la pantalla crece; con svh el fondo se quedaba corto y asomaba una franja abajo. */
+.visor{position:fixed;top:0;left:0;right:0;overflow:hidden;background:var(--papel);z-index:0;pointer-events:none;height:100vh;height:100lvh}
 .lamina{position:absolute;inset:0;opacity:0;overflow:hidden;background:var(--papel);visibility:hidden}
 .lamina.activa{visibility:visible}
 .cuadro{position:absolute;left:var(--centro);top:50%;
   width:max(100vw,100vh * 941 / 1672);height:max(100vh,100vw * 1672 / 941);
-  width:max(100vw,100svh * 941 / 1672);height:max(100svh,100vw * 1672 / 941);
+  width:max(100vw,100lvh * 941 / 1672);height:max(100lvh,100vw * 1672 / 941);
   transform:translate(-50%,-50%);transform-origin:50% 65%;will-change:transform}
 .cuadro--casa{transform-origin:74.4% 64.6%}            /* la cámara se acerca a la puerta */
 .cuadro>img{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;user-select:none;pointer-events:none}
@@ -23,7 +25,7 @@ body{margin:0;min-width:280px;background:var(--papel);color:var(--tinta);-webkit
 /* Pantallas anchas: la lámina entera a la derecha, sobre su propio reflejo difuminado */
 @media (min-aspect-ratio:4/3){
   :root{--centro:64%}
-  .cuadro{width:calc(100vh * 941 / 1672);height:100vh;width:calc(100svh * 941 / 1672);height:100svh;
+  .cuadro{width:calc(100vh * 941 / 1672);height:100vh;width:calc(100lvh * 941 / 1672);height:100lvh;
     box-shadow:0 0 0 1px rgba(82,53,33,.06),0 20px 60px rgba(60,40,20,.18)}
   .lamina::before{content:"";position:absolute;inset:-10%;background:var(--foto) center/cover no-repeat;filter:blur(40px) saturate(.8);opacity:.6}
   .lamina::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--velo,rgba(247,238,220,.72)) 0 40%,transparent 62%)}
@@ -64,7 +66,7 @@ html.js .texto{opacity:0}
 /* En pantallas anchas todo el texto va en la columna izquierda, sin pisar la lámina */
 @media (min-aspect-ratio:4/3){
   .texto,.pasaje--portada .texto,.pasaje--busqueda .texto,.pasaje--hallazgo .texto,.pasaje--entrega .texto,.pasaje--amanecer .texto{
-    margin:0 0 0 7vw;max-width:min(calc(var(--centro) - 100svh * 941 / 3344 - 12vw),620px);font-size:clamp(2rem,3.6vw,4rem)}
+    margin:0 0 0 7vw;max-width:min(calc(var(--centro) - 100lvh * 941 / 3344 - 12vw),620px);font-size:clamp(2rem,3.6vw,4rem)}
   .pasaje--portada .texto,.pasaje--gigantes .texto,.pasaje--busqueda .texto,.pasaje--hallazgo .texto{top:30svh}
   .pasaje .texto{top:24svh}
   h1{font-size:clamp(2.6rem,4.6vw,5.2rem)}
