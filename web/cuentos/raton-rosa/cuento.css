@@ -1,0 +1,94 @@
+/* Kokecuento · Primer cuento interactivo. Solo se animan capas completas. */
+:root { --papel:#f7f0df; --tinta:#493222; --verde:#9eaf79; --cuero:#6b4330; }
+* { box-sizing:border-box; }
+html { scroll-behavior:auto; overflow-x:clip; }
+body { margin:0; min-width:280px; font-family:"EB Garamond",Georgia,serif; color:var(--tinta); background:var(--papel); }
+.simbolos { position:absolute; width:0; height:0; overflow:hidden; }
+.escenario { position:fixed; inset:0; height:100vh; height:100svh; overflow:hidden; z-index:0; pointer-events:none; background:var(--papel); }
+.lamina { position:absolute; inset:0; overflow:hidden; opacity:0; background:radial-gradient(ellipse at 40% 20%,#fff9eb,var(--papel) 68%); }
+.lamina--portada { opacity:1; }
+.lamina::after { content:""; position:absolute; inset:0; pointer-events:none; opacity:.11; background-image:repeating-linear-gradient(105deg,transparent 0,transparent 3px,#b7a88b 4px,transparent 5px); mix-blend-mode:multiply; }
+.lamina--noche { background:linear-gradient(175deg,#34465c 2%,#65758a 50%,#c7af9b 100%); }
+.lamina--amanecer { background:linear-gradient(165deg,#f7e0be 4%,#f7f0df 75%); }
+.colina { position:absolute; bottom:-3%; left:-10%; width:120%; pointer-events:none; }
+.colina--lejos { height:28%; background:#dee0bd; clip-path:polygon(0 72%,16% 41%,33% 68%,54% 30%,71% 65%,88% 40%,100% 67%,100% 100%,0 100%); }
+.colina--cerca { height:18%; background:#c9cf9d; clip-path:polygon(0 30%,19% 61%,39% 35%,56% 74%,75% 33%,100% 56%,100% 100%,0 100%); }
+.lamina--noche .colina--lejos { background:#566b6d; }
+.lamina--noche .colina--cerca { background:#61766e; }
+.lamina--amanecer .colina--lejos { background:#dbe0bb; }
+.raton,.rosa { display:block; position:absolute; z-index:3; height:auto; object-fit:contain; transform-origin:50% 90%; will-change:transform; }
+.raton { width:min(29vw,360px); }
+.rosa { width:auto; height:min(64svh,680px); filter:drop-shadow(0 7px 6px rgba(68,51,29,.08)); z-index:2; }
+.raton--portada { left:13%; bottom:8%; width:min(32vw,380px); }
+.rosa--portada { height:62%; right:10%; bottom:7%; }
+.raton--gigantes { left:13%; bottom:8%; }
+.rosa--gigante { height:82%; right:6%; bottom:6%; }
+.rosa--secundaria { height:36%; right:38%; bottom:9%; opacity:.62; }
+.raton--busqueda { left:18%; bottom:9%; }
+.rosa--izquierda { height:76%; left:-6%; bottom:4%; }
+.rosa--derecha { height:44%; right:8%; bottom:7%; opacity:.78; }
+.raton--hallazgo { left:20%; bottom:9%; }
+.rosa--pequena { height:24%; right:20%; bottom:10%; }
+.raton--noche { left:20%; bottom:10%; }
+.rosa--cargada { height:19%; left:49%; bottom:17%; }
+.raton--puerta { left:12%; bottom:7%; }
+.rosa--regalo { height:21%; right:31%; bottom:9%; }
+.rosa--amanecer { height:24%; right:33%; bottom:9%; }
+.luna { position:absolute; top:12%; right:20%; width:clamp(50px,9vw,108px); aspect-ratio:1; background:#f7dfb9; border-radius:50%; box-shadow:0 0 65px rgba(250,218,170,.25); }
+.estrellas { position:absolute; inset:0; background-image:radial-gradient(circle at 12% 20%,#fff8e2 0 1px,transparent 2px),radial-gradient(circle at 40% 16%,#fff8e2 0 1.5px,transparent 3px),radial-gradient(circle at 77% 31%,#fff8e2 0 1px,transparent 3px),radial-gradient(circle at 56% 12%,#fff8e2 0 1.2px,transparent 3px); opacity:.65; }
+.casita { position:absolute; right:9%; bottom:9%; width:clamp(180px,31vw,390px); height:clamp(275px,57svh,550px); background:linear-gradient(115deg,#bd8e64 48%,#a97453 48%); clip-path:polygon(0 22%,48% 0,100% 22%,100% 100%,0 100%); box-shadow:inset 10px 0 0 rgba(80,48,26,.1); z-index:1; }
+.puerta { position:absolute; bottom:0; left:31%; width:40%; height:59%; border:9px solid #845638; border-bottom:0; background:linear-gradient(100deg,#8d6042,#a87451); border-radius:50% 50% 0 0/14% 14% 0 0; box-shadow:inset 7px 0 0 rgba(50,30,20,.14); }
+.pomo { position:absolute; top:53%; right:13%; width:10px; height:10px; border-radius:50%; background:#e4c78a; }
+.lamina--noche .casita { right:7%; transform:scale(.4); transform-origin:bottom right; opacity:.6; }
+.luz-amanecer { position:absolute; inset:0; background:radial-gradient(circle at 80% 20%,rgba(255,237,183,.72),transparent 55%); pointer-events:none; }
+.lectura { position:relative; z-index:1; }
+.pasaje { min-height:165vh; min-height:165svh; position:relative; display:flow-root; pointer-events:none; }
+.pasaje--amanecer { min-height:185svh; }
+.texto { position:sticky; top:11vh; top:11svh; display:block; max-width:min(76vw,650px); width:fit-content; margin-left:8vw; padding:0; opacity:1; font:500 clamp(1.8rem,3.9vw,3.75rem)/1.15 "Cormorant Garamond",Georgia,serif; letter-spacing:.005em; text-wrap:balance; text-shadow:0 1px 3px rgba(255,248,232,.5); }
+.texto p { margin:0; }
+.pasaje--portada .texto { top:12svh; max-width:min(62vw,630px); }
+.sello { color:#8c6745; font:600 clamp(1rem,1.6vw,1.3rem) "EB Garamond",Georgia,serif; letter-spacing:.12em; font-variant:small-caps; margin-bottom:1.1rem!important; }
+h1 { font:600 clamp(2.8rem,5.5vw,5.4rem)/.96 "Cormorant Garamond",Georgia,serif; letter-spacing:.005em; margin:0; text-wrap:balance; }
+.subtitulo { margin-top:1.4rem!important; font:italic 400 clamp(1.2rem,2.2vw,1.7rem) "EB Garamond",Georgia,serif; }
+.pasaje--busqueda .texto,.pasaje--puerta .texto { margin-left:auto; margin-right:8vw; max-width:min(53vw,530px); }
+.pasaje--hallazgo .texto { max-width:min(66vw,600px); }
+.pasaje--noche .texto { color:#fff8e9; text-shadow:0 2px 12px #293a51; max-width:min(66vw,620px); }
+.pasaje--amanecer .texto { max-width:min(70vw,640px); }
+.releer { display:inline-block; margin-top:2rem; padding:.45rem 0; pointer-events:auto; font:500 clamp(1.1rem,2.2vw,1.5rem) "EB Garamond",Georgia,serif; color:var(--cuero); text-decoration-thickness:1px; text-underline-offset:5px; }
+.releer:focus-visible { outline:2px solid #875c39; outline-offset:5px; }
+.nota-sin-js { position:relative; padding:1rem; background:var(--papel); text-align:center; }
+html.con-js .texto { opacity:0; }
+@media(max-width:700px) {
+  .raton { width:45vw; max-width:260px; }
+  .raton--portada { width:47vw; left:8%; bottom:10%; }
+  .rosa--portada { right:0%; height:49%; bottom:11%; }
+  .raton--gigantes { left:8%; bottom:13%; }
+  .rosa--gigante { right:-15%; height:64%; bottom:10%; }
+  .rosa--secundaria { right:34%; height:24%; bottom:8%; }
+  .raton--busqueda { left:10%; bottom:11%; }
+  .rosa--izquierda { left:-31%; height:60%; bottom:8%; }
+  .rosa--derecha { right:-15%; height:39%; bottom:9%; }
+  .raton--hallazgo { left:9%; bottom:12%; }
+  .rosa--pequena { right:8%; height:22%; bottom:12%; }
+  .raton--noche { left:10%; bottom:12%; }
+  .rosa--cargada { left:45%; height:16%; bottom:19%; }
+  .raton--puerta { left:5%; bottom:10%; }
+  .rosa--regalo { right:21%; height:18%; bottom:10%; }
+  .rosa--amanecer { right:22%; height:19%; bottom:10%; }
+  .casita { right:-5%; bottom:9%; width:60vw; height:42svh; min-height:0; }
+  .pasaje { min-height:155svh; }
+  .texto { top:12svh; margin-left:7vw; max-width:85vw; font-size:clamp(1.65rem,7.0vw,2.65rem); line-height:1.13; }
+  .pasaje--portada .texto { max-width:80vw; }
+  .pasaje--busqueda .texto,.pasaje--puerta .texto { margin-left:17vw; margin-right:7vw; max-width:76vw; }
+  .pasaje--noche .texto { max-width:85vw; }
+  .pasaje--amanecer .texto { max-width:83vw; }
+  h1 { font-size:clamp(2.6rem,10vw,4.6rem); }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .pasaje { min-height:100svh; }
+  .texto,html.con-js .texto { opacity:1!important; transform:none!important; }
+  .lamina { opacity:0!important; }
+  .lamina--portada { opacity:1!important; }
+  .raton,.rosa { will-change:auto; transform:none!important; }
+}
