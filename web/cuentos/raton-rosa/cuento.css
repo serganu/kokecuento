@@ -115,10 +115,10 @@ html.js .texto{opacity:0}
    descubre al ratón. Mientras está cerrada, la escena es idéntica a la entrega sin el ratón marrón. */
 .cuadro--casa{perspective:900px;perspective-origin:74% 62%}
 /* El hueco recorta el giro: la madera nunca se sale del arco. */
-.hueco-puerta{position:absolute;inset:0;z-index:3;pointer-events:none;perspective:700px;perspective-origin:74% 64%;
+.hueco-puerta{position:absolute;inset:0;z-index:3;pointer-events:none;perspective:900px;perspective-origin:74% 64%;
   clip-path:polygon(81.30% 50.96%,81.51% 51.14%,83.10% 59.87%,83.21% 70.39%,83.00% 76.85%,82.57% 77.15%,69.29% 76.97%,67.48% 76.02%,65.25% 74.34%,65.14% 60.47%,65.99% 57.48%,67.27% 55.38%,68.86% 53.95%,69.82% 53.29%,71.09% 52.63%,73.01% 51.91%,74.92% 51.50%,80.13% 50.96%)}
 .hoja-puerta,.cuadro>.hoja-cerrada{position:absolute;inset:auto;left:64.931%;top:50.837%;width:18.597%;height:26.495%;transform-origin:100% 50%;z-index:3}
-.hoja-puerta{will-change:transform}
+.hoja-puerta{will-change:transform;transform-origin:86% 50%}   /* bisagra metida en el hueco, como en la lámina */
 /* La rosa del escalón y el canto de piedra del arco: fijos, por delante de la puerta */
 .cuadro>.marco-puerta{inset:auto;left:59.405%;top:50.837%;width:24.23%;height:27.99%;z-index:4}
 /* La luna baja hasta esconderse tras las colinas */

@@ -52,9 +52,11 @@
       const abre = suave(interv(p, .06, .4));
       const rubor = suave(interv(p, .42, .6));
       const hoja = c.querySelector('.hoja-puerta');
-      hoja.style.transform = `rotateY(${abre * -80}deg)`;
-      hoja.style.filter = `brightness(${1 - abre * .55})`;
-      hoja.style.opacity = String(abre > .97 ? 0 : 1);   // ya abierta, la de la lámina ocupa su sitio
+      // gira hacia dentro sobre una bisagra metida en el hueco hasta quedar de canto,
+      // oscureciéndose; al terminar de abrirse ya no se ve
+      hoja.style.transform = `rotateY(${abre * -90}deg)`;
+      hoja.style.filter = `brightness(${1 - abre * .6})`;
+      hoja.style.opacity = (1 - interv(abre, .8, 1)).toFixed(3);
       c.querySelector('.luz-puerta').style.opacity = (abre * .5).toFixed(3);
       c.querySelector('.mejilla').style.opacity = (rubor * .85).toFixed(3);
     },
