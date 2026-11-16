@@ -1,4 +1,4 @@
-/* Desplazamiento táctil y de ratón. Solo opacidad y transformaciones de la imagen completa. */
+/* Desplazamiento táctil y de ratón. La puerta incorpora una segunda capa para insinuar la reacción del ratón blanco. */
 (() => {
   'use strict';
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -37,14 +37,38 @@
       const x=Number(escena.dataset.x||0)*t;
       const y=Number(escena.dataset.y||0)*t;
       const z=Number(escena.dataset.z||0)*t;
-      const base=i===6?1.55:1;
-      const foto=escena.querySelector('img');
-      // Cuando la ilustración se contiene en escritorio, el centrado forma parte del transform.
-      const amplio=window.matchMedia('(min-aspect-ratio:4/3)').matches;
-      const centrado=amplio?'-50% + ':'';
-      foto.style.transform=amplio
-        ? `translate3d(calc(-50% + ${x}%),${y}%,0) scale(${base+z})`
-        : `translate3d(${x}%,${y}%,0) scale(${base+z})`;
+      const base=1;
+      const marco=escena.querySelector('[data-escenario-puerta]');
+      // La hoja y el lucero son piezas propias, no zooms del fondo.
+      const hoja=escena.querySelector('.hoja-viajera');
+      if(hoja){
+        hoja.style.opacity=String(interv(progreso,.12,.36)*(1-interv(progreso,.78,.95))*.85);
+        hoja.style.transform=`translate3d(${-progreso*12}vw,${(progreso*.7-0.3)*9}vh,0) rotate(${progreso*55-16}deg)`;
+      }
+      const lucero=escena.querySelector('.estrella-movil');
+      if(lucero)lucero.style.opacity=String(.18+interv(progreso,.12,.78)*.74);
+      if(marco){
+        // Movimiento de cámara (imagen, puerta y personaje comparten coordenadas).
+        // Las piezas internas permanecen independientes del zoom general.
+        marco.style.transform=`translate3d(calc(-50% + ${x}%),calc(-50% + ${y}%),0) scale(${base+z})`;
+        const apertura=i===5?interv(progreso,.17,.57):1;
+        const gesto=i===5?interv(progreso,.35,.70):1;
+        const rojo=i===5?interv(progreso,.55,.88):1;
+        const hoja=marco.querySelector('.hoja-puerta');
+        const raton=marco.querySelector('.raton-blanco');
+        const mejilla=marco.querySelector('.mejilla');
+        hoja.style.transform=`scaleX(${1-apertura*.88})`;
+        raton.style.opacity=String(gesto);
+        raton.style.transform=`translate3d(0,${(1-gesto)*13}%,0) rotate(${(1-gesto)*3}deg)`;
+        mejilla.style.opacity=String(rojo*.91);
+      } else {
+        const foto=escena.querySelector('img');
+        if(!foto)return;
+        const amplio=window.matchMedia('(min-aspect-ratio:4/3)').matches;
+        foto.style.transform=amplio
+          ? `translate3d(calc(-50% + ${x}%),${y}%,0) scale(${base+z})`
+          : `translate3d(${x}%,${y}%,0) scale(${base+z})`;
+      }
     });
 
     pasajes.forEach((pasaje,i) => {

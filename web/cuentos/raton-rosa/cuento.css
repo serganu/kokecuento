@@ -17,10 +17,13 @@ body{margin:0;min-width:280px;background:var(--papel);color:var(--tinta);-webkit
 .lamina--busqueda{--foto:url('img/02-busqueda.webp')}
 .lamina--hallazgo{--foto:url('img/03-hallazgo.webp')}
 .lamina--noche{--foto:url('img/04-viaje-nocturno.webp')}
-.lamina--puerta{--foto:url('img/05-puerta.webp')}
-.lamina--amanecer{--foto:url('img/06-amanecer.webp')}
+.lamina--puerta{--foto:url('img/05-puerta-fondo.webp')}
+.lamina--amanecer{--foto:url('img/05-puerta-fondo.webp')}
+
+
+
 /* El último plano acerca la cámara hacia la flor junto a la puerta. */
-.lamina--amanecer img{transform-origin:70% 83%;filter:saturate(1.06)}
+
 .cuento{position:relative;z-index:1}
 .pasaje{position:relative;min-height:126vh;min-height:126svh;display:flow-root;pointer-events:none}
 .pasaje--portada{min-height:132svh}
@@ -65,3 +68,30 @@ html.js .texto{opacity:0}
 /* Respaldo si JavaScript está desactivado o no llega a cargarse. */
 html:not(.js) .visor{display:none}
 html:not(.js) .pasaje{min-height:100svh;background:var(--imagen) center center/cover no-repeat}
+
+
+/* La escena se compone en coordenadas de la lámina 941 × 1672, sin desplazar
+   las capas respecto a la puerta cuando el móvil recorta el encuadre. */
+.escenario-puerta{position:absolute;top:50%;left:50%;width:max(100vw, calc(100svh * 941 / 1672));height:max(100svh, calc(100vw * 1672 / 941));transform:translate(-50%,-50%);transform-origin:center;}
+.escenario-puerta .fondo-casa{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:fill;transform:none;max-width:none;}
+.raton-blanco{position:absolute;left:65.2%;top:64.9%;width:18.2%;aspect-ratio:952 / 1091;z-index:2;transform-origin:50% 100%;pointer-events:none;opacity:0;will-change:transform,opacity;}
+.raton-blanco>img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;transform:none;}
+.mejilla{position:absolute;left:24%;top:52%;width:22%;height:12%;background:radial-gradient(ellipse,rgba(221,82,96,.87) 0%,rgba(232,107,113,.55) 35%,transparent 72%);opacity:0;border-radius:50%;mix-blend-mode:multiply;transform:rotate(-15deg);pointer-events:none;}
+/* Una puerta de papel separada, articulada desde su bisagra derecha. */
+.hoja-puerta{position:absolute;left:64.2%;top:50.65%;width:18%;height:25.7%;z-index:3;transform-origin:100% 60%;border-radius:48% 48% 0 0 / 16% 16% 0 0;border:1px solid rgba(86,51,30,.19);background:linear-gradient(93deg,rgba(65,40,23,.19),transparent 20%,rgba(255,219,161,.14) 52%,rgba(86,53,36,.29) 100%),repeating-linear-gradient(91deg,rgba(105,58,32,.12) 0 1px,transparent 1px 18px),#ad7450;box-shadow:inset 5px 0 rgba(74,37,23,.19),inset -8px 0 rgba(76,45,24,.13),4px 6px 12px rgba(21,15,12,.22);will-change:transform;}
+.tirador{position:absolute;right:12%;top:53%;width:12%;height:6%;border:3px solid #d5b783;border-radius:50%;background:rgba(110,68,42,.45);box-shadow:1px 2px 2px #6c3c27;}
+.resplandor-amanecer{position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(165deg,rgba(255,207,146,.15),rgba(246,202,147,.18) 50%,rgba(255,239,198,.25));mix-blend-mode:screen;}
+@media (min-aspect-ratio:4/3){
+ .escenario-puerta{width:calc(100svh * 941 / 1672);height:100svh;}
+ .escenario-puerta .fondo-casa{transform:none;width:100%;max-width:none;left:0;}
+}
+@media (prefers-reduced-motion:reduce){
+ .lamina--puerta .raton-blanco,.lamina--amanecer .raton-blanco{opacity:1}
+ .raton-blanco .mejilla{opacity:.8}
+ .hoja-puerta{transform:scaleX(.12)}
+}
+
+/* Dos gestos pequeños sobre las láminas planas, independientes de la cámara. */
+.hoja-viajera{position:absolute;left:67%;top:63%;z-index:3;width:clamp(13px,3vw,29px);height:clamp(20px,4.5vw,44px);background:linear-gradient(125deg,#b6c18b 49%,#859d63 50%);clip-path:polygon(50% 0,95% 36%,85% 80%,50% 100%,14% 80%,4% 34%);opacity:0;transform-origin:50% 100%;filter:drop-shadow(0 2px 2px rgba(61,70,38,.18));}
+.estrella-movil{position:absolute;left:37%;top:23%;z-index:2;width:clamp(5px,1vw,9px);height:clamp(5px,1vw,9px);border-radius:50%;background:#fae8b5;box-shadow:0 0 11px 3px rgba(255,238,196,.6);opacity:.2;pointer-events:none;}
+@media(prefers-reduced-motion:reduce){.hoja-viajera,.estrella-movil{display:none}}
