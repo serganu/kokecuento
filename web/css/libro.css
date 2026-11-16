@@ -33,6 +33,12 @@
 }
 
 html { overflow-x: clip; }
+/* Es un libro, no un formulario: al clicar el texto no aparece el cursor de escritura
+   (ni la barra parpadeante que algunos navegadores muestran con la navegación por cursor),
+   pero el texto se puede seguir seleccionando y copiando. */
+body { caret-color: transparent; cursor: default; }
+input, textarea, select, [contenteditable="true"] { caret-color: auto; cursor: auto; }
+a, button, summary, label, .tarjeta, .filtro { cursor: pointer; }
 body { font-size: 20px; line-height: 1.55; background: var(--mesa); }
 h1, h2, h3 { font-weight: 600; letter-spacing: .005em; }
 h1 { font-size: clamp(2.5rem, 6vw, 4.3rem); line-height: 1.02; }
@@ -48,7 +54,7 @@ a { color: var(--granate); }
    ::after tapa lo que asoma por arriba y por fuera de la hoja; ::before dibuja el marco dorado. */
 .hoja::before, .hoja::after { content: ""; flex: none; position: sticky; box-sizing: border-box; pointer-events: none; }
 .hoja::after { order: -2; z-index: 2; top: calc(var(--barra) + var(--aire)); height: var(--alto-hoja);
-  background: linear-gradient(var(--fondo-hoja, var(--papel)) calc(var(--canto) + 12px), transparent calc(var(--canto) + 24px));
+  background: linear-gradient(var(--fondo-hoja, var(--papel)) calc(var(--canto) + 14px), transparent calc(var(--canto) + 26px)), linear-gradient(to top, var(--fondo-hoja, var(--papel)) calc(var(--canto) + 14px), transparent calc(var(--canto) + 26px));
   box-shadow: 0 0 0 1px rgba(120, 90, 50, .16), 0 0 0 var(--aire) var(--mesa); }
 .hoja::before { order: -1; z-index: 3; top: calc(var(--barra) + var(--aire) + var(--canto)); height: calc(var(--alto-hoja) - 2 * var(--canto)); margin: calc(-1 * var(--alto-hoja) + var(--canto)) var(--canto) var(--canto);
   border: 40px solid transparent; border-image: var(--marco) 40 / 40px stretch; }
@@ -62,6 +68,10 @@ html.anim #gamas > .escena { margin-top: 0; }
 .hoja.seccion { padding-block: 0; }
 .hoja.seccion > .contenedor:first-child { padding-top: clamp(52px, 6vw, 76px); }
 .hoja > .contenedor, .hoja .escena-respaldo > .contenedor { padding-inline: clamp(26px, 5vw, 64px); }
+/* Remanso: la hoja se queda sujeta por abajo durante un tramo de scroll antes de que asome el pie */
+.hoja.ancla { position: sticky; top: min(var(--barra) + var(--aire), 100vh - var(--alto-real, 100vh) - var(--aire)); }
+@supports (height: 100svh) { .hoja.ancla { top: min(var(--barra) + var(--aire), 100svh - var(--alto-real, 100svh) - var(--aire)); } }
+main.con-remanso::after { content: ""; display: block; height: 55vh; }   /* tramo en el que la hoja espera quieta */
 .seccion.suave { background: none; }
 .seccion.suave::before, .seccion.suave::after { content: none; }
 
@@ -69,6 +79,7 @@ html.anim #gamas > .escena { margin-top: 0; }
 .folio { margin-top: auto; position: sticky; bottom: var(--aire); z-index: 2; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 14px; padding: 14px clamp(30px, 5vw, 64px) 30px;
   background: linear-gradient(transparent, var(--fondo-hoja, var(--papel)) 14px); }
 .hoja.seccion > .contenedor { padding-bottom: 30px; }
+.hoja > .contenedor:last-child { padding-bottom: 56px; }
 
 /* Los personajes: la hoja entera se queda en la ventana mientras se baja (solo el pie queda fuera) */
 html.anim #gamas { background: none; box-shadow: none; min-height: 0; --fondo-hoja: var(--fondo, #F3E8D0); }

@@ -217,4 +217,16 @@
     texto.innerHTML = texto.textContent.split(/(?<=[.!?»])\s+/)
       .map((f, i) => `<span class="frase" style="--i:${i}">${f}</span>`).join(" ");
   }
+
+  /* Al llegar al final de una hoja, esta se queda quieta un tramo antes de dejar paso al pie.
+     Para sujetarla por abajo hace falta su alto real, que se va midiendo. */
+  if ("ResizeObserver" in window) {
+    const mide = new ResizeObserver((es) => es.forEach((e) => {
+      const alto = e.target.offsetHeight;
+      if (alto) e.target.style.setProperty("--alto-real", `${alto}px`);
+    }));
+    const hojas = regla ? paginas : [...document.querySelectorAll("main > .hoja")].slice(-1);
+    hojas.forEach((h) => { h.classList.add("ancla"); mide.observe(h); });
+    if (hojas.length) document.querySelector("main").classList.add("con-remanso");
+  }
 })();
