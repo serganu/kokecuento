@@ -116,12 +116,12 @@ html.js .texto{opacity:0}
 .cuadro--casa{perspective:900px;perspective-origin:74% 62%}
 /* La puerta gira dentro de una máscara con la silueta exacta de la madera:
    nunca pisa la piedra del arco. La bisagra está metida en el hueco, como en la lámina. */
-.hueco-puerta,.cuadro>.hoja-cerrada{position:absolute;inset:auto;left:64.081%;top:51.256%;width:19.447%;height:26.376%;z-index:3}
+.hueco-puerta,.cuadro>.hoja-cerrada{position:absolute;inset:auto;left:65.462%;top:51.256%;width:17.960%;height:26.017%;z-index:3}
 .hueco-puerta{pointer-events:none;perspective:900px;perspective-origin:60% 50%;
   -webkit-mask:url('img/hueco-mascara.png') 0 0/100% 100% no-repeat;mask:url('img/hueco-mascara.png') 0 0/100% 100% no-repeat}
-.hoja-puerta{position:absolute;inset:0;width:100%;height:100%;transform-origin:85.8% 50%;will-change:transform}
-/* La rosa del escalón: fija, por delante de la puerta */
-.cuadro>.marco-puerta{inset:auto;left:59.405%;top:74.163%;width:12.859%;height:4.665%;z-index:4}
+.hoja-puerta{position:absolute;inset:0;width:100%;height:100%;transform-origin:85.2% 50%;will-change:transform}
+/* El canto de piedra del arco y la rosa del escalón, tal cual la lámina cerrada: fijos, por delante de la puerta */
+.cuadro>.marco-puerta{inset:auto;left:59.511%;top:51.077%;width:24.548%;height:27.691%;z-index:4}
 /* La luna baja hasta esconderse tras las colinas */
 .cielo{position:absolute;inset:0;z-index:1;pointer-events:none;clip-path:inset(0 0 31.2% 0)}
 /* Copia del paisaje (árboles y colinas, sin cielo) por encima de la luna: se esconde tras su silueta exacta */
