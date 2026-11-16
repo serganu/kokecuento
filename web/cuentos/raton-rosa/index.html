@@ -3,76 +3,54 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f7f0df">
+  <meta name="theme-color" content="#f7eedc">
+  <meta name="description" content="La rosa que cabía en una pata. Un cuento ilustrado de Kokecuento que cobra vida al deslizar.">
   <title>La rosa que cabía en una pata · KokeCuento</title>
-  <meta name="description" content="Un cuento ilustrado de Kokecuento: acompaña a un pequeño ratón mientras busca una rosa para regalar.">
-  <link rel="icon" href="../../img/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:wght@400;500;600&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="cuento.css">
-  <script defer src="../../js/productos.js"></script>
   <script defer src="cuento.js"></script>
 </head>
 <body>
-  <svg class="simbolos" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs>
-<symbol id="rosa-papel" viewBox="0 0 240 340">
-<path d="M121 306L120 127L132 124L131 306Z" fill="#708849"/>
-<path d="M121 235L45 199L82 188L126 217Z" fill="#789653"/>
-<path d="M45 199L82 188L78 215Z" fill="#5E7D40"/>
-<path d="M130 196L197 154L208 183L129 220Z" fill="#86A05B"/>
-<path d="M197 154L208 183L169 188Z" fill="#6A8645"/>
-<path d="M113 125L77 103L63 57L95 34L128 39L155 24L189 61L181 105L147 134Z" fill="#BA4D46"/>
-<path d="M63 57L95 34L116 73L77 103Z" fill="#D66F62"/>
-<path d="M95 34L155 24L142 72L116 73Z" fill="#EA8B78"/>
-<path d="M155 24L189 61L142 72Z" fill="#C95C53"/>
-<path d="M77 103L116 73L147 134L113 125Z" fill="#C9564D"/>
-<path d="M116 73L142 72L181 105L147 134Z" fill="#AA3D39"/>
-<path d="M142 72L189 61L181 105Z" fill="#DA7366"/>
-<path d="M116 73L127 47L149 57L142 90Z" fill="#8D3434"/>
-<path d="M127 47L149 57L142 72Z" fill="#EC9A81"/>
-</symbol>
-</defs></svg>
-  <!-- Escenarios visuales independientes. El texto queda en HTML, fuera de los dibujos. -->
-  <div class="escenario" id="escenario" aria-hidden="true">
-    <div class="lamina lamina--portada" data-lamina="0"><span class="colina colina--lejos"></span><span class="colina colina--cerca"></span><svg class="rosa rosa--portada" viewBox="0 0 240 340" aria-hidden="true" data-dx="0" data-dy="-3" data-zoom="0.06" data-rotate="3"><use href="#rosa-papel"></use></svg><img src="../../img/personajes/raton.webp" alt="" class="raton raton--portada" data-dx="2" data-dy="0" data-zoom="0.04" data-rotate="0" width="900" height="721"></div>
-    <div class="lamina lamina--gigantes" data-lamina="1"><span class="colina colina--lejos"></span><span class="colina colina--cerca"></span><svg class="rosa rosa--gigante" viewBox="0 0 240 340" aria-hidden="true" data-dx="-2" data-dy="-3" data-zoom="0.05" data-rotate="-2"><use href="#rosa-papel"></use></svg><svg class="rosa rosa--secundaria" viewBox="0 0 240 340" aria-hidden="true" data-dx="3" data-dy="1" data-zoom="0.02" data-rotate="4"><use href="#rosa-papel"></use></svg><img src="../../img/personajes/raton.webp" alt="" class="raton raton--gigantes" data-dx="3" data-dy="0" data-zoom="0.04" data-rotate="0" width="900" height="721"></div>
-    <div class="lamina lamina--busqueda" data-lamina="2"><span class="colina colina--lejos"></span><span class="colina colina--cerca"></span><svg class="rosa rosa--izquierda" viewBox="0 0 240 340" aria-hidden="true" data-dx="-8" data-dy="-1" data-zoom="0.04" data-rotate="-4"><use href="#rosa-papel"></use></svg><svg class="rosa rosa--derecha" viewBox="0 0 240 340" aria-hidden="true" data-dx="-5" data-dy="1" data-zoom="0.03" data-rotate="3"><use href="#rosa-papel"></use></svg><img src="../../img/personajes/raton.webp" alt="" class="raton raton--busqueda" data-dx="30" data-dy="0" data-zoom="0.02" data-rotate="0" width="900" height="721"></div>
-    <div class="lamina lamina--hallazgo" data-lamina="3"><span class="colina colina--lejos"></span><span class="colina colina--cerca"></span><svg class="rosa rosa--pequena" viewBox="0 0 240 340" aria-hidden="true" data-dx="0" data-dy="-4" data-zoom="0.14" data-rotate="-3"><use href="#rosa-papel"></use></svg><img src="../../img/personajes/raton.webp" alt="" class="raton raton--hallazgo" data-dx="5" data-dy="0" data-zoom="0.12" data-rotate="0" width="900" height="721"></div>
-    <div class="lamina lamina--noche" data-lamina="4"><span class="colina colina--lejos"></span><span class="colina colina--cerca"></span><span class="luna"></span><span class="estrellas"></span><svg class="rosa rosa--cargada" viewBox="0 0 240 340" aria-hidden="true" data-dx="16" data-dy="0" data-zoom="0.02" data-rotate="2"><use href="#rosa-papel"></use></svg><img src="../../img/personajes/raton.webp" alt="" class="raton raton--noche" data-dx="16" data-dy="0" data-zoom="0" data-rotate="0" width="900" height="721"></div>
-    <div class="lamina lamina--puerta" data-lamina="5"><span class="colina colina--lejos"></span><span class="colina colina--cerca"></span><div class="casita" aria-hidden="true"><div class="puerta"><span class="pomo"></span></div></div><img src="../../img/personajes/raton.webp" alt="" class="raton raton--puerta" data-dx="10" data-dy="0" data-zoom="-0.04" data-rotate="0" width="900" height="721"><svg class="rosa rosa--regalo" viewBox="0 0 240 340" aria-hidden="true" data-dx="8" data-dy="0" data-zoom="0.02" data-rotate="0"><use href="#rosa-papel"></use></svg></div>
-    <div class="lamina lamina--amanecer" data-lamina="6"><span class="colina colina--lejos"></span><span class="colina colina--cerca"></span><div class="casita" aria-hidden="true"><div class="puerta"><span class="pomo"></span></div></div><svg class="rosa rosa--amanecer" viewBox="0 0 240 340" aria-hidden="true" data-dx="0" data-dy="0" data-zoom="0.12" data-rotate="-2"><use href="#rosa-papel"></use></svg><span class="luz-amanecer"></span></div>
+  <div class="visor" id="visor" aria-hidden="true">
+    <div class="lamina activa lamina--portada" data-lamina="0" data-x="0" data-y="-1" data-z=".045"><img src="img/00-portada.webp" alt="" fetchpriority="high"></div>
+    <div class="lamina lamina--gigantes" data-lamina="1" data-x="-1" data-y="-1" data-z=".06"><img src="img/01-rosas-gigantes.webp" alt=""></div>
+    <div class="lamina lamina--busqueda" data-lamina="2" data-x="-3" data-y="0" data-z=".035"><img src="img/02-busqueda.webp" alt=""></div>
+    <div class="lamina lamina--hallazgo" data-lamina="3" data-x="0" data-y="-1" data-z=".10"><img src="img/03-hallazgo.webp" alt=""></div>
+    <div class="lamina lamina--noche" data-lamina="4" data-x="-2" data-y="1" data-z=".07"><img src="img/04-viaje-nocturno.webp" alt=""></div>
+    <div class="lamina lamina--puerta" data-lamina="5" data-x="0" data-y="-1" data-z=".09"><img src="img/05-puerta.webp" alt=""></div>
+    <div class="lamina lamina--amanecer" data-lamina="6" data-x="-1" data-y="0" data-z=".12"><img src="img/06-amanecer.webp" alt=""></div>
   </div>
-  <main class="lectura" id="inicio" aria-label="La rosa que cabía en una pata">
-    <section class="pasaje pasaje--portada" data-pasaje="0" aria-label="Portada">
-      <p class="solo-lector">Portada: un pequeño ratón de origami observa una rosa roja de papel.</p>
-      <div class="texto"><p class="sello">KokeCuento presenta</p><h1>La rosa que cabía en una pata</h1><p class="subtitulo">Un pequeño cuento para regalar</p></div>
+  <main class="cuento" id="inicio" aria-label="La rosa que cabía en una pata">
+    <section class="pasaje pasaje--portada" data-pasaje="0" style="--imagen:url('img/00-portada.webp')" aria-label="Portada del cuento">
+      <div class="texto">
+        <p class="firma">KokeCuento presenta</p>
+        <h1>La rosa que cabía en una pata</h1>
+      </div>
     </section>
-    <section class="pasaje pasaje--gigantes" data-pasaje="1" aria-label="Escena 1">
-      <p class="solo-lector">Un ratón diminuto contempla rosas de papel mucho mayores que él.</p>
-      <div class="texto"><p data-fragmento="0">El ratón quería regalar una rosa, pero todas eran más grandes que él.</p></div>
+    <section class="pasaje pasaje--gigantes" data-pasaje="1" style="--imagen:url('img/01-rosas-gigantes.webp')" aria-label="El jardín de las rosas grandes">
+      <div class="texto"><p>El ratón quería regalar una rosa, pero todas eran más grandes que él.</p></div>
     </section>
-    <section class="pasaje pasaje--busqueda" data-pasaje="2" aria-label="Escena 2">
-      <p class="solo-lector">El ratón atraviesa un jardín de rosas buscando una flor que pueda llevar.</p>
-      <div class="texto"><p data-fragmento="1">Buscó por el jardín entero</p></div>
+    <section class="pasaje pasaje--busqueda" data-pasaje="2" style="--imagen:url('img/02-busqueda.webp')" aria-label="La búsqueda">
+      <div class="texto"><p>Buscó por el jardín entero</p></div>
     </section>
-    <section class="pasaje pasaje--hallazgo" data-pasaje="3" aria-label="Escena 3">
-      <p class="solo-lector">El ratón encuentra una rosa pequeña junto a las colinas verdes del jardín.</p>
-      <div class="texto"><p data-fragmento="2">hasta dar con una tan pequeña que podía llevarla sin ayuda.</p></div>
+    <section class="pasaje pasaje--hallazgo" data-pasaje="3" style="--imagen:url('img/03-hallazgo.webp')" aria-label="El hallazgo">
+      <div class="texto"><p>hasta dar con una tan pequeña que podía llevarla sin ayuda.</p></div>
     </section>
-    <section class="pasaje pasaje--noche" data-pasaje="4" aria-label="Escena 4">
-      <p class="solo-lector">Bajo la luna, el ratón lleva su rosa por el camino nocturno.</p>
-      <div class="texto"><p data-fragmento="3">La cargó de noche, despacio,</p></div>
+    <section class="pasaje pasaje--noche" data-pasaje="4" style="--imagen:url('img/04-viaje-nocturno.webp')" aria-label="El viaje de noche">
+      <div class="texto"><p>La cargó de noche, despacio,</p></div>
     </section>
-    <section class="pasaje pasaje--puerta" data-pasaje="5" aria-label="Escena 5">
-      <p class="solo-lector">El ratón llega a una casa y deja la pequeña rosa ante la puerta.</p>
-      <div class="texto"><p data-fragmento="4">y la dejó en una puerta sin llamar.</p></div>
+    <section class="pasaje pasaje--puerta" data-pasaje="5" style="--imagen:url('img/05-puerta.webp')" aria-label="El regalo">
+      <div class="texto"><p>y la dejó en una puerta sin llamar.</p></div>
     </section>
-    <section class="pasaje pasaje--amanecer" data-pasaje="6" aria-label="Escena 6">
-      <p class="solo-lector">La rosa descansa junto a la puerta mientras amanece.</p>
-      <div class="texto"><p data-fragmento="5">Desde entonces se sabe que los regalos pequeños también llegan lejos. Solo hace falta alguien que los lleve.</p><a class="releer" href="#inicio">Volver a leer</a></div>
+    <section class="pasaje pasaje--amanecer" data-pasaje="6" style="--imagen:url('img/06-amanecer.webp')" aria-label="El final del cuento">
+      <div class="texto">
+        <p>Desde entonces se sabe que los regalos pequeños también llegan lejos.</p>
+        <p class="ultimo">Solo hace falta alguien que los lleve.</p>
+        <a class="releer" href="#inicio">Volver a leer</a>
+      </div>
     </section>
   </main>
-  <noscript><p class="nota-sin-js">El cuento se puede leer sin animaciones. Desliza para continuar.</p></noscript>
 </body>
 </html>
