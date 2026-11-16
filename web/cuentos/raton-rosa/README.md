@@ -40,3 +40,15 @@ Ocho pruebas automatizadas comprueban texto original, ocho láminas, recursos, c
 ## Publicación
 
 Rama de revisión y PR #1. No fusionar ni publicar hasta la aprobación. Solo después se asignará la URL permanente de la tarjeta QR.
+
+## Corrección de escena final (noviembre 2026)
+Se sustituyó el hueco negro de la puerta por una textura de interior cálido procedente de la ilustración de origami. La puerta de madera se separó del arco de piedra y de la rosa, que permanecen fijos. El fondo de la casa se mantiene completo y a la derecha en formato panorámico. El ratón blanco aparece únicamente después de la entrega del ratón marrón. La revisión visual real en varios tamaños sigue siendo obligatoria antes de publicar.
+
+### V5 · Reparación del desenlace
+
+- La escena del ratón marrón dejando la rosa permanece antes de la reacción del ratón blanco.
+- El fondo de las dos escenas finales es ahora `img/05-casa-interior.webp`: la casa, el jardín y la rosa siguen dibujados y el hueco oscuro del vano se sustituyó por un interior de papel iluminado.
+- `img/05-puerta-hoja-limpia.webp` contiene solo la hoja de madera animable, sin arrastrar el arco ni la rosa. Se mantiene el giro con el scroll, pero la casa no se mueve.
+- Las escenas de apertura y desenlace comparten exactamente el mismo encuadre y no producen imagen fantasma en la transición.
+- Las alternativas estáticas (`05-puerta-estatica.webp` y `06-amanecer-estatico.webp`) reflejan el fondo corregido.
+- Antes del merge, revisar el acabado en navegadores reales y tamaños pequeños/grandes. El entorno impide navegar a archivos locales, aunque se ha comprobado una representación incrustada en Chromium móvil.

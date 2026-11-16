@@ -18,8 +18,8 @@ body{margin:0;min-width:280px;background:var(--papel);color:var(--tinta);-webkit
 .lamina--hallazgo{--foto:url('img/03-hallazgo.webp')}
 .lamina--noche{--foto:url('img/04-viaje-nocturno.webp')}
 .lamina--entrega{--foto:url('img/05-puerta.webp')}
-.lamina--puerta{--foto:url('img/05-puerta-fondo.webp')}
-.lamina--amanecer{--foto:url('img/05-puerta-fondo.webp')}
+.lamina--puerta{--foto:url('img/05-casa-interior.webp')}
+.lamina--amanecer{--foto:url('img/05-casa-interior.webp')}
 
 
 
@@ -79,7 +79,7 @@ html:not(.js) .pasaje{min-height:100svh;background:var(--imagen) center center/c
 .raton-blanco>img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;transform:none;}
 .mejilla{position:absolute;left:34%;top:49%;width:20%;height:10%;background:radial-gradient(ellipse,rgba(207,114,118,.51) 0%,rgba(228,145,145,.20) 45%,transparent 78%);opacity:0;border-radius:50%;mix-blend-mode:multiply;transform:rotate(-15deg);pointer-events:none;}
 /* Puerta recortada del propio dibujo, con textura y pliegues idénticos a los de la casa. */
-.escenario-puerta img.hoja-puerta{position:absolute;left:62.27%;top:50.66%;width:21.47%;height:26.56%;object-fit:fill;max-width:none;z-index:3;transform-origin:100% 52%;transform-style:preserve-3d;filter:drop-shadow(-1px 2px 3px rgba(27,16,12,.17));}
+.escenario-puerta img.hoja-puerta{position:absolute;left:64.0%;top:51.1%;width:17.0%;height:25.1%;object-fit:fill;max-width:none;z-index:3;transform-origin:100% 52%;transform-style:preserve-3d;filter:drop-shadow(-1px 2px 3px rgba(27,16,12,.17));}
 .resplandor-amanecer{position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(165deg,rgba(255,207,146,.15),rgba(246,202,147,.18) 50%,rgba(255,239,198,.25));mix-blend-mode:screen;}
 @media (min-aspect-ratio:4/3){
  .escenario-puerta{width:calc(100svh * 941 / 1672);height:100svh;}
@@ -105,3 +105,13 @@ html:not(.js) .pasaje{min-height:100svh;background:var(--imagen) center center/c
 /* Pausa visual: tras entregar la rosa, el scroll abre la puerta sin añadir texto nuevo al cuento. */
 .pasaje--puerta{min-height:145svh}
 @media (prefers-reduced-motion:reduce){.pasaje--puerta{min-height:100svh}}
+
+/* Puerta corregida: madera sola sobre un interior de papel, sin modificar el arco de piedra.
+   En horizontal mantenemos la casa completa a la derecha y el texto en el espacio libre. */
+@media (min-aspect-ratio:4/3){
+ .lamina--puerta .escenario-puerta,.lamina--amanecer .escenario-puerta{left:73%;}
+ .lamina--puerta::before,.lamina--amanecer::before{filter:blur(32px) saturate(.8);}
+}
+@media(max-aspect-ratio:4/3){
+ .lamina--puerta .escenario-puerta,.lamina--amanecer .escenario-puerta{left:47%;}
+}

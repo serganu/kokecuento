@@ -26,7 +26,7 @@ test('Texto original intacto y sin frases añadidas', () => {
 test('Portada, siete escenas y todos los recursos gráficos', () => {
  assert.equal((html.match(/data-pasaje="/g) || []).length, 8);
  assert.equal((html.match(/data-lamina="/g) || []).length, 8);
- for (const fname of ['00-portada.webp','01-rosas-gigantes.webp','02-busqueda.webp','03-hallazgo.webp','03-hallazgo-sin-corola.webp','rosa-corola.webp','hoja-papel-ancha.webp','hoja-papel-corta.webp','puerta-papel.webp','04-viaje-nocturno.webp','05-puerta.webp','05-puerta-fondo.webp','raton-blanco.webp','05-puerta-estatica.webp','06-amanecer-estatico.webp']) {
+ for (const fname of ['00-portada.webp','01-rosas-gigantes.webp','02-busqueda.webp','03-hallazgo.webp','03-hallazgo-sin-corola.webp','rosa-corola.webp','hoja-papel-ancha.webp','hoja-papel-corta.webp','05-puerta-hoja-limpia.webp','04-viaje-nocturno.webp','05-puerta.webp','05-casa-interior.webp','raton-blanco.webp','05-puerta-estatica.webp','06-amanecer-estatico.webp']) {
   assert.ok(html.includes('img/'+fname), fname);
   assert.ok(fs.statSync(path.join(root, 'img', fname)).size > 5000, fname);
  }
@@ -135,7 +135,7 @@ test('Las piezas son del mismo papel y comparten el marco de coordenadas de la i
  assert.equal((html.match(/class="plano-ilustracion"/g)||[]).length,3);
  assert.match(html,/class="rosa-corola" src="img\/rosa-corola.webp"/);
  assert.match(html,/class="estrella-fugaz"/);
- assert.match(html,/class="hoja-puerta" src="img\/puerta-papel.webp"/);
+ assert.match(html,/class="hoja-puerta" src="img\/05-puerta-hoja-limpia.webp"/);
  assert.ok(!html.includes('class="destello-rosa"'));
  assert.ok(!html.includes('class="pulso-rosa"'));
  assert.ok(!css.includes('background:conic-gradient'));
@@ -153,4 +153,14 @@ test('La estrella fugaz viaja por el cielo y la rosa se mueve sin alterar al rat
  assert.match(js,/fugaz.style.top=`\$\{32\+15\*t\}%`/);
  assert.match(js,/rosa.style.transform=`rotate/);
  assert.ok(!html.includes('img/raton-original-modificado.webp'));
+});
+
+
+test('El hueco oscuro está cubierto por un interior ilustrado y la hoja no arrastra el arco de piedra', () => {
+ assert.ok(html.includes('img/05-casa-interior.webp'));
+ assert.equal((html.match(/src="img\/05-casa-interior\.webp"/g) || []).length, 2);
+ assert.equal((html.match(/src="img\/05-puerta-hoja-limpia\.webp"/g) || []).length, 2);
+ assert.match(css,/\.escenario-puerta img\.hoja-puerta/);
+ assert.ok(fs.statSync(path.join(root,'img','05-casa-interior.webp')).size > 30000);
+ assert.ok(fs.statSync(path.join(root,'img','05-puerta-hoja-limpia.webp')).size > 5000);
 });
