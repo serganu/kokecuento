@@ -37,7 +37,7 @@
       const x=Number(escena.dataset.x||0)*t;
       const y=Number(escena.dataset.y||0)*t;
       const z=Number(escena.dataset.z||0)*t;
-      const base=i===6?1.13:1;
+      const base=i===6?1.55:1;
       const foto=escena.querySelector('img');
       // Cuando la ilustración se contiene en escritorio, el centrado forma parte del transform.
       const amplio=window.matchMedia('(min-aspect-ratio:4/3)').matches;
