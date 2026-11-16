@@ -60,10 +60,12 @@ function testDOM() {
   ['.hoja-puerta','.mejilla','.luz-puerta','.rosa-pequena','.luna','.estrella-fugaz','.brillo-rosa'].forEach((s) => piezas[s] = nodo());
   varias['.hoja-viajera'] = [nodo(), nodo(), nodo(), nodo()];
   const cuadro = {style:{}, querySelector:(s) => piezas[s] || null, querySelectorAll:(s) => varias[s] || []};
-  return {style:{}, dataset:{}, classList:{toggle(){}}, cuadro, piezas,
+  const attrs = (html.match(new RegExp('data-lamina="' + i + '"[^>]*')) || [''])[0];
+  const dataset = Object.fromEntries([...attrs.matchAll(/data-(\w+)="([^"]*)"/g)].filter(m => m[1] !== 'lamina').map(m => [m[1], m[2]]));
+  return {style:{}, dataset, classList:{toggle(){}}, cuadro, piezas,
    querySelector:(s) => s === '.cuadro' ? cuadro : null};
  });
- const sections = ids.map((i) => ({offsetHeight:1200, text:{style:{}},
+ const sections = ids.map((i) => ({offsetHeight:1200, text:{style:{}}, dataset:Object.fromEntries([...((html.match(new RegExp('data-pasaje="' + i + '"[^>]*')) || [''])[0]).matchAll(/data-(\w+)="([^"]*)"/g)].filter(m => m[1] !== 'pasaje').map(m => [m[1], m[2]])),
   getBoundingClientRect(){return {top:i*1200-scrollY}}, querySelector(s){return s === '.texto' ? this.text : null}}));
  const win = {innerHeight:1000, get scrollY(){return scrollY}, matchMedia(){return {matches:false,addEventListener(){}}},
   addEventListener(t,fn){if(t==='scroll')scrollHandler=fn}, location:{reload(){}}};
@@ -73,17 +75,17 @@ function testDOM() {
  return {layers, moveTo(i,p){scrollY=i*1200+p*1200-280; scrollHandler()}};
 }
 
-test('La puerta gira, sale la luz y el ratón blanco se sonroja al bajar; al subir se deshace', () => {
- const env = testDOM(), puerta = env.layers[6].piezas;
- env.moveTo(6,.02);
+test('De madrugada la puerta gira, sale la luz y el ratón blanco se sonroja; al subir se deshace', () => {
+ const env = testDOM(), puerta = env.layers[7].piezas;
+ env.moveTo(7,.02);
  assert.equal(puerta['.hoja-puerta'].style.transform, 'rotateY(0deg)');
  assert.equal(Number(puerta['.mejilla'].style.opacity), 0);
- env.moveTo(6,.4);
+ env.moveTo(7,.3);
  assert.ok(Number(puerta['.hoja-puerta'].style.transform.match(/-?[\d.]+/)[0]) < -30, 'la puerta ya está girando');
  assert.ok(Number(puerta['.luz-puerta'].style.opacity) > .2);
- env.moveTo(6,.95);
- assert.ok(Number(puerta['.mejilla'].style.opacity) > .85);
- env.moveTo(6,.05);
+ env.moveTo(7,.7);
+ assert.ok(Number(puerta['.mejilla'].style.opacity) > .8);
+ env.moveTo(7,.05);
  assert.equal(Number(puerta['.mejilla'].style.opacity), 0);
 });
 
@@ -101,6 +103,13 @@ test('La cámara de la casa continúa sin saltos entre entrega, puerta y desenla
  const fin5 = z(5).match(/data-z="([\d.]+)"/)[1], ini6 = z(6).match(/data-z0="([\d.]+)"/)[1];
  const fin6 = z(6).match(/data-z="([\d.]+)"/)[1], ini7 = z(7).match(/data-z0="([\d.]+)"/)[1];
  assert.equal(fin5, ini6); assert.equal(fin6, ini7);
+});
+
+test('El texto final espera a que se abra la puerta y la luna se esconde antes de amanecer', () => {
+ const env = testDOM();
+ assert.ok(/data-pasaje="7" data-texto="\.6/.test(html));
+ env.moveTo(6,.55); const l = env.layers[6].piezas['.luna'].style.transform;
+ assert.ok(Number(l.match(/,(-?[\d.]+)%/)[1]) >= 490, 'la luna ya ha bajado del todo cuando empieza a amanecer');
 });
 
 test('Hojas, rosa, estrella fugaz y luna se mueven con el scroll', () => {

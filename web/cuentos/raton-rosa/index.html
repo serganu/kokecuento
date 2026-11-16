@@ -33,21 +33,23 @@
     <div class="lamina lamina--entrega" data-lamina="5" data-z=".05">
       <div class="cuadro cuadro--casa"><img src="img/05-puerta.webp" alt=""></div>
     </div>
-    <div class="lamina lamina--puerta" data-lamina="6" data-z0=".05" data-z=".10">
+    <!-- 6: pausa sin texto. Puerta cerrada; la luna baja tras las colinas y amanece poco a poco -->
+    <div class="lamina lamina--puerta" data-lamina="6" data-z0=".05" data-z=".10" data-mezcla=".55">
       <div class="cuadro cuadro--casa">
         <img src="img/05-puerta-sinluna.webp" alt="">
         <div class="cielo"><img class="luna" src="img/luna.webp" alt=""></div>
-        <span class="luz-puerta"></span>
-        <span class="mejilla"></span>
-        <div class="hueco-puerta"><img class="hoja-puerta" src="img/05-hoja-puerta.webp" alt=""></div>
+        <img class="hoja-cerrada" src="img/05-hoja-puerta.webp" alt="">
         <img class="marco-puerta" src="img/05-marco-puerta.webp" alt="">
       </div>
     </div>
-    <div class="lamina lamina--amanecer" data-lamina="7" data-z0=".10" data-z="0">
+    <!-- 7: de madrugada se abre la puerta, aparece el ratón blanco, se sonroja y llega el final -->
+    <div class="lamina lamina--amanecer" data-lamina="7" data-z0=".10" data-z="0" data-camara=".6">
       <div class="cuadro cuadro--casa">
         <img src="img/06-madrugada.webp" alt="">
-        <span class="luz-puerta luz-puerta--fija"></span>
-        <span class="mejilla mejilla--fija"></span>
+        <span class="luz-puerta"></span>
+        <span class="mejilla"></span>
+        <div class="hueco-puerta"><img class="hoja-puerta" src="img/06-hoja-puerta.webp" alt=""></div>
+        <img class="marco-puerta" src="img/06-marco-puerta.webp" alt="">
       </div>
     </div>
   </div>
@@ -76,7 +78,7 @@
     <section class="pasaje pasaje--puerta" data-pasaje="6" style="--imagen:url('img/05-puerta-estatica.webp')" aria-label="La puerta se abre y el ratón blanco descubre la rosa">
       <div class="texto" aria-hidden="true"></div>
     </section>
-    <section class="pasaje pasaje--amanecer" data-pasaje="7" style="--imagen:url('img/06-madrugada.webp')" aria-label="El final del cuento">
+    <section class="pasaje pasaje--amanecer" data-pasaje="7" data-texto=".62" style="--imagen:url('img/06-madrugada.webp')" aria-label="El final del cuento">
       <div class="texto">
         <p>Desde entonces se sabe que los regalos pequeños también llegan lejos.</p>
         <p class="ultimo">Solo hace falta alguien que los lleve.</p>

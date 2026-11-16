@@ -15,8 +15,10 @@ Portada y seis escenas. Se conserva literalmente el cuento de `PRODUCTOS[id="rat
 - **La búsqueda:** hojas de papel que cruzan el jardín.
 - **El hallazgo:** la rosa diminuta (`img/03-rosa-pequena.webp`, recortada de la lámina) se balancea sobre su tallo encima de `img/03-hallazgo-fondo.webp`.
 - **La noche:** estrella fugaz que cruza el cielo casi en horizontal, con la estela alineada con su movimiento, y la rosa brillando en la pata del ratón.
-- **La casa (escenas 5, 6 y 7):** la cámara se acerca a la puerta y luego se aleja sin saltos. En la 6, solo la madera de la puerta (`img/05-hoja-puerta.webp`) gira sobre su bisagra, recortada por el arco; la piedra del marco y la rosa (`img/05-marco-puerta.webp`) quedan fijas delante. Sale la luz de dentro, aparece el ratón blanco y se sonroja, mientras la luna (`img/luna.webp`) baja hasta esconderse tras las colinas.
-- **Desenlace:** ya es de madrugada (`img/06-madrugada.webp`).
+- **La casa (escenas 5, 6 y 7):** la cámara se acerca a la puerta y luego se aleja sin saltos.
+  - **6, pausa sin texto:** la puerta sigue cerrada; la luna (`img/luna.webp`) baja y se esconde tras las colinas y los árboles (el recorte sigue su silueta), y después amanece poco a poco.
+  - **7, desenlace de madrugada** (`img/06-madrugada.webp`): solo la madera de la puerta (`img/06-hoja-puerta.webp`) gira sobre su bisagra, recortada por el arco; la piedra y la rosa (`img/06-marco-puerta.webp`) quedan fijas delante. Sale la luz, aparece el ratón blanco, se sonroja y, al final, llega el texto.
+- Atributos que ajustan el ritmo: `data-mezcla` (dónde empieza el fundido a la escena siguiente), `data-camara` (hasta dónde espera la cámara) y `data-texto` (hasta dónde espera el texto).
 
 No hay botones de escena, barra de progreso, audio ni reproducción automática.
 
@@ -26,7 +28,7 @@ Las capas animadas se han sacado de las propias láminas, para que encajen al p�
 
 - `03-hallazgo-fondo.webp` + `03-rosa-pequena.webp`: el jardín sin la rosa y la rosa sola.
 - `05-puerta-sinluna.webp` + `luna.webp`: la casa con la puerta abierta sin luna, y la luna sola.
-- `05-hoja-puerta.webp`: la madera de la puerta cerrada; `05-marco-puerta.webp`: la piedra del arco y la rosa del escalón.
+- `05-hoja-puerta.webp` / `06-hoja-puerta.webp`: la madera de la puerta cerrada, de noche y de madrugada; `05-marco-puerta.webp` / `06-marco-puerta.webp`: la piedra del arco y la rosa del escalón.
 - `06-madrugada.webp`: el desenlace con cielo de madrugada.
 - `05-puerta-estatica.webp` y `06-amanecer-estatico.webp` se conservan como originales; `raton-blanco.webp` ya no se usa.
 

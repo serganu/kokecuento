@@ -42,18 +42,21 @@
       brillo.style.opacity = (interv(p, .3, .7) * (.75 + .25 * Math.sin(p * 18))).toFixed(3);
     },
     // La puerta: gira sobre la bisagra, sale la luz de dentro y el ratón blanco se sonroja
+    // Pausa sin texto: la luna baja hasta esconderse tras las colinas antes de que amanezca
     6: (c, p) => {
-      const abre = suave(interv(p, .12, .55));
-      const rubor = suave(interv(p, .6, .85));
+      const baja = suave(interv(p, 0, .55));
+      c.querySelector('.luna').style.transform = `translate(${baja * 30}%,${baja * 500}%)`;
+    },
+    // Ya de madrugada: la puerta gira sobre su bisagra, sale la luz, aparece el ratón blanco y se sonroja
+    7: (c, p) => {
+      const abre = suave(interv(p, .06, .4));
+      const rubor = suave(interv(p, .42, .6));
       const hoja = c.querySelector('.hoja-puerta');
       hoja.style.transform = `rotateY(${abre * -80}deg)`;
       hoja.style.filter = `brightness(${1 - abre * .55})`;
       hoja.style.opacity = String(abre > .97 ? 0 : 1);   // ya abierta, la de la lámina ocupa su sitio
-      c.querySelector('.luz-puerta').style.opacity = (abre * .55).toFixed(3);
-      c.querySelector('.mejilla').style.opacity = (rubor * .9).toFixed(3);
-      // la luna baja durante toda la escena hasta esconderse tras las colinas
-      const baja = suave(p);
-      c.querySelector('.luna').style.transform = `translate(${baja * 25}%,${baja * 340}%)`;
+      c.querySelector('.luz-puerta').style.opacity = (abre * .5).toFixed(3);
+      c.querySelector('.mejilla').style.opacity = (rubor * .85).toFixed(3);
     },
   };
 
@@ -83,7 +86,8 @@
     const etapa = posiciones[actual];
     const progreso = limite((marcador - etapa.inicio) / etapa.alto);
     const ultimo = actual === escenas.length - 1;
-    const mezcla = ultimo ? 0 : suave(interv(progreso, .8, .98));
+    const desde = num(escenas[actual], 'mezcla', .8);   // dónde empieza el fundido a la siguiente
+    const mezcla = ultimo ? 0 : suave(interv(progreso, desde, .98));
 
     escenas.forEach((escena, i) => {
       // la actual encima desvaneciéndose; la siguiente debajo, ya entera
@@ -92,15 +96,16 @@
       escena.style.zIndex = i === actual ? '2' : '1';
       escena.classList.toggle('activa', visible > 0);
       if (!visible) return;
-      const t = i === actual ? progreso : 0;
+      const t = i === actual ? interv(progreso, num(escena, 'camara', 0), 1) : 0;   // data-camara: la cámara espera hasta ahí
       const cuadro = camara(escena, suave(t));
-      if (cuadro && efectos[i]) efectos[i](cuadro, t);
+      if (cuadro && efectos[i]) efectos[i](cuadro, i === actual ? progreso : 0);
     });
 
     pasajes.forEach((pasaje, i) => {
       const texto = pasaje.querySelector('.texto');
       if (i !== actual) { texto.style.opacity = '0'; return; }
-      const entrada = i === 0 ? 1 : interv(progreso, .04, .17);
+      const e = num(pasaje, 'texto', .04);                // data-texto: el texto espera hasta ahí
+      const entrada = i === 0 ? 1 : interv(progreso, e, e + .13);
       const salida = i === pasajes.length - 1 ? 1 : 1 - interv(progreso, .73, .9);
       texto.style.opacity = String(Math.min(entrada, salida));
       texto.style.transform = `translateY(${(1 - entrada) * 12}px)`;
