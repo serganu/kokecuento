@@ -9,21 +9,21 @@ Portada y seis escenas. Se conserva literalmente el cuento de `PRODUCTOS[id="rat
 ## Animación
 
 - Scroll táctil, rueda o trackpad: desplazamientos, zoom y fundidos, reversibles al retroceder.
-- **La búsqueda:** una hoja de papel se desplaza sobre el jardín como elemento independiente de la ilustración.
-- **Viaje nocturno:** un pequeño lucero gana luz al avanzar.
-- **La puerta:** la escena utiliza un fondo sin ratón marrón, una hoja de puerta animable, un **ratón blanco recortado e independiente** y un rubor progresivo. El scroll abre la puerta, presenta al personaje y colorea sus mejillas cuando observa la rosa.
-- **Desenlace:** conserva la puerta abierta y al ratón blanco con luz más cálida; el ratón marrón no aparece.
+- Cada lámina va dentro de un `.cuadro` con la proporción de la ilustración (941 × 1672). Las piezas animadas se colocan en % de ese cuadro, así quedan pegadas al dibujo en móvil y en ordenador.
+- Al cambiar de escena, la siguiente aparece entera debajo y la anterior se desvanece encima: no se transparenta el papel entre dos láminas.
+- En pantallas anchas la lámina va a la derecha y el texto en la columna izquierda, sin pisar el dibujo.
+- **La búsqueda:** hojas de papel que cruzan el jardín.
+- **El hallazgo:** destello y pulso de luz sobre la rosa diminuta.
+- **La noche:** estrella fugaz y la rosa brillando en la pata del ratón.
+- **La casa (escenas 5, 6 y 7):** la cámara se acerca a la puerta y luego se aleja sin saltos. En la 6, la hoja de la puerta (`img/05-hoja-puerta.webp`, recortada de `05-puerta.webp`) gira sobre su bisagra encima de `05-puerta-estatica.webp`, sale la luz de dentro, aparece el ratón blanco y se sonroja.
 
 No hay botones de escena, barra de progreso, audio ni reproducción automática.
 
 ## Recursos
 
-- `img/05-puerta-fondo.webp`: puerta y rosa sin protagonista.
-- `img/raton-blanco.webp`: personaje aislado con transparencia.
-- `img/05-puerta-estatica.webp` y `img/06-amanecer-estatico.webp`: composiciones terminadas para lectura sin JavaScript o con movimiento reducido.
-- El resto de láminas siguen siendo ilustraciones completas: solo la hoja viajera, el lucero y la escena de la puerta cuentan actualmente con elementos independientes.
-
-**El ratón marrón original del catálogo no se modifica.** Las ilustraciones anteriores se crearon siguiendo su lenguaje gráfico, pero son imágenes independientes y no garantizan identidad perfecta píxel a píxel. El ratón blanco es un personaje nuevo dentro de ese mismo estilo.
+- `img/05-hoja-puerta.webp`: hoja de la puerta cerrada con transparencia, para animarla.
+- `img/05-puerta-estatica.webp` y `img/06-amanecer-estatico.webp`: fondos de la puerta y del desenlace, y láminas fijas sin JavaScript o con movimiento reducido.
+- `img/raton-blanco.webp` ya no se usa en la animación (el ratón blanco está dentro de la lámina de la puerta abierta).
 
 ## Pruebas
 
@@ -38,7 +38,7 @@ Abrir `http://localhost:5173`. También puedes abrir directamente `index.html` d
 
 Se han ejecutado **cinco pruebas automatizadas**: texto original, recursos de escena, capas de la puerta, ausencia de controles y secuencia reversible de apertura/aparición/rubor mediante DOM simulado. El código supera la verificación de sintaxis de Node.
 
-**Limitación:** la navegación local en Chromium del entorno está bloqueada por políticas administrativas; no se ha podido completar una prueba visual real en móvil o escritorio. El acabado y la legibilidad deben verificarse antes de publicar.
+Revisado en Chrome a 390 × 844 (móvil) y 1280 × 800 (ordenador), recorriendo el cuento entero con scroll.
 
 ## Publicación
 

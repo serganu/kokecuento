@@ -1,118 +1,124 @@
-/* Desplazamiento táctil y de ratón. La puerta incorpora una segunda capa para insinuar la reacción del ratón blanco. */
+/* El cuento avanza con el scroll (dedo, rueda o trackpad) y todo es reversible al subir.
+   Cada pasaje de texto tiene su lámina. Dentro de un pasaje, "progreso" va de 0 a 1;
+   al final de cada pasaje la lámina siguiente aparece debajo y la actual se desvanece encima,
+   así nunca se transparenta el papel entre dos ilustraciones. */
 (() => {
   'use strict';
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduce.matches) return; // CSS coloca una ilustración estática en cada escena.
+  if (reduce.matches) return; // el CSS pone una ilustración fija en cada pasaje
 
   const escenas = [...document.querySelectorAll('[data-lamina]')];
   const pasajes = [...document.querySelectorAll('[data-pasaje]')];
   if (escenas.length !== pasajes.length || !escenas.length) return;
-  const limite = n => Math.max(0, Math.min(1, n));
-  const interv = (x,a,b) => limite((x-a)/(b-a));
+
+  const limite = (n) => Math.max(0, Math.min(1, n));
+  const interv = (x, a, b) => limite((x - a) / (b - a));
+  const suave = (t) => t * t * (3 - 2 * t);           // arranca y frena con suavidad
+  const num = (el, k, d = 0) => Number(el.dataset[k] ?? d);
   const posiciones = [];
   let pendiente = false;
 
+  /* Lo que se mueve dentro de cada lámina. Cada función recibe el progreso (0-1) del pasaje. */
+  const efectos = {
+    // La búsqueda: hojas de papel que cruzan el jardín
+    2: (c, p) => c.querySelectorAll('.hoja-viajera').forEach((hoja, i) => {
+      const vis = interv(p, .08 + i * .04, .28 + i * .05) * (1 - interv(p, .72 + i * .02, .95)) * (.9 - i * .08);
+      const dx = [-260, -170, -330, -200][i], dy = [90, -30, 150, 60][i], giro = [58, -42, 77, 33][i];
+      hoja.style.opacity = vis.toFixed(3);
+      hoja.style.transform = `translate(${dx * p}%,${dy * p}%) rotate(${-18 + p * giro}deg)`;
+    }),
+    // El hallazgo: un destello sobre la rosa diminuta
+    3: (c, p) => {
+      const h = suave(interv(p, .15, .6)), vis = h * (1 - interv(p, .8, .95));
+      c.querySelector('.destello-rosa').style.opacity = (vis * .95).toFixed(3);
+      c.querySelector('.destello-rosa').style.transform = `scale(${.6 + h * .5}) rotate(${h * 25}deg)`;
+      c.querySelector('.pulso-rosa').style.opacity = (vis * .9).toFixed(3);
+      c.querySelector('.pulso-rosa').style.transform = `scale(${.5 + h})`;
+    },
+    // La noche: estrella fugaz y la rosa que brilla en su pata
+    4: (c, p) => {
+      const t = suave(interv(p, .12, .6)), vis = interv(p, .12, .2) * (1 - interv(p, .5, .62));
+      const fugaz = c.querySelector('.estrella-fugaz');
+      fugaz.style.opacity = vis.toFixed(3);
+      fugaz.style.transform = `translate(${t * 4200}%,${t * 1700}%)`;
+      const brillo = c.querySelector('.brillo-rosa');
+      brillo.style.opacity = (interv(p, .3, .7) * (.75 + .25 * Math.sin(p * 18))).toFixed(3);
+    },
+    // La puerta: gira sobre la bisagra, sale la luz de dentro y el ratón blanco se sonroja
+    6: (c, p) => {
+      const abre = suave(interv(p, .12, .55));
+      const rubor = suave(interv(p, .6, .85));
+      const hoja = c.querySelector('.hoja-puerta');
+      hoja.style.transform = `rotateY(${abre * -80}deg)`;
+      hoja.style.filter = `brightness(${1 - abre * .5})`;
+      hoja.style.opacity = String(abre > .97 ? 0 : 1);   // ya abierta, la de la lámina ocupa su sitio
+      c.querySelector('.luz-puerta').style.opacity = (abre * .55).toFixed(3);
+      c.querySelector('.mejilla').style.opacity = (rubor * .9).toFixed(3);
+    },
+  };
+
   function medir() {
     posiciones.length = 0;
-    pasajes.forEach(pasaje => posiciones.push({
-      inicio:pasaje.getBoundingClientRect().top + window.scrollY,
-      alto:pasaje.offsetHeight
+    pasajes.forEach((pasaje) => posiciones.push({
+      inicio: pasaje.getBoundingClientRect().top + window.scrollY,
+      alto: pasaje.offsetHeight,
     }));
   }
-  function dibujar() {
-    pendiente=false;
-    const marcador=window.scrollY+window.innerHeight*.28;
-    let actual=0;
-    for(let i=0;i<posiciones.length;i++) if(marcador>=posiciones[i].inicio) actual=i;
-    const etapa=posiciones[actual];
-    const progreso=limite((marcador-etapa.inicio)/etapa.alto);
-    const mezcla=interv(progreso,.79,.98);
 
-    escenas.forEach((escena,i) => {
-      const visible=(i===actual)?1-mezcla:(i===actual+1?mezcla:0);
-      escena.style.opacity=String(visible);
-      escena.classList.toggle('activa',visible>0);
-      if(!visible)return;
-      const t=i===actual?progreso:0;
-      const x=Number(escena.dataset.x||0)*t;
-      const y=Number(escena.dataset.y||0)*t;
-      const z=Number(escena.dataset.z||0)*t;
-      const base=1;
-      const marco=escena.querySelector('[data-escenario-puerta]');
-      // Hojas, descubrimiento de la rosa y estrella fugaz son piezas propias, no zooms del fondo.
-      const hojas=escena.querySelectorAll('.hoja-viajera');
-      hojas.forEach((hoja,idx) => {
-        const entrada=interv(progreso,.08 + idx*.04,.28 + idx*.05);
-        const salida=1-interv(progreso,.72 + idx*.02,.95);
-        const vis=Math.max(0,Math.min(1,entrada*salida))*(.86-idx*.08);
-        const offsetX=[-13,-8,-17,-10][idx] || -12;
-        const offsetY=[6,-2,10,4][idx] || 5;
-        const giro=[58,-42,77,33][idx] || 40;
-        hoja.style.opacity=String(vis);
-        hoja.style.transform=`translate3d(${offsetX*progreso}vw,${(-2 + progreso*offsetY*1.45)}vh,0) rotate(${(-18 + progreso*giro)}deg) scale(${1 + progreso*(.14 + idx*.02)})`;
-      });
-      const destello=escena.querySelector('.destello-rosa');
-      const pulso=escena.querySelector('.pulso-rosa');
-      if(destello && pulso){
-        const hallazgo=interv(progreso,.18,.70);
-        const desvanecer=1-interv(progreso,.80,.95);
-        const vis=hallazgo*desvanecer;
-        destello.style.opacity=String(vis*.95);
-        destello.style.transform=`scale(${.72 + hallazgo*.42}) rotate(${hallazgo*20}deg)`;
-        pulso.style.opacity=String(vis*.82);
-        pulso.style.transform=`scale(${.55 + hallazgo*.9})`;
-      }
-      const fugaz=escena.querySelector('.estrella-fugaz');
-      if(fugaz){
-        const tiro=interv(progreso,.16,.70);
-        const vis=tiro*(1-interv(progreso,.70,.90));
-        fugaz.style.opacity=String(vis);
-        fugaz.style.transform=`translate3d(${tiro*44}vw,${tiro*18}vh,0) rotate(16deg) scale(${.68 + tiro*.55})`;
-      }
-      if(marco){
-        // Movimiento de cámara (imagen, puerta y personaje comparten coordenadas).
-        // Las piezas internas permanecen independientes del zoom general.
-        marco.style.transform=`translate3d(calc(-50% + ${x}%),calc(-50% + ${y}%),0) scale(${base+z})`;
-        const apertura=i===6?interv(progreso,.17,.57):1;
-        const gesto=i===6?interv(progreso,.35,.70):1;
-        const rojo=i===6?interv(progreso,.55,.88):1;
-        const hoja=marco.querySelector('.hoja-puerta');
-        const raton=marco.querySelector('.raton-blanco');
-        const mejilla=marco.querySelector('.mejilla');
-        hoja.style.transform=`scaleX(${1-apertura*.88})`;
-        raton.style.opacity=String(gesto);
-        raton.style.transform=`translate3d(0,${(1-gesto)*13}%,0) rotate(${(1-gesto)*3}deg)`;
-        mejilla.style.opacity=String(rojo*.91);
-      } else {
-        const foto=escena.querySelector('img');
-        if(!foto)return;
-        const amplio=window.matchMedia('(min-aspect-ratio:4/3)').matches;
-        foto.style.transform=amplio
-          ? `translate3d(calc(-50% + ${x}%),${y}%,0) scale(${base+z})`
-          : `translate3d(${x}%,${y}%,0) scale(${base+z})`;
-      }
+  function camara(escena, t) {
+    const cuadro = escena.querySelector('.cuadro');
+    if (!cuadro) return;
+    const x = num(escena, 'x0') + (num(escena, 'x') - num(escena, 'x0')) * t;
+    const y = num(escena, 'y0') + (num(escena, 'y') - num(escena, 'y0')) * t;
+    const z = num(escena, 'z0') + (num(escena, 'z') - num(escena, 'z0')) * t;
+    cuadro.style.transform = `translate(calc(-50% + ${x}%),calc(-50% + ${y}%)) scale(${1 + z})`;
+    return cuadro;
+  }
+
+  function dibujar() {
+    pendiente = false;
+    const marcador = window.scrollY + window.innerHeight * .28;
+    let actual = 0;
+    for (let i = 0; i < posiciones.length; i++) if (marcador >= posiciones[i].inicio) actual = i;
+    const etapa = posiciones[actual];
+    const progreso = limite((marcador - etapa.inicio) / etapa.alto);
+    const ultimo = actual === escenas.length - 1;
+    const mezcla = ultimo ? 0 : suave(interv(progreso, .8, .98));
+
+    escenas.forEach((escena, i) => {
+      // la actual encima desvaneciéndose; la siguiente debajo, ya entera
+      const visible = i === actual ? 1 - mezcla : (i === actual + 1 && mezcla > 0 ? 1 : 0);
+      escena.style.opacity = String(visible);
+      escena.style.zIndex = i === actual ? '2' : '1';
+      escena.classList.toggle('activa', visible > 0);
+      if (!visible) return;
+      const t = i === actual ? progreso : 0;
+      const cuadro = camara(escena, suave(t));
+      if (cuadro && efectos[i]) efectos[i](cuadro, t);
     });
 
-    pasajes.forEach((pasaje,i) => {
-      const texto=pasaje.querySelector('.texto');
-      if(i!==actual){texto.style.opacity='0';return;}
-      const entrada=i===0?1:interv(progreso,.04,.17);
-      const salida=i===pasajes.length-1?1:1-interv(progreso,.73,.90);
-      texto.style.opacity=String(Math.min(entrada,salida));
-      texto.style.transform=`translateY(${(1-entrada)*12}px)`;
+    pasajes.forEach((pasaje, i) => {
+      const texto = pasaje.querySelector('.texto');
+      if (i !== actual) { texto.style.opacity = '0'; return; }
+      const entrada = i === 0 ? 1 : interv(progreso, .04, .17);
+      const salida = i === pasajes.length - 1 ? 1 : 1 - interv(progreso, .73, .9);
+      texto.style.opacity = String(Math.min(entrada, salida));
+      texto.style.transform = `translateY(${(1 - entrada) * 12}px)`;
     });
   }
+
   function actualizar() {
-    if(pendiente)return;
-    pendiente=true;
+    if (pendiente) return;
+    pendiente = true;
     requestAnimationFrame(dibujar);
   }
-  function recalcular() { medir();actualizar(); }
+  function recalcular() { medir(); actualizar(); }
+
   document.documentElement.classList.add('js');
-  medir();dibujar();
-  window.addEventListener('scroll',actualizar,{passive:true});
-  window.addEventListener('resize',recalcular,{passive:true});
-  window.addEventListener('load',recalcular,{once:true});
-  if(document.fonts?.ready)document.fonts.ready.then(recalcular);
-  reduce.addEventListener?.('change',()=>window.location.reload());
+  medir(); dibujar();
+  window.addEventListener('scroll', actualizar, {passive: true});
+  window.addEventListener('resize', recalcular, {passive: true});
+  window.addEventListener('load', recalcular, {once: true});
+  if (document.fonts?.ready) document.fonts.ready.then(recalcular);
+  reduce.addEventListener?.('change', () => window.location.reload());
 })();

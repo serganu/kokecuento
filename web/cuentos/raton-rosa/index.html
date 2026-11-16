@@ -14,31 +14,38 @@
 </head>
 <body>
   <div class="visor" id="visor" aria-hidden="true">
-    <div class="lamina activa lamina--portada" data-lamina="0" data-x="0" data-y="-1" data-z=".045"><img src="img/00-portada.webp" alt="" fetchpriority="high"></div>
-    <div class="lamina lamina--gigantes" data-lamina="1" data-x="-1" data-y="-1" data-z=".06"><img src="img/01-rosas-gigantes.webp" alt=""></div>
-    <div class="lamina lamina--busqueda" data-lamina="2" data-x="-3" data-y="0" data-z=".035"><img src="img/02-busqueda.webp" alt=""><span class="hoja-viajera hoja-viajera--a" aria-hidden="true"></span><span class="hoja-viajera hoja-viajera--b" aria-hidden="true"></span><span class="hoja-viajera hoja-viajera--c" aria-hidden="true"></span><span class="hoja-viajera hoja-viajera--d" aria-hidden="true"></span></div>
-    <div class="lamina lamina--hallazgo" data-lamina="3" data-x="0" data-y="-1" data-z=".10"><img src="img/03-hallazgo.webp" alt=""><span class="destello-rosa" aria-hidden="true"></span><span class="pulso-rosa" aria-hidden="true"></span></div>
-    <div class="lamina lamina--noche" data-lamina="4" data-x="-2" data-y="1" data-z=".07"><img src="img/04-viaje-nocturno.webp" alt=""><span class="estrella-fugaz" aria-hidden="true"></span></div>
-    <div class="lamina lamina--entrega" data-lamina="5" data-x="0" data-y="-1" data-z=".045"><img src="img/05-puerta.webp" alt=""></div>
-    <div class="lamina lamina--puerta" data-lamina="6" data-x="0" data-y="-1" data-z=".035">
-      <div class="escenario-puerta" data-escenario-puerta>
-        <img class="fondo-casa" src="img/05-puerta-fondo.webp" alt="">
-        <div class="raton-blanco" aria-hidden="true">
-          <img src="img/raton-blanco.webp" alt="">
-          <span class="mejilla" aria-hidden="true"></span>
-        </div>
-        <div class="hoja-puerta" aria-hidden="true"><span class="tirador"></span></div>
+    <div class="lamina activa lamina--portada" data-lamina="0" data-y="-1" data-z=".045">
+      <div class="cuadro"><img src="img/00-portada.webp" alt="" fetchpriority="high"></div>
+    </div>
+    <div class="lamina lamina--gigantes" data-lamina="1" data-x="-1" data-y="-1" data-z=".06">
+      <div class="cuadro"><img src="img/01-rosas-gigantes.webp" alt=""></div>
+    </div>
+    <div class="lamina lamina--busqueda" data-lamina="2" data-x="-3" data-z=".035">
+      <div class="cuadro"><img src="img/02-busqueda.webp" alt=""><span class="hoja-viajera hoja-viajera--a"></span><span class="hoja-viajera hoja-viajera--b"></span><span class="hoja-viajera hoja-viajera--c"></span><span class="hoja-viajera hoja-viajera--d"></span></div>
+    </div>
+    <div class="lamina lamina--hallazgo" data-lamina="3" data-y="-1" data-z=".10">
+      <div class="cuadro"><img src="img/03-hallazgo.webp" alt=""><span class="destello-rosa"></span><span class="pulso-rosa"></span></div>
+    </div>
+    <div class="lamina lamina--noche" data-lamina="4" data-x="-2" data-y="1" data-z=".07">
+      <div class="cuadro"><img src="img/04-viaje-nocturno.webp" alt=""><span class="estrella-fugaz"></span><span class="brillo-rosa"></span></div>
+    </div>
+    <!-- 5, 6 y 7 son la misma casa: la cámara se acerca a la puerta y luego se aleja sin saltos -->
+    <div class="lamina lamina--entrega" data-lamina="5" data-z=".05">
+      <div class="cuadro cuadro--casa"><img src="img/05-puerta.webp" alt=""></div>
+    </div>
+    <div class="lamina lamina--puerta" data-lamina="6" data-z0=".05" data-z=".16">
+      <div class="cuadro cuadro--casa">
+        <img src="img/05-puerta-estatica.webp" alt="">
+        <span class="luz-puerta"></span>
+        <span class="mejilla"></span>
+        <img class="hoja-puerta" src="img/05-hoja-puerta.webp" alt="">
       </div>
     </div>
-    <div class="lamina lamina--amanecer" data-lamina="7" data-x="-1" data-y="0" data-z=".035">
-      <div class="escenario-puerta escena-amanecer" data-escenario-puerta>
-        <img class="fondo-casa" src="img/05-puerta-fondo.webp" alt="">
-        <span class="resplandor-amanecer" aria-hidden="true"></span>
-        <div class="raton-blanco" aria-hidden="true">
-          <img src="img/raton-blanco.webp" alt="">
-          <span class="mejilla" aria-hidden="true"></span>
-        </div>
-        <div class="hoja-puerta" aria-hidden="true"><span class="tirador"></span></div>
+    <div class="lamina lamina--amanecer" data-lamina="7" data-z0=".16" data-z="0">
+      <div class="cuadro cuadro--casa">
+        <img src="img/06-amanecer-estatico.webp" alt="">
+        <span class="luz-puerta luz-puerta--fija"></span>
+        <span class="mejilla mejilla--fija"></span>
       </div>
     </div>
   </div>

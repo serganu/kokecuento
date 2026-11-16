@@ -23,28 +23,21 @@ test('Texto original intacto y sin frases añadidas', () => {
  for (const part of parts) assert.ok(html.includes(part), part);
 });
 
-test('Portada, siete escenas y todos los recursos gráficos', () => {
+test('Portada, siete escenas y todas las imágenes existen', () => {
  assert.equal((html.match(/data-pasaje="/g) || []).length, 8);
  assert.equal((html.match(/data-lamina="/g) || []).length, 8);
- for (const fname of ['00-portada.webp','01-rosas-gigantes.webp','02-busqueda.webp','03-hallazgo.webp','04-viaje-nocturno.webp','05-puerta.webp','05-puerta-fondo.webp','raton-blanco.webp','05-puerta-estatica.webp','06-amanecer-estatico.webp']) {
-  assert.ok(html.includes('img/'+fname), fname);
-  assert.ok(fs.statSync(path.join(root, 'img', fname)).size > 5000, fname);
- }
+ const usadas = new Set([...html.matchAll(/img\/[\w.-]+\.webp/g), ...css.matchAll(/img\/[\w.-]+\.webp/g)].map((m) => m[0]));
+ assert.ok(usadas.size >= 9);
+ for (const ruta of usadas) assert.ok(fs.existsSync(path.join(root, ruta)) && fs.statSync(path.join(root, ruta)).size > 5000, 'falta ' + ruta);
  assert.ok(html.indexOf('class="lamina lamina--entrega"') < html.indexOf('class="lamina lamina--puerta"'), 'la entrega del ratón marrón precede a la aparición del ratón blanco');
  assert.match(html, /class="pasaje pasaje--entrega"[\s\S]*?y la dejó en una puerta sin llamar\./);
- assert.ok(!html.includes('img/06-amanecer.webp'), 'sin ratón marrón en el desenlace');
 });
 
-test('Puerta, personaje y sonrojo son capas independientes', () => {
- assert.equal((html.match(/class="raton-blanco"/g) || []).length, 2);
- assert.equal((html.match(/class="hoja-puerta"/g) || []).length, 2);
- assert.equal((html.match(/class="mejilla"/g) || []).length, 2);
- assert.match(js, /interv\(progreso,\.17,\.57\)/);
- assert.ok(html.includes('data-lamina="6"'), 'apertura situada después de la entrega');
- assert.match(js, /interv\(progreso,\.35,\.70\)/);
- assert.match(js, /interv\(progreso,\.55,\.88\)/);
- assert.match(js, /hoja\.style\.transform/);
- assert.match(js, /mejilla\.style\.opacity/);
+test('Cada lámina tiene un cuadro y las piezas animadas van dentro de él', () => {
+ const laminas = html.split('data-lamina="').slice(1);
+ for (const l of laminas) assert.match(l, /class="cuadro/);
+ for (const pieza of ['hoja-viajera','destello-rosa','pulso-rosa','estrella-fugaz','hoja-puerta','mejilla','luz-puerta'])
+  assert.match(html, new RegExp('class="[^"]*' + pieza));
 });
 
 test('Sin controles de progreso, sonido o reproducción automática', () => {
@@ -57,85 +50,62 @@ test('Sin controles de progreso, sonido o reproducción automática', () => {
  assert.ok(css.includes('prefers-reduced-motion'));
 });
 
+/* DOM mínimo para ejecutar cuento.js sin navegador */
 function testDOM() {
- let scrollY = 0;
- let scrollHandler = null;
- const elements = (n) => Array.from({length:n}, () => ({style:{}}));
- const stages = Array.from({length:8}, (_,index) => index < 6 ? null : {
-  style:{},
-  nodes:{'.hoja-puerta':{style:{}},'.raton-blanco':{style:{}},'.mejilla':{style:{}}},
-  querySelector(s){return this.nodes[s] || null}
+ let scrollY = 0, scrollHandler = null;
+ const nodo = () => ({style:{}});
+ const ids = [...html.matchAll(/data-lamina="(\d+)"/g)].map((m) => +m[1]);
+ const layers = ids.map((i) => {
+  const piezas = {}; const varias = {};
+  ['.hoja-puerta','.mejilla','.luz-puerta','.destello-rosa','.pulso-rosa','.estrella-fugaz','.brillo-rosa'].forEach((s) => piezas[s] = nodo());
+  varias['.hoja-viajera'] = [nodo(), nodo(), nodo(), nodo()];
+  const cuadro = {style:{}, querySelector:(s) => piezas[s] || null, querySelectorAll:(s) => varias[s] || []};
+  return {style:{}, dataset:{}, classList:{toggle(){}}, cuadro, piezas,
+   querySelector:(s) => s === '.cuadro' ? cuadro : null};
  });
- const layers = Array.from({length:8}, (_,i) => ({
-  style:{}, dataset:{x:'0',y:'-1',z:'.03'},
-  classList:{toggle(){}},
-  querySelectorAll(selector){return [];},
-  querySelector(selector){
-   if(selector === '[data-escenario-puerta]')return stages[i];
-   if(selector === 'img' && i < 6)return {style:{}};
-   return null;
-  }
- }));
- const sections = Array.from({length:8}, (_,i) => ({
-  offsetHeight:1200,
-  getBoundingClientRect(){return {top:i*1200-scrollY}},
-  text:{style:{}},
-  querySelector(s){return s === '.texto' ? this.text : null;}
- }));
- const win = {
-  innerHeight:1000,
-  get scrollY(){return scrollY;},
-  matchMedia(){return {matches:false,addEventListener(){}}},
-  addEventListener(t,fn){if(t==='scroll')scrollHandler=fn;},
-  location:{reload(){}}
- };
- const doc = {
-  documentElement:{classList:{add(){}}},
-  querySelectorAll(s){return s==='[data-lamina]'?layers:s==='[data-pasaje]'?sections:[]},
-  fonts:{ready:Promise.resolve()}
- };
- vm.runInNewContext(js,{window:win,document:doc, requestAnimationFrame(fn){fn();}}, {timeout:3000});
- return {
-  stage:stages[6],final:stages[7],layers,
-  moveTo(i,progress){scrollY=i*1200+progress*1200-280;scrollHandler();}
- };
+ const sections = ids.map((i) => ({offsetHeight:1200, text:{style:{}},
+  getBoundingClientRect(){return {top:i*1200-scrollY}}, querySelector(s){return s === '.texto' ? this.text : null}}));
+ const win = {innerHeight:1000, get scrollY(){return scrollY}, matchMedia(){return {matches:false,addEventListener(){}}},
+  addEventListener(t,fn){if(t==='scroll')scrollHandler=fn}, location:{reload(){}}};
+ const doc = {documentElement:{classList:{add(){}}}, fonts:{ready:Promise.resolve()},
+  querySelectorAll(s){return s==='[data-lamina]'?layers:s==='[data-pasaje]'?sections:[]}};
+ vm.runInNewContext(js, {window:win, document:doc, requestAnimationFrame(fn){fn()}}, {timeout:3000});
+ return {layers, moveTo(i,p){scrollY=i*1200+p*1200-280; scrollHandler()}};
 }
 
-test('La puerta se abre y el ratón aparece y se sonroja al hacer scroll; reversible', () => {
- const env=testDOM();
- env.moveTo(6,.01);
- assert.equal(env.stage.querySelector('.raton-blanco').style.opacity,'0');
- assert.equal(env.stage.querySelector('.hoja-puerta').style.transform,'scaleX(1)');
- env.moveTo(6,.50);
- const apertura=env.stage.querySelector('.hoja-puerta').style.transform;
- assert.notEqual(apertura,'scaleX(1)');
- assert.ok(Number(env.stage.querySelector('.raton-blanco').style.opacity)>0);
+test('La puerta gira, sale la luz y el ratón blanco se sonroja al bajar; al subir se deshace', () => {
+ const env = testDOM(), puerta = env.layers[6].piezas;
+ env.moveTo(6,.02);
+ assert.equal(puerta['.hoja-puerta'].style.transform, 'rotateY(0deg)');
+ assert.equal(Number(puerta['.mejilla'].style.opacity), 0);
+ env.moveTo(6,.4);
+ assert.ok(Number(puerta['.hoja-puerta'].style.transform.match(/-?[\d.]+/)[0]) < -30, 'la puerta ya está girando');
+ assert.ok(Number(puerta['.luz-puerta'].style.opacity) > .2);
  env.moveTo(6,.95);
- assert.ok(Number(env.stage.querySelector('.mejilla').style.opacity)>.85);
+ assert.ok(Number(puerta['.mejilla'].style.opacity) > .85);
  env.moveTo(6,.05);
- assert.equal(env.stage.querySelector('.mejilla').style.opacity,'0');
+ assert.equal(Number(puerta['.mejilla'].style.opacity), 0);
 });
 
-
-test('La entrega del ratón marrón es una escena independiente y el texto permanece original', () => {
- const stageBrown = html.indexOf('data-lamina="5"');
- const stageWhite = html.indexOf('data-lamina="6"');
- const textBrown = html.indexOf('data-pasaje="5"');
- const textWhite = html.indexOf('data-pasaje="6"');
- assert.ok(stageBrown >= 0 && stageBrown < stageWhite);
- assert.ok(textBrown >= 0 && textBrown < textWhite);
- assert.match(html.slice(stageBrown,stageWhite), /img\/05-puerta\.webp/);
- assert.ok(!html.slice(stageBrown,stageWhite).includes('raton-blanco'));
- assert.match(html.slice(textBrown,textWhite), /y la dejó en una puerta sin llamar\./);
- assert.match(html.slice(textWhite,html.indexOf('data-pasaje="7"')), /aria-hidden="true"><\/div>/);
+test('Entre escenas la nueva queda debajo entera y la anterior se desvanece encima', () => {
+ const env = testDOM();
+ env.moveTo(2,.9);
+ const [a,b] = [env.layers[2].style, env.layers[3].style];
+ assert.equal(b.opacity, '1');
+ assert.ok(Number(a.opacity) > 0 && Number(a.opacity) < 1);
+ assert.ok(Number(a.zIndex) > Number(b.zIndex));
 });
 
-test('Varias hojas, encuentro de la rosa y estrella fugaz están ligados al scroll', () => {
- assert.equal((html.match(/class="hoja-viajera hoja-viajera--/g)||[]).length,4);
- assert.match(html, /class="destello-rosa"/);
- assert.match(html, /class="pulso-rosa"/);
- assert.match(html, /class="estrella-fugaz"/);
- assert.match(js, /const hojas=escena\.querySelectorAll/);
- assert.match(js, /const destello=/);
- assert.match(js, /const fugaz=/);
+test('La cámara de la casa continúa sin saltos entre entrega, puerta y desenlace', () => {
+ const z = (n) => html.match(new RegExp('data-lamina="' + n + '"[^>]*'))[0];
+ const fin5 = z(5).match(/data-z="([\d.]+)"/)[1], ini6 = z(6).match(/data-z0="([\d.]+)"/)[1];
+ const fin6 = z(6).match(/data-z="([\d.]+)"/)[1], ini7 = z(7).match(/data-z0="([\d.]+)"/)[1];
+ assert.equal(fin5, ini6); assert.equal(fin6, ini7);
+});
+
+test('Hojas, destello de la rosa y estrella fugaz se mueven con el scroll', () => {
+ const env = testDOM();
+ env.moveTo(2,.5); assert.ok(Number(env.layers[2].cuadro.querySelectorAll('.hoja-viajera')[0].style.opacity) > 0);
+ env.moveTo(3,.5); assert.ok(Number(env.layers[3].piezas['.destello-rosa'].style.opacity) > 0);
+ env.moveTo(4,.35); assert.ok(Number(env.layers[4].piezas['.estrella-fugaz'].style.opacity) > 0);
 });
