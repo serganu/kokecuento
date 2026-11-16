@@ -28,7 +28,7 @@ Las capas animadas se han sacado de las propias láminas, para que encajen al p�
 
 - `03-hallazgo-fondo.webp` + `03-rosa-pequena.webp`: el jardín sin la rosa y la rosa sola.
 - `05-puerta-sinluna.webp` + `luna.webp`: la casa con la puerta abierta sin luna, y la luna sola.
-- `05-hoja-puerta.webp` / `06-hoja-puerta.webp`: la madera de la puerta cerrada, de noche y de madrugada; `05-marco-puerta.webp` / `06-marco-puerta.webp`: la piedra del arco y la rosa del escalón.
+- `05-hoja-puerta.webp` / `06-hoja-puerta.webp`: la madera de la puerta cerrada, de noche y de madrugada; `05-marco-puerta.webp` / `06-marco-puerta.webp`: la rosa del escalón y el canto de piedra del arco, fijos delante. Las capas se sacan comparando la lámina de la puerta cerrada con la de la puerta abierta: lo único que cambia es el hueco.
 - `06-madrugada.webp`: el desenlace con cielo de madrugada.
 - `05-puerta-estatica.webp` y `06-amanecer-estatico.webp` se conservan como originales; `raton-blanco.webp` ya no se usa.
 
