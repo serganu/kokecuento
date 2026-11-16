@@ -1,0 +1,39 @@
+/* KokeCuento · cubierta del libro al empezar el cuento.
+   Es la misma tapa de cuero que la tienda: hace de pantalla de carga y se abre girando
+   sobre el lomo cuando la página está lista. Copiada de web/css/libro.css. */
+.cubierta { --tinta: #2E2219; --tinta-2: #5E4E40; --sans: "EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+  --serif: "Cormorant Garamond", "EB Garamond", Garamond, Georgia, serif; --cuero: #6B4330; --cuero-osc: #4C2E20; --cuero-claro: #84563E; --crema: #F7EBCF; --dorado: #C6A250; --granate: #7C2222; --oro: #A9853A; --placa: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath fill='%23F7EBCF' d='M22 0H98A22 22 0 0 0 120 22V98A22 22 0 0 0 98 120H22A22 22 0 0 0 0 98V22A22 22 0 0 0 22 0Z'/%3E%3Cg fill='none' stroke='%23C6A250'%3E%3Cpath stroke-width='1.6' d='M28.1 7H91.9A29 29 0 0 0 113 28.1V91.9A29 29 0 0 0 91.9 113H28.1A29 29 0 0 0 7 91.9V28.1A29 29 0 0 0 28.1 7Z'/%3E%3Cpath stroke-width='.8' d='M31.1 11H88.9A33 33 0 0 0 109 31.1V88.9A33 33 0 0 0 88.9 109H31.1A33 33 0 0 0 11 88.9V31.1A33 33 0 0 0 31.1 11Z'/%3E%3C/g%3E%3C/svg%3E"); --remate: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='40'%3E%3Cpath fill='%23F7EBCF' d='M0 16H30C48 16 60 15 68 8C72 4.5 76 1.5 80 0C84 1.5 88 4.5 92 8C100 15 112 16 130 16H160V40H0Z'/%3E%3Cg fill='none' stroke='%23C6A250'%3E%3Cpath stroke-width='1.6' transform='translate(0 7)' d='M0 16H30C48 16 60 15 68 8C72 4.5 76 1.5 80 0C84 1.5 88 4.5 92 8C100 15 112 16 130 16H160'/%3E%3Cpath stroke-width='.8' transform='translate(0 11)' d='M0 16H30C48 16 60 15 68 8C72 4.5 76 1.5 80 0C84 1.5 88 4.5 92 8C100 15 112 16 130 16H160'/%3E%3C/g%3E%3C/svg%3E"); --rama: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cpath d='M9 41Q28 34 50 10' stroke='%237C8B3F' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M30 27C29 15 37 6 47 3C49 14 43 24 30 27Z' fill='%236F8F3F'/%3E%3Cpath d='M35 24C43 16 55 16 62 21C55 29 43 31 35 24Z' fill='%2387A24C'/%3E%3Cpath d='M25 32C34 30 43 36 45 44C36 45 28 41 25 32Z' fill='%235E7D34'/%3E%3Ccircle cx='8' cy='41' r='5' fill='%23D5392C'/%3E%3Ccircle cx='17' cy='31' r='5' fill='%23C22F25'/%3E%3Ccircle cx='19' cy='45' r='5' fill='%23D5392C'/%3E%3C/svg%3E"); }
+/* ---------- Cubierta del libro: pantalla de carga que se abre ---------- */
+.cubierta { display: none; }
+html.cubierta-on .cubierta { display: block; position: fixed; inset: 0; z-index: 100; perspective: 2200px; background: #1B130E; }
+html.cubierta-on.cubierta-abre .cubierta { background: transparent; pointer-events: none; transition: background .9s ease .3s; }
+html.cubierta-on:not(.cubierta-abre) { overflow: hidden; }
+.cubierta-hoja { position: absolute; inset: 0; display: grid; place-items: center; transform-origin: left center; backface-visibility: hidden;
+  background: linear-gradient(90deg, rgba(0, 0, 0, .4) 0, rgba(0, 0, 0, .12) 14px, rgba(255, 255, 255, .09) 22px, rgba(0, 0, 0, .1) 30px, transparent 46px),
+    radial-gradient(ellipse at center, rgba(255, 255, 255, .05), transparent 45%, rgba(0, 0, 0, .3)), var(--cuero); }
+html.cubierta-abre .cubierta-hoja { animation: abre-cubierta 1.7s cubic-bezier(.65, 0, .25, 1) forwards; }
+@keyframes abre-cubierta { 60% { box-shadow: 70px 0 90px rgba(0, 0, 0, .45); } 100% { transform: rotateY(-112deg); box-shadow: 90px 0 110px rgba(0, 0, 0, .5); } }
+.cubierta-placa { position: relative; box-sizing: border-box; width: min(100% - 56px, 600px); height: min(100% - 72px, 800px);
+  border: 40px solid transparent; border-image: var(--placa) 40 fill / 40px stretch; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .28));
+  display: grid; grid-template-rows: auto minmax(0, 360px) auto auto auto; align-content: center; justify-items: center; gap: clamp(6px, 1.8vh, 16px); padding: 18px 6px; text-align: center; color: var(--tinta); }
+.cubierta-placa::before, .cubierta-placa::after { content: ""; position: absolute; left: 50%; width: 160px; height: 40px; translate: -50% 0; background: var(--remate) center / 160px 40px no-repeat; }
+.cubierta-placa::before { top: -56px; }
+.cubierta-placa::after { bottom: -56px; rotate: 180deg; }
+.rama { position: absolute; width: clamp(46px, 9vw, 64px); aspect-ratio: 64 / 56; background: var(--rama) center / contain no-repeat; }
+.rama:nth-of-type(1) { top: -6px; left: -6px; }
+.rama:nth-of-type(2) { top: -6px; right: -6px; scale: -1 1; }
+.rama:nth-of-type(3) { bottom: -6px; left: -6px; scale: 1 -1; }
+.rama:nth-of-type(4) { bottom: -6px; right: -6px; scale: -1 -1; }
+.cubierta-sub { font: 600 1.05rem var(--sans); font-variant-caps: all-small-caps; letter-spacing: .2em; margin: 0; color: var(--granate); }
+.cubierta-dibujo { width: auto; height: 100%; min-height: 0; max-width: 100%; object-fit: contain; }
+.cubierta-titulo { font: 700 clamp(2.3rem, 7vw, 3.6rem)/1 var(--serif); letter-spacing: .02em; margin: 0; color: var(--cuero-osc); }
+.cubierta-lema { font: italic 500 clamp(1.3rem, 3.4vw, 1.7rem)/1.1 var(--serif); margin: 0; color: var(--tinta-2); }
+.cubierta-carga { font: 600 .95rem var(--sans); font-variant-caps: all-small-caps; letter-spacing: .2em; margin: 6px 0 0; color: var(--oro); animation: late 1.4s ease-in-out infinite; }
+html.cubierta-abre .cubierta-carga { animation: none; opacity: 0; transition: opacity .3s; }
+@keyframes late { 50% { opacity: .35; } }
+@media (max-width: 820px) {
+  .cubierta-placa { width: min(100% - 36px, 600px); height: min(100% - 56px, 800px); padding-inline: 0; }
+  .cubierta-sub { letter-spacing: .14em; font-size: 1rem; }
+}
+/* El cuento espera debajo hasta que la tapa se abre */
+html.cubierta-on:not(.cubierta-abre) .texto { visibility: hidden; }

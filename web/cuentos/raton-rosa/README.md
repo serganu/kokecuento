@@ -1,0 +1,56 @@
+# KokeCuento · La rosa que cabía en una pata
+
+Lector web independiente de la tienda, pensado para abrir desde el QR de una tarjeta física.
+
+## La historia
+
+Portada y seis escenas. Se conserva literalmente el cuento de `PRODUCTOS[id="raton-rosa"]` de la tienda. La tipografía es HTML real, colocada en espacios libres de las imágenes.
+
+## Animación
+
+- **Al abrir el cuento:** la misma tapa de cuero que la tienda (`cubierta.css`, `img/simbolo.webp`) hace de pantalla de carga y se abre girando sobre el lomo. No sale si se ha pedido reducir las animaciones.
+
+- Scroll táctil, rueda o trackpad: desplazamientos, zoom y fundidos, reversibles al retroceder.
+- Cada lámina va dentro de un `.cuadro` con la proporción de la ilustración (941 × 1672). Las piezas animadas se colocan en % de ese cuadro, así quedan pegadas al dibujo en móvil y en ordenador.
+- Al cambiar de escena, la siguiente aparece entera debajo y la anterior se desvanece encima: no se transparenta el papel entre dos láminas.
+- En pantallas anchas la lámina va a la derecha y el texto en la columna izquierda, sin pisar el dibujo.
+- **La búsqueda:** hojas de papel que cruzan el jardín.
+- **El hallazgo:** la rosa diminuta (`img/03-rosa-pequena.webp`, recortada de la lámina) se balancea sobre su tallo encima de `img/03-hallazgo-fondo.webp`.
+- **La noche:** estrella fugaz que cruza el cielo casi en horizontal, con la estela alineada con su movimiento, y la rosa brillando en la pata del ratón.
+- **La casa (escenas 5, 6 y 7):** la cámara se acerca a la puerta y luego se aleja sin saltos.
+  - **6, pausa sin texto:** la puerta sigue cerrada; la luna (`img/luna.webp`) baja y se esconde tras las colinas y los árboles (el recorte sigue su silueta), y después amanece poco a poco.
+  - **7, desenlace de madrugada** (`img/06-madrugada.webp`): solo la madera de la puerta (`img/06-hoja-puerta.webp`) gira sobre su bisagra, recortada por el arco; la piedra y la rosa (`img/06-marco-puerta.webp`) quedan fijas delante. Sale la luz, aparece el ratón blanco, se sonroja y, al final, llega el texto.
+- Atributos que ajustan el ritmo: `data-mezcla` (dónde empieza el fundido a la escena siguiente), `data-camara` (hasta dónde espera la cámara) y `data-texto` (hasta dónde espera el texto).
+
+No hay botones de escena, barra de progreso, audio ni reproducción automática.
+
+## Recursos
+
+Las capas animadas se han sacado de las propias láminas, para que encajen al píxel:
+
+- `03-hallazgo-fondo.webp` + `03-rosa-pequena.webp`: el jardín sin la rosa y la rosa sola.
+- `05-puerta-sinluna.webp` + `luna.webp`: la casa con la puerta abierta sin luna, y la luna sola.
+- `05-hoja-puerta.webp` / `06-hoja-puerta.webp`: la madera de la puerta cerrada, de noche y de madrugada; `05-marco-puerta.webp` / `06-marco-puerta.webp`: la rosa del escalón y el canto de piedra del arco, fijos delante. Las capas se sacan comparando la lámina de la puerta cerrada con la de la puerta abierta: lo único que cambia es el hueco.
+- `06-madrugada.webp`: el desenlace con cielo de madrugada.
+- `05-puerta-estatica.webp` y `06-amanecer-estatico.webp` se conservan como originales; `raton-blanco.webp` ya no se usa.
+
+## Pruebas
+
+Desde esta carpeta:
+
+```bash
+node --test tests/cuento.test.cjs
+python -m http.server 5173
+```
+
+Abrir `http://localhost:5173`. También puedes abrir directamente `index.html` desde una carpeta extraída.
+
+Se han ejecutado **cinco pruebas automatizadas**: texto original, recursos de escena, capas de la puerta, ausencia de controles y secuencia reversible de apertura/aparición/rubor mediante DOM simulado. El código supera la verificación de sintaxis de Node.
+
+Revisado en Chrome a 390 × 844 (móvil) y 1280 × 800 (ordenador), recorriendo el cuento entero con scroll.
+
+## Publicación
+
+Publicado en GitHub Pages junto con la tienda, en `cuentos/raton-rosa/` (https://serganu.github.io/kokecuento/cuentos/raton-rosa/). La tienda todavía no enlaza a esta página: de momento solo se llega con la dirección directa (y, más adelante, desde el QR de la tarjeta).
+
+El desarrollo sigue en la rama `feature/cuento-raton-rosa-claude`.

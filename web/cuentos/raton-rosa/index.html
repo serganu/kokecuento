@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7eedc">
+  <meta name="description" content="La rosa que cabía en una pata. Un cuento ilustrado de Kokecuento que cobra vida al deslizar.">
+  <title>La rosa que cabía en una pata · KokeCuento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cuento.css">
+  <link rel="stylesheet" href="cubierta.css">
+  <script>
+    // La tapa del libro sale al abrir el cuento, salvo si se ha pedido reducir las animaciones
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("cubierta-on");
+  </script>
+  <script defer src="cuento.js"></script>
+</head>
+<body>
+  <div class="cubierta" id="cubierta" aria-hidden="true">
+    <div class="cubierta-hoja">
+      <div class="cubierta-placa">
+        <i class="rama"></i><i class="rama"></i><i class="rama"></i><i class="rama"></i>
+        <p class="cubierta-sub">Kokedamas hechas a mano</p>
+        <img class="cubierta-dibujo" src="img/simbolo.webp" alt="" width="720" height="720">
+        <p class="cubierta-titulo">KokeCuento</p>
+        <p class="cubierta-lema">Érase una vez…</p>
+        <p class="cubierta-carga">Abriendo el cuento</p>
+      </div>
+    </div>
+  </div>
+  <div class="visor" id="visor" aria-hidden="true">
+    <div class="lamina activa lamina--portada" data-lamina="0" data-y="-1" data-z=".045">
+      <div class="cuadro"><img src="img/00-portada.webp" alt="" fetchpriority="high"></div>
+    </div>
+    <div class="lamina lamina--gigantes" data-lamina="1" data-x="-1" data-y="-1" data-z=".06">
+      <div class="cuadro"><img src="img/01-rosas-gigantes.webp" alt=""></div>
+    </div>
+    <div class="lamina lamina--busqueda" data-lamina="2" data-x="-3" data-z=".035">
+      <div class="cuadro"><img src="img/02-busqueda.webp" alt=""><span class="hoja-viajera hoja-viajera--a"></span><span class="hoja-viajera hoja-viajera--b"></span><span class="hoja-viajera hoja-viajera--c"></span><span class="hoja-viajera hoja-viajera--d"></span></div>
+    </div>
+    <div class="lamina lamina--hallazgo" data-lamina="3" data-y="-1" data-z=".10">
+      <div class="cuadro"><img src="img/03-hallazgo-fondo.webp" alt=""><div class="rosa-pequena"><img src="img/03-rosa-pequena.webp" alt=""></div></div>
+    </div>
+    <div class="lamina lamina--noche" data-lamina="4" data-x="-2" data-y="1" data-z=".07">
+      <div class="cuadro"><img src="img/04-viaje-nocturno.webp" alt=""><span class="estrella-fugaz"></span><span class="brillo-rosa"></span></div>
+    </div>
+    <!-- 5, 6 y 7 son la misma casa: la cámara se acerca a la puerta y luego se aleja sin saltos -->
+    <div class="lamina lamina--entrega" data-lamina="5" data-z=".05">
+      <div class="cuadro cuadro--casa"><img src="img/05-puerta.webp" alt=""></div>
+    </div>
+    <!-- 6: pausa sin texto. Puerta cerrada; la luna baja tras las colinas y amanece poco a poco -->
+    <div class="lamina lamina--puerta" data-lamina="6" data-z0=".05" data-z=".10" data-mezcla=".55">
+      <div class="cuadro cuadro--casa">
+        <img src="img/05-puerta-sinluna.webp" alt="">
+        <div class="cielo"><img class="luna" src="img/luna.webp" alt=""></div>
+        <img class="paisaje-delante" src="img/05-paisaje-delante.webp" alt="">
+        <img class="hoja-cerrada" src="img/05-hoja-puerta.webp" alt="">
+        <img class="marco-puerta" src="img/05-marco-puerta.webp" alt="">
+      </div>
+    </div>
+    <!-- 7: de madrugada se abre la puerta, aparece el ratón blanco, se sonroja y llega el final -->
+    <div class="lamina lamina--amanecer" data-lamina="7" data-z0=".10" data-z="0" data-camara=".5">
+      <div class="cuadro cuadro--casa">
+        <img src="img/06-madrugada.webp" alt="">
+        <span class="luz-puerta"></span>
+        <span class="mejilla"></span>
+        <div class="hueco-puerta"><img class="hoja-puerta" src="img/06-hoja-puerta.webp" alt=""></div>
+        <img class="marco-puerta" src="img/06-marco-puerta.webp" alt="">
+      </div>
+    </div>
+  </div>
+  <main class="cuento" id="inicio" aria-label="La rosa que cabía en una pata">
+    <section class="pasaje pasaje--portada" data-pasaje="0" style="--imagen:url('img/00-portada.webp')" aria-label="Portada del cuento">
+      <div class="texto">
+        <p class="firma">KokeCuento presenta</p>
+        <h1>La rosa que cabía en una pata</h1>
+      </div>
+    </section>
+    <section class="pasaje pasaje--gigantes" data-pasaje="1" style="--imagen:url('img/01-rosas-gigantes.webp')" aria-label="El jardín de las rosas grandes">
+      <div class="texto"><p>El ratón quería regalar una rosa, pero todas eran más grandes que él.</p></div>
+    </section>
+    <section class="pasaje pasaje--busqueda" data-pasaje="2" style="--imagen:url('img/02-busqueda.webp')" aria-label="La búsqueda">
+      <div class="texto"><p>Buscó por el jardín entero</p></div>
+    </section>
+    <section class="pasaje pasaje--hallazgo" data-pasaje="3" style="--imagen:url('img/03-hallazgo.webp')" aria-label="El hallazgo">
+      <div class="texto"><p>hasta dar con una tan pequeña que podía llevarla sin ayuda.</p></div>
+    </section>
+    <section class="pasaje pasaje--noche" data-pasaje="4" style="--imagen:url('img/04-viaje-nocturno.webp')" aria-label="El viaje de noche">
+      <div class="texto"><p>La cargó de noche, despacio,</p></div>
+    </section>
+    <section class="pasaje pasaje--entrega" data-pasaje="5" style="--imagen:url('img/05-puerta.webp')" aria-label="El ratón marrón deja la rosa en la puerta">
+      <div class="texto"><p>y la dejó en una puerta sin llamar.</p></div>
+    </section>
+    <section class="pasaje pasaje--puerta" data-pasaje="6" style="--imagen:url('img/05-puerta-estatica.webp')" aria-label="La puerta se abre y el ratón blanco descubre la rosa">
+      <div class="texto" aria-hidden="true"></div>
+    </section>
+    <section class="pasaje pasaje--amanecer" data-pasaje="7" data-texto=".5" style="--imagen:url('img/06-madrugada.webp')" aria-label="El final del cuento">
+      <div class="texto">
+        <p>Desde entonces se sabe que los regalos pequeños también llegan lejos.</p>
+        <p class="ultimo">Solo hace falta alguien que los lleve.</p>
+        <a class="releer" href="#inicio">Volver a leer</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
