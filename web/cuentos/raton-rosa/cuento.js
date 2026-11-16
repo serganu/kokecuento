@@ -39,35 +39,41 @@
       const z=Number(escena.dataset.z||0)*t;
       const base=1;
       const marco=escena.querySelector('[data-escenario-puerta]');
-      // Hojas, descubrimiento de la rosa y estrella fugaz son piezas propias, no zooms del fondo.
-      const hojas=escena.querySelectorAll('.hoja-viajera');
-      hojas.forEach((hoja,idx) => {
-        const entrada=interv(progreso,.08 + idx*.04,.28 + idx*.05);
-        const salida=1-interv(progreso,.72 + idx*.02,.95);
-        const vis=Math.max(0,Math.min(1,entrada*salida))*(.86-idx*.08);
-        const offsetX=[-13,-8,-17,-10][idx] || -12;
-        const offsetY=[6,-2,10,4][idx] || 5;
-        const giro=[58,-42,77,33][idx] || 40;
-        hoja.style.opacity=String(vis);
-        hoja.style.transform=`translate3d(${offsetX*progreso}vw,${(-2 + progreso*offsetY*1.45)}vh,0) rotate(${(-18 + progreso*giro)}deg) scale(${1 + progreso*(.14 + idx*.02)})`;
-      });
-      const destello=escena.querySelector('.destello-rosa');
-      const pulso=escena.querySelector('.pulso-rosa');
-      if(destello && pulso){
-        const hallazgo=interv(progreso,.18,.70);
-        const desvanecer=1-interv(progreso,.80,.95);
-        const vis=hallazgo*desvanecer;
-        destello.style.opacity=String(vis*.95);
-        destello.style.transform=`scale(${.72 + hallazgo*.42}) rotate(${hallazgo*20}deg)`;
-        pulso.style.opacity=String(vis*.82);
-        pulso.style.transform=`scale(${.55 + hallazgo*.9})`;
-      }
-      const fugaz=escena.querySelector('.estrella-fugaz');
-      if(fugaz){
-        const tiro=interv(progreso,.16,.70);
-        const vis=tiro*(1-interv(progreso,.70,.90));
-        fugaz.style.opacity=String(vis);
-        fugaz.style.transform=`translate3d(${tiro*44}vw,${tiro*18}vh,0) rotate(16deg) scale(${.68 + tiro*.55})`;
+      // Ilustración y elementos comparten el mismo rectángulo, con anclajes medidos
+      // sobre la imagen fuente, no sobre la pantalla del usuario.
+      const plano=escena.querySelector('.plano-ilustracion');
+      if(plano){
+        plano.style.transform=`translate3d(calc(-50% + ${x}%),calc(-50% + ${y}%),0) scale(${1+z})`;
+        const hojas=plano.querySelectorAll('[data-hoja]');
+        const rutas=[
+          {x:28,y:43,dx:10,dy:35,inicio:.06,fin:.76,giro:125,escala:1},
+          {x:84,y:56,dx:-15,dy:27,inicio:.20,fin:.88,giro:-148,escala:.83},
+          {x:11,y:64,dx:17,dy:24,inicio:.33,fin:.93,giro:96,escala:.71},
+          {x:92,y:65,dx:-13,dy:21,inicio:.46,fin:.98,giro:-93,escala:.64}
+        ];
+        hojas.forEach((hoja,n)=>{
+          const r=rutas[n], t=interv(progreso,r.inicio,r.fin);
+          const caida=(.17*t+.83*t*t);
+          const deriva=Math.sin(t*Math.PI*2.2+n)*1.2;
+          hoja.style.left=`${r.x+r.dx*t+deriva}%`;
+          hoja.style.top=`${r.y+r.dy*caida}%`;
+          hoja.style.transform=`translate(-50%,-50%) rotate(${(r.giro*t)+(n%2?12:-16)}deg) scale(${r.escala})`;
+          hoja.style.opacity=String(interv(t,0,.14)*(1-interv(t,.88,1))*.83);
+        });
+        const rosa=plano.querySelector('.rosa-corola');
+        if(rosa){
+          const t=interv(progreso,.20,.76);
+          const suave=t*t*(3-2*t);
+          rosa.style.transform=`rotate(${(2.8*Math.sin(t*Math.PI)).toFixed(2)}deg) translateY(${(-.4*suave).toFixed(2)}%)`;
+        }
+        const fugaz=plano.querySelector('.estrella-fugaz');
+        if(fugaz){
+          const t=interv(progreso,.23,.69);
+          fugaz.style.left=`${60-28*t}%`;
+          fugaz.style.top=`${32+15*t}%`;
+          fugaz.style.opacity=String(interv(t,0,.13)*(1-interv(t,.76,1))*.73);
+        }
+        return;
       }
       if(marco){
         // Movimiento de cámara (imagen, puerta y personaje comparten coordenadas).
@@ -79,7 +85,7 @@
         const hoja=marco.querySelector('.hoja-puerta');
         const raton=marco.querySelector('.raton-blanco');
         const mejilla=marco.querySelector('.mejilla');
-        hoja.style.transform=`scaleX(${1-apertura*.88})`;
+        hoja.style.transform=`perspective(600px) rotateY(${-apertura*78}deg)`;
         raton.style.opacity=String(gesto);
         raton.style.transform=`translate3d(0,${(1-gesto)*13}%,0) rotate(${(1-gesto)*3}deg)`;
         mejilla.style.opacity=String(rojo*.91);

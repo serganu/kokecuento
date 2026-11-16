@@ -26,7 +26,7 @@ test('Texto original intacto y sin frases añadidas', () => {
 test('Portada, siete escenas y todos los recursos gráficos', () => {
  assert.equal((html.match(/data-pasaje="/g) || []).length, 8);
  assert.equal((html.match(/data-lamina="/g) || []).length, 8);
- for (const fname of ['00-portada.webp','01-rosas-gigantes.webp','02-busqueda.webp','03-hallazgo.webp','04-viaje-nocturno.webp','05-puerta.webp','05-puerta-fondo.webp','raton-blanco.webp','05-puerta-estatica.webp','06-amanecer-estatico.webp']) {
+ for (const fname of ['00-portada.webp','01-rosas-gigantes.webp','02-busqueda.webp','03-hallazgo.webp','03-hallazgo-sin-corola.webp','rosa-corola.webp','hoja-papel-ancha.webp','hoja-papel-corta.webp','puerta-papel.webp','04-viaje-nocturno.webp','05-puerta.webp','05-puerta-fondo.webp','raton-blanco.webp','05-puerta-estatica.webp','06-amanecer-estatico.webp']) {
   assert.ok(html.includes('img/'+fname), fname);
   assert.ok(fs.statSync(path.join(root, 'img', fname)).size > 5000, fname);
  }
@@ -105,10 +105,10 @@ test('La puerta se abre y el ratón aparece y se sonroja al hacer scroll; revers
  const env=testDOM();
  env.moveTo(6,.01);
  assert.equal(env.stage.querySelector('.raton-blanco').style.opacity,'0');
- assert.equal(env.stage.querySelector('.hoja-puerta').style.transform,'scaleX(1)');
+ assert.equal(env.stage.querySelector('.hoja-puerta').style.transform,'perspective(600px) rotateY(0deg)');
  env.moveTo(6,.50);
  const apertura=env.stage.querySelector('.hoja-puerta').style.transform;
- assert.notEqual(apertura,'scaleX(1)');
+ assert.notEqual(apertura,'perspective(600px) rotateY(0deg)');
  assert.ok(Number(env.stage.querySelector('.raton-blanco').style.opacity)>0);
  env.moveTo(6,.95);
  assert.ok(Number(env.stage.querySelector('.mejilla').style.opacity)>.85);
@@ -130,12 +130,27 @@ test('La entrega del ratón marrón es una escena independiente y el texto perma
  assert.match(html.slice(textWhite,html.indexOf('data-pasaje="7"')), /aria-hidden="true"><\/div>/);
 });
 
-test('Varias hojas, encuentro de la rosa y estrella fugaz están ligados al scroll', () => {
- assert.equal((html.match(/class="hoja-viajera hoja-viajera--/g)||[]).length,4);
- assert.match(html, /class="destello-rosa"/);
- assert.match(html, /class="pulso-rosa"/);
- assert.match(html, /class="estrella-fugaz"/);
- assert.match(js, /const hojas=escena\.querySelectorAll/);
- assert.match(js, /const destello=/);
- assert.match(js, /const fugaz=/);
+test('Las piezas son del mismo papel y comparten el marco de coordenadas de la imagen', () => {
+ assert.equal((html.match(/class="hoja-papel"/g)||[]).length,4);
+ assert.equal((html.match(/class="plano-ilustracion"/g)||[]).length,3);
+ assert.match(html,/class="rosa-corola" src="img\/rosa-corola.webp"/);
+ assert.match(html,/class="estrella-fugaz"/);
+ assert.match(html,/class="hoja-puerta" src="img\/puerta-papel.webp"/);
+ assert.ok(!html.includes('class="destello-rosa"'));
+ assert.ok(!html.includes('class="pulso-rosa"'));
+ assert.ok(!css.includes('background:conic-gradient'));
+ assert.match(js,/const plano=escena.querySelector\('\.plano-ilustracion'\)/);
+ assert.match(js,/const rosa=plano.querySelector\('\.rosa-corola'\)/);
+ assert.match(js,/const fugaz=plano.querySelector\('\.estrella-fugaz'\)/);
+ assert.match(js,/rotateY\(/);
+});
+
+test('La estrella fugaz viaja por el cielo y la rosa se mueve sin alterar al ratón', () => {
+ const originalStage=testDOM();
+ const originalText=parts.join(' ');
+ assert.equal(originalText,original);
+ assert.match(js,/fugaz.style.left=`\$\{60-28\*t\}%`/);
+ assert.match(js,/fugaz.style.top=`\$\{32\+15\*t\}%`/);
+ assert.match(js,/rosa.style.transform=`rotate/);
+ assert.ok(!html.includes('img/raton-original-modificado.webp'));
 });

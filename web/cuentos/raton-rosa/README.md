@@ -1,57 +1,42 @@
-# KokeCuento · La rosa que cabía en una pata
+# Kokecuento · La rosa que cabía en una pata
 
-Lector web independiente de la tienda, pensado para abrir desde el QR de una tarjeta física.
+Lector web independiente de la tienda, pensado para abrir desde el QR de una tarjeta física. Trabajo en la rama `feature/cuento-raton-rosa-scroll-v1`, PR #1 **sin publicar ni fusionar**.
 
-## La historia
+## Historia y animación
 
-Portada y seis escenas. Se conserva literalmente el cuento de `PRODUCTOS[id="raton-rosa"]` de la tienda. La tipografía es HTML real, colocada en espacios libres de las imágenes.
+Portada + siete escenas. El texto del cuento se conserva literal y permanece como HTML, sobre zonas vacías de las ilustraciones a pantalla completa. Scroll táctil, ratón o trackpad; todos los gestos son reversibles al subir y se detienen cuando el lector deja de desplazarse.
 
-## Animación
+1. Jardín de rosas grandes.
+2. Búsqueda: **cuatro hojas independientes recortadas de la propia ilustración**, no polígonos CSS. Caen desde la vegetación con ritmos y derivas diferentes.
+3. Hallazgo: corola de la rosa diminuta recortada del dibujo original. Se inclina suavemente en su posición real, dejando el tallo y las hojas en el fondo, sin destellos artificiales.
+4. Noche: estrella fugaz que cruza una zona despejada del cielo, sin invadir la luna ni el texto, siguiendo el scroll.
+5. Entrega original: el ratón marrón deja la rosa en el escalón de la casa (`img/05-puerta.webp`).
+6. Reacción sin texto añadido: **puerta de madera recortada de la ilustración original**, abre sobre su bisagra; aparece el ratón blanco y se sonroja.
+7. Desenlace: casa, rosa y ratón blanco visibles; texto final original.
 
-- Scroll táctil, rueda o trackpad: desplazamientos, zoom y fundidos, reversibles al retroceder.
-- **La búsqueda:** una hoja de papel se desplaza sobre el jardín como elemento independiente de la ilustración.
-- **Viaje nocturno:** un pequeño lucero gana luz al avanzar.
-- **La puerta:** la escena utiliza un fondo sin ratón marrón, una hoja de puerta animable, un **ratón blanco recortado e independiente** y un rubor progresivo. El scroll abre la puerta, presenta al personaje y colorea sus mejillas cuando observa la rosa.
-- **Desenlace:** conserva la puerta abierta y al ratón blanco con luz más cálida; el ratón marrón no aparece.
+Ninguna escena tiene barra de progreso, reproducción automática, sonido ni movimiento articulado complejo.
 
-No hay botones de escena, barra de progreso, audio ni reproducción automática.
+## Alineación visual
+
+Las capas de búsqueda, hallazgo y noche comparten con su fondo un contenedor `.plano-ilustracion` cuya proporción coincide con las dimensiones reales de cada imagen: 960×1440 (búsqueda) y 941×1672 (hallazgo/noche). Los elementos se posicionan en ese mismo sistema de coordenadas, tanto si la imagen se recorta en móvil como si se contiene en escritorio. Los recortes llevan los mismos píxeles y textura que la ilustración base.
+
+La corola utiliza `rosa-corola.webp` sobre `03-hallazgo-sin-corola.webp`; el texto mantiene como imagen de respaldo el arte original sin separar (`03-hallazgo.webp`). La puerta recupera la textura del dibujo original mediante `puerta-papel.webp`. El original del ratón marrón no se altera.
 
 ## Recursos
 
-- `img/05-puerta-fondo.webp`: puerta y rosa sin protagonista.
-- `img/raton-blanco.webp`: personaje aislado con transparencia.
-- `img/05-puerta-estatica.webp` y `img/06-amanecer-estatico.webp`: composiciones terminadas para lectura sin JavaScript o con movimiento reducido.
-- El resto de láminas siguen siendo ilustraciones completas: solo la hoja viajera, el lucero y la escena de la puerta cuentan actualmente con elementos independientes.
+- `img/hoja-papel-ancha.webp` y `img/hoja-papel-corta.webp`: hojas del escenario 02, recortadas con transparencia.
+- `img/rosa-corola.webp` y `img/03-hallazgo-sin-corola.webp`: capas para animar el hallazgo.
+- `img/puerta-papel.webp`: madera original preparada como hoja articulable.
+- `img/05-puerta.webp`: entrega del ratón marrón, conservada.
+- `img/05-puerta-fondo.webp` y `img/raton-blanco.webp`: escenario y ratón blanco independientes.
+- `img/05-puerta-estatica.webp` y `img/06-amanecer-estatico.webp`: alternativas sin movimiento.
 
-**El ratón marrón original del catálogo no se modifica.** Las ilustraciones anteriores se crearon siguiendo su lenguaje gráfico, pero son imágenes independientes y no garantizan identidad perfecta píxel a píxel. El ratón blanco es un personaje nuevo dentro de ese mismo estilo.
+## Verificación
 
-## Pruebas
+`node --check cuento.js` y `node --test tests/cuento.test.cjs`.
 
-Desde esta carpeta:
-
-```bash
-node --test tests/cuento.test.cjs
-python -m http.server 5173
-```
-
-Abrir `http://localhost:5173`. También puedes abrir directamente `index.html` desde una carpeta extraída.
-
-Se han ejecutado **cinco pruebas automatizadas**: texto original, recursos de escena, capas de la puerta, ausencia de controles y secuencia reversible de apertura/aparición/rubor mediante DOM simulado. El código supera la verificación de sintaxis de Node.
-
-**Limitación:** la navegación local en Chromium del entorno está bloqueada por políticas administrativas; no se ha podido completar una prueba visual real en móvil o escritorio. El acabado y la legibilidad deben verificarse antes de publicar.
+Ocho pruebas automatizadas comprueban texto original, ocho láminas, recursos, capas y scroll reversible. Además, el cuento se ha renderizado en Chromium **mediante HTML, CSS e imágenes incrustadas localmente** a 390×844 y 1365×768, verificando visualmente la posición de las hojas, la rosa, la estrella y la puerta. El navegador de este entorno bloquea la navegación a `127.0.0.1`, así que sigue pendiente verificar la carga externa de la previsualización y la lectura en un móvil físico.
 
 ## Publicación
 
-El cuento permanece en la rama `feature/cuento-raton-rosa-scroll-v1` y la PR #1. No fusionar ni publicar hasta que se valide visualmente. Solo después deberá asignarse una URL definitiva a la tarjeta QR.
-
-### Secuencia narrativa (corrección)
-
-1. Portada y jardín de rosas gigantes.
-2. Búsqueda, con varias hojas de papel cayendo al ritmo del scroll.
-3. Hallazgo de la rosa diminuta, con un reflejo delicado.
-4. Viaje nocturno y estrella fugaz sincronizada con el scroll.
-5. **Entrega original restaurada:** el ratón marrón aparece junto a la casa y deja la rosa en el escalón (`img/05-puerta.webp`), mientras aparece la frase original.
-6. **Escena nueva sin añadir texto:** el ratón marrón ya no está, la puerta se abre y el ratón blanco descubre la rosa y se sonroja.
-7. Desenlace y texto original, con la casa y el ratón blanco.
-
-La secuencia contiene **portada más siete escenas**, ocho láminas en total. La aparición del ratón blanco es una pausa visual sin texto narrativo adicional. No se ha publicado ni fusionado.
+Rama de revisión y PR #1. No fusionar ni publicar hasta la aprobación. Solo después se asignará la URL permanente de la tarjeta QR.

@@ -16,9 +16,28 @@
   <div class="visor" id="visor" aria-hidden="true">
     <div class="lamina activa lamina--portada" data-lamina="0" data-x="0" data-y="-1" data-z=".045"><img src="img/00-portada.webp" alt="" fetchpriority="high"></div>
     <div class="lamina lamina--gigantes" data-lamina="1" data-x="-1" data-y="-1" data-z=".06"><img src="img/01-rosas-gigantes.webp" alt=""></div>
-    <div class="lamina lamina--busqueda" data-lamina="2" data-x="-3" data-y="0" data-z=".035"><img src="img/02-busqueda.webp" alt=""><span class="hoja-viajera hoja-viajera--a" aria-hidden="true"></span><span class="hoja-viajera hoja-viajera--b" aria-hidden="true"></span><span class="hoja-viajera hoja-viajera--c" aria-hidden="true"></span><span class="hoja-viajera hoja-viajera--d" aria-hidden="true"></span></div>
-    <div class="lamina lamina--hallazgo" data-lamina="3" data-x="0" data-y="-1" data-z=".10"><img src="img/03-hallazgo.webp" alt=""><span class="destello-rosa" aria-hidden="true"></span><span class="pulso-rosa" aria-hidden="true"></span></div>
-    <div class="lamina lamina--noche" data-lamina="4" data-x="-2" data-y="1" data-z=".07"><img src="img/04-viaje-nocturno.webp" alt=""><span class="estrella-fugaz" aria-hidden="true"></span></div>
+    <!-- Las capas y el dibujo comparten las mismas coordenadas, también en formato horizontal. -->
+    <div class="lamina lamina--busqueda" data-lamina="2" data-x="-1" data-y="0" data-z=".014">
+      <div class="plano-ilustracion" style="--ratio:0.666666667">
+        <img class="fondo-escena" src="img/02-busqueda.webp" alt="">
+        <img class="hoja-papel" src="img/hoja-papel-ancha.webp" alt="" data-hoja="0">
+        <img class="hoja-papel" src="img/hoja-papel-corta.webp" alt="" data-hoja="1">
+        <img class="hoja-papel" src="img/hoja-papel-ancha.webp" alt="" data-hoja="2">
+        <img class="hoja-papel" src="img/hoja-papel-corta.webp" alt="" data-hoja="3">
+      </div>
+    </div>
+    <div class="lamina lamina--hallazgo" data-lamina="3" data-x="0" data-y="-.3" data-z=".025">
+      <div class="plano-ilustracion" style="--ratio:0.562799043">
+        <img class="fondo-escena" src="img/03-hallazgo-sin-corola.webp" alt="">
+        <img class="rosa-corola" src="img/rosa-corola.webp" alt="">
+      </div>
+    </div>
+    <div class="lamina lamina--noche" data-lamina="4" data-x="-.3" data-y="0" data-z=".018">
+      <div class="plano-ilustracion" style="--ratio:0.562799043">
+        <img class="fondo-escena" src="img/04-viaje-nocturno.webp" alt="">
+        <span class="estrella-fugaz" aria-hidden="true"></span>
+      </div>
+    </div>
     <div class="lamina lamina--entrega" data-lamina="5" data-x="0" data-y="-1" data-z=".045"><img src="img/05-puerta.webp" alt=""></div>
     <div class="lamina lamina--puerta" data-lamina="6" data-x="0" data-y="-1" data-z=".035">
       <div class="escenario-puerta" data-escenario-puerta>
@@ -27,7 +46,7 @@
           <img src="img/raton-blanco.webp" alt="">
           <span class="mejilla" aria-hidden="true"></span>
         </div>
-        <div class="hoja-puerta" aria-hidden="true"><span class="tirador"></span></div>
+        <img class="hoja-puerta" src="img/puerta-papel.webp" alt="">
       </div>
     </div>
     <div class="lamina lamina--amanecer" data-lamina="7" data-x="-1" data-y="0" data-z=".035">
@@ -38,7 +57,7 @@
           <img src="img/raton-blanco.webp" alt="">
           <span class="mejilla" aria-hidden="true"></span>
         </div>
-        <div class="hoja-puerta" aria-hidden="true"><span class="tirador"></span></div>
+        <img class="hoja-puerta" src="img/puerta-papel.webp" alt="">
       </div>
     </div>
   </div>
