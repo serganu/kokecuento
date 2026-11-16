@@ -43,3 +43,15 @@ Se han ejecutado **cinco pruebas automatizadas**: texto original, recursos de es
 ## Publicación
 
 El cuento permanece en la rama `feature/cuento-raton-rosa-scroll-v1` y la PR #1. No fusionar ni publicar hasta que se valide visualmente. Solo después deberá asignarse una URL definitiva a la tarjeta QR.
+
+### Secuencia narrativa (corrección)
+
+1. Portada y jardín de rosas gigantes.
+2. Búsqueda, con varias hojas de papel cayendo al ritmo del scroll.
+3. Hallazgo de la rosa diminuta, con un reflejo delicado.
+4. Viaje nocturno y estrella fugaz sincronizada con el scroll.
+5. **Entrega original restaurada:** el ratón marrón aparece junto a la casa y deja la rosa en el escalón (`img/05-puerta.webp`), mientras aparece la frase original.
+6. **Escena nueva sin añadir texto:** el ratón marrón ya no está, la puerta se abre y el ratón blanco descubre la rosa y se sonroja.
+7. Desenlace y texto original, con la casa y el ratón blanco.
+
+La secuencia contiene **portada más siete escenas**, ocho láminas en total. La aparición del ratón blanco es una pausa visual sin texto narrativo adicional. No se ha publicado ni fusionado.

@@ -39,21 +39,43 @@
       const z=Number(escena.dataset.z||0)*t;
       const base=1;
       const marco=escena.querySelector('[data-escenario-puerta]');
-      // La hoja y el lucero son piezas propias, no zooms del fondo.
-      const hoja=escena.querySelector('.hoja-viajera');
-      if(hoja){
-        hoja.style.opacity=String(interv(progreso,.12,.36)*(1-interv(progreso,.78,.95))*.85);
-        hoja.style.transform=`translate3d(${-progreso*12}vw,${(progreso*.7-0.3)*9}vh,0) rotate(${progreso*55-16}deg)`;
+      // Hojas, descubrimiento de la rosa y estrella fugaz son piezas propias, no zooms del fondo.
+      const hojas=escena.querySelectorAll('.hoja-viajera');
+      hojas.forEach((hoja,idx) => {
+        const entrada=interv(progreso,.08 + idx*.04,.28 + idx*.05);
+        const salida=1-interv(progreso,.72 + idx*.02,.95);
+        const vis=Math.max(0,Math.min(1,entrada*salida))*(.86-idx*.08);
+        const offsetX=[-13,-8,-17,-10][idx] || -12;
+        const offsetY=[6,-2,10,4][idx] || 5;
+        const giro=[58,-42,77,33][idx] || 40;
+        hoja.style.opacity=String(vis);
+        hoja.style.transform=`translate3d(${offsetX*progreso}vw,${(-2 + progreso*offsetY*1.45)}vh,0) rotate(${(-18 + progreso*giro)}deg) scale(${1 + progreso*(.14 + idx*.02)})`;
+      });
+      const destello=escena.querySelector('.destello-rosa');
+      const pulso=escena.querySelector('.pulso-rosa');
+      if(destello && pulso){
+        const hallazgo=interv(progreso,.18,.70);
+        const desvanecer=1-interv(progreso,.80,.95);
+        const vis=hallazgo*desvanecer;
+        destello.style.opacity=String(vis*.95);
+        destello.style.transform=`scale(${.72 + hallazgo*.42}) rotate(${hallazgo*20}deg)`;
+        pulso.style.opacity=String(vis*.82);
+        pulso.style.transform=`scale(${.55 + hallazgo*.9})`;
       }
-      const lucero=escena.querySelector('.estrella-movil');
-      if(lucero)lucero.style.opacity=String(.18+interv(progreso,.12,.78)*.74);
+      const fugaz=escena.querySelector('.estrella-fugaz');
+      if(fugaz){
+        const tiro=interv(progreso,.16,.70);
+        const vis=tiro*(1-interv(progreso,.70,.90));
+        fugaz.style.opacity=String(vis);
+        fugaz.style.transform=`translate3d(${tiro*44}vw,${tiro*18}vh,0) rotate(16deg) scale(${.68 + tiro*.55})`;
+      }
       if(marco){
         // Movimiento de cámara (imagen, puerta y personaje comparten coordenadas).
         // Las piezas internas permanecen independientes del zoom general.
         marco.style.transform=`translate3d(calc(-50% + ${x}%),calc(-50% + ${y}%),0) scale(${base+z})`;
-        const apertura=i===5?interv(progreso,.17,.57):1;
-        const gesto=i===5?interv(progreso,.35,.70):1;
-        const rojo=i===5?interv(progreso,.55,.88):1;
+        const apertura=i===6?interv(progreso,.17,.57):1;
+        const gesto=i===6?interv(progreso,.35,.70):1;
+        const rojo=i===6?interv(progreso,.55,.88):1;
         const hoja=marco.querySelector('.hoja-puerta');
         const raton=marco.querySelector('.raton-blanco');
         const mejilla=marco.querySelector('.mejilla');
